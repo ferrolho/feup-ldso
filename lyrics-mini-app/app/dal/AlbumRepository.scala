@@ -1,15 +1,16 @@
 package dal
 
 import javax.inject.{Inject, Singleton}
-import play.api.db.slick.DatabaseConfigProvider
-import slick.driver.JdbcProfile
 
 import models.Album
+import play.api.db.slick.DatabaseConfigProvider
+import slick.driver.JdbcProfile
 
 import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
-class AlbumRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class AlbumRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
+                               (implicit ec: ExecutionContext) {
 
   private val dbConfig = dbConfigProvider.get[JdbcProfile]
 
@@ -33,7 +34,7 @@ class AlbumRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implic
       returning albums.map(_.id)
 
       into ((nameDescription, id) => Album(id, nameDescription._1, nameDescription._2))
-      // And finally, insert the person into the database
+
       ) +=(name, description)
   }
 

@@ -1,0 +1,19 @@
+@(music: Form[CreateMusicForm])(implicit messages: Messages)
+
+@import helper._
+
+@app("Best Lyrics") {
+    <script defer src='@routes.Assets.versioned("javascripts/musics/index.js")'></script>
+
+    <ul id="musics"></ul>
+
+    @form(routes.MusicController.addMusic()) {
+        @inputText(music("title"))
+        @textarea(music("lyrics"))
+        @inputText(music("year"))
+
+        <div class="buttons">
+            <input type="submit" value="Add Music"/>
+        </div>
+    }
+}
