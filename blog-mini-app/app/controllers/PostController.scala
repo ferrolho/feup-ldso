@@ -1,12 +1,9 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
 import play.api.i18n._
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.data.validation.Constraints._
-import models._
 import dal._
 
 import scala.concurrent.{ ExecutionContext, Future }
@@ -16,12 +13,12 @@ import javax.inject._
 class PostController @Inject()(repo: PostRepository, val messagesApi: MessagesApi)
                               (implicit ec: ExecutionContext) extends Controller with I18nSupport {
 
-  def index() = Action {
-    Ok(views.html.post(postForm))
+  def index = Action {
+    Ok(views.html.post("puta"))
   }
 
   /**
-   * The mapping for the person form.
+   * The mapping for the post form.
    */
   val postForm: Form[CreatePostForm] = Form {
     mapping(
@@ -30,7 +27,11 @@ class PostController @Inject()(repo: PostRepository, val messagesApi: MessagesAp
     )(CreatePostForm.apply)(CreatePostForm.unapply)
   }
 
-  def addPost = Action.async { implicit request =>
+  /*def addPost = Action {
+    Ok(views.html.post(postForm))
+  }*/
+
+  /*def addPost = Action.async { implicit request =>
     // Bind the form first, then fold the result, passing a function to handle errors, and a function to handle succes.
     postForm.bindFromRequest.fold(
       // The error function. We return the index page with the error form, which will render the errors.
@@ -47,7 +48,7 @@ class PostController @Inject()(repo: PostRepository, val messagesApi: MessagesAp
         }
       }
     )
-  }
+  }*/
 }
 
 /**
