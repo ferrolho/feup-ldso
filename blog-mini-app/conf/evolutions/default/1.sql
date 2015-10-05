@@ -1,8 +1,6 @@
-# Posts schema
-
 # --- !Ups
 
-CREATE TABLE "Post" (
+CREATE TABLE "posts" (
     "id" bigint generate by default as IDENTITY (start with 1) NOT NULL PRIMARY KEY,
     "subject" varchar NOT NULL,
     "description" varchar NOT NULL
@@ -10,4 +8,4 @@ CREATE TABLE "Post" (
 
 # --- !Downs
 
-DROP TABLE "Post" if EXISTS;
+DROP TABLE "posts" if EXISTS;
