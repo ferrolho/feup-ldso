@@ -15,7 +15,7 @@ class ArtistController @Inject()(repo: ArtistRepository, val messagesApi: Messag
                                 (implicit ec: ExecutionContext) extends Controller with I18nSupport {
 
   def index = Action {
-    Ok(views.html.index(artistForm))
+    Ok(views.html.artists.index(artistForm))
   }
 
   /**
@@ -39,7 +39,7 @@ class ArtistController @Inject()(repo: ArtistRepository, val messagesApi: Messag
       // We also wrap the result in a successful future, since this action is synchronous, but we're required to return
       // a future because the artist creation function returns a future.
       errorForm => {
-        Future.successful(Ok(views.html.index(errorForm)))
+        Future.successful(Ok(views.html.artists.index(errorForm)))
       },
       // There were no errors in the form, so create the artist.
       artist => {

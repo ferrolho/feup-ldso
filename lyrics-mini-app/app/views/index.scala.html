@@ -1,17 +1,3 @@
-@(artist: Form[CreateArtistForm])(implicit messages: Messages)
-
-@import helper._
-
-@main("Best Lyrics") {
-    <script defer src='@routes.Assets.versioned("javascripts/index.js")'></script>
-
-    <ul id="artists"></ul>
-
-    @form(routes.ArtistController.addArtist()) {
-        @inputText(artist("name"))
-
-        <div class="buttons">
-            <input type="submit" value="Add Artist"/>
-        </div>
-    }
+@app("Best Lyrics") {
+    <h1>Welcome!</h1>
 }

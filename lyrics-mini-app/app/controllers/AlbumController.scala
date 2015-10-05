@@ -15,7 +15,7 @@ class AlbumController @Inject()(repo: AlbumRepository, val messagesApi: Messages
                                (implicit ec: ExecutionContext) extends Controller with I18nSupport {
 
   def index = Action {
-    Ok(views.html.albumsIndex(albumForm))
+    Ok(views.html.albums.index(albumForm))
   }
 
   val albumForm: Form[CreateAlbumForm] = Form {
@@ -28,7 +28,7 @@ class AlbumController @Inject()(repo: AlbumRepository, val messagesApi: Messages
   def addAlbum = Action.async { implicit request =>
     albumForm.bindFromRequest.fold(
       errorForm => {
-        Future.successful(Ok(views.html.albumsIndex(errorForm)))
+        Future.successful(Ok(views.html.albums.index(errorForm)))
       },
       album => {
         repo.create(album.name, album.description).map { _ =>
