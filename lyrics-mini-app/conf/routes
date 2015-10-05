@@ -17,6 +17,7 @@ GET         /get-albums          controllers.AlbumController.getAlbums
 
 # Musics page
 GET         /musics              controllers.MusicController.index
+GET         /musics/:id          controllers.MusicController.show(id: Long)
 POST        /music               controllers.MusicController.addMusic
 GET         /get-musics          controllers.MusicController.getMusics
 

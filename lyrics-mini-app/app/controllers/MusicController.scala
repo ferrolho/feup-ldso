@@ -3,6 +3,7 @@ package controllers
 import javax.inject.Inject
 
 import dal.MusicRepository
+import models.Music
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
@@ -17,6 +18,12 @@ class MusicController @Inject()(repo: MusicRepository, val messagesApi: Messages
 
   def index = Action {
     Ok(views.html.musics.index(musicForm))
+  }
+
+  def show(id: Long) = Action {
+    Music.findById(id).map { music =>
+      Ok(views.html.musics.show(music))
+    }.getOrElse(NotFound)
   }
 
   val musicForm: Form[CreateMusicForm] = Form {
