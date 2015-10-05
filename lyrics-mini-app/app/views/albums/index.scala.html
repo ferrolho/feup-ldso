@@ -9,7 +9,7 @@
 
     @form(routes.AlbumController.addAlbum()) {
         @inputText(album("name"))
-        @inputText(album("description"))
+        @textarea(album("description"))
 
         <div class="buttons">
             <input type="submit" value="Add Album"/>
