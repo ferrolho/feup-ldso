@@ -53,21 +53,21 @@ class ArtistRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
   private val artists = TableQuery[ArtistsTable]
 
   /**
-   * Create a person with the given name and age.
+   * Create a artist with the given name.
    *
    * This is an asynchronous operation, it will return a future of the created person, which can be used to obtain the
    * id for that person.
    */
   def create(name: String): Future[Artist] = db.run {
     // We create a projection of just the name and age columns, since we're not inserting a value for the id column
-    (artists.map(p => (p.name)) //(p.name, p.age))
+    (artists.map(p => (p.name))
       // Now define it to return the id, because we want to know what id was generated for the person
       returning artists.map(_.id)
       // And we define a transformation for the returned value, which combines our original parameters with the
       // returned id
-      into ((nameAge, id) => Artist(id, nameAge)) //Artist(id, nameAge._1, nameAge._2))
+      into ((nameAge, id) => Artist(id, nameAge))
       // And finally, insert the person into the database
-      ) += (name) //(name, age)
+      ) += (name)
   }
 
   /**

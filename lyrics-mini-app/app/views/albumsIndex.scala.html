@@ -1,0 +1,18 @@
+@(album: Form[CreateAlbumForm])(implicit messages: Messages)
+
+@import helper._
+
+@main("Best Lyrics") {
+    <script defer src='@routes.Assets.versioned("javascripts/albumsIndex.js")'></script>
+
+    <ul id="albums"></ul>
+
+    @form(routes.AlbumController.addAlbum()) {
+        @inputText(album("name"))
+        @inputText(album("description"))
+
+        <div class="buttons">
+            <input type="submit" value="Add Album"/>
+        </div>
+    }
+}
