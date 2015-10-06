@@ -20,10 +20,10 @@ class MusicController @Inject()(repo: MusicRepository, val messagesApi: Messages
     Ok(views.html.musics.index(musicForm))
   }
 
-  def show(id: Long) = Action {
-    Music.findById(id).map { music =>
+  def show(id: Long) = Action.async { implicit request =>
+    repo.findById(id).map { music =>
       Ok(views.html.musics.show(music))
-    }.getOrElse(NotFound)
+    }
   }
 
   val musicForm: Form[CreateMusicForm] = Form {

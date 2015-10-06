@@ -43,4 +43,8 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
     musics.result
   }
 
+  def findById(id: Long): Future[Music] = db.run {
+    musics.filter(_.id === id).result.head
+  }
+
 }
