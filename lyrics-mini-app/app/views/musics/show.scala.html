@@ -1,10 +1,10 @@
 @(music: Music)
 
 @app("Best Lyrics") {
-    <h2>Title: @music.title</h2>
-    <h4>Year</h4>
+    <h2>@music.title</h2>
+    <h4>@music.year</h4>
 
     <hr>
 
-    <p>Lyrics</p>
+    <p style="white-space: pre-line;">@music.lyrics</p>
 }
