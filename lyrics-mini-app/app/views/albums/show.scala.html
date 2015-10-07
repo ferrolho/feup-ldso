@@ -1,12 +1,16 @@
-@(album: Album)
+@(/*album: Album,*/ musics: Seq[Music])
 
 @app("Best Lyrics") {
-    <h2>@album.name</h2>
+    @*<h2>@album.name</h2>*@
     @*<h4>@album.year</h4>*@
     <hr>
 
     <ul>
-        <li>li 1</li>
+
+    @for(music <- musics) {
+        <li><a href="/musics/@music.id">@music.title</a></li>
+    }
+
     </ul>
     @*<p style="white-space: pre-line;">@music.lyrics</p>*@
 }

@@ -25,6 +25,10 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
     queryById(id).result.head
   }
 
+  def fromAlbum(albumId: Long): Future[Seq[Music]] = db.run {
+    queryById(albumId).result
+  }
+
   def all: Future[Seq[Music]] = db.run {
     musics.result
   }
@@ -37,17 +41,19 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
     queryById(id).delete
   }
 
-  def create(title: String, lyrics: String, year: Int): Future[Music] = db.run {
-    (musics.map(m => (m.title, m.lyrics, m.year))
+  def create(albumId: Long, title: String, lyrics: String, year: Int): Future[Music] = db.run {
+    (musics.map(m => (m.albumId, m.title, m.lyrics, m.year))
       returning musics.map(_.id)
 
-      into ((params, id) => Music(id, params._1, params._2, params._3))
-      ) +=(title, lyrics, year)
+      into ((params, id) => Music(id, params._1, params._2, params._3, params._4))
+      ) +=(albumId, title, lyrics, year)
   }
 
   // Musics table
   private class Musics(tag: Tag) extends Table[Music](tag, "musics") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+
+    def albumId = column[Long]("album_id")
 
     def title = column[String]("title")
 
@@ -55,7 +61,7 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
 
     def year = column[Int]("year")
 
-    def * = (id, title, lyrics, year) <>((Music.apply _).tupled, Music.unapply)
+    def * = (id, albumId, title, lyrics, year) <>((Music.apply _).tupled, Music.unapply)
   }
 
 }

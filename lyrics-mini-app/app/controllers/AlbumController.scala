@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.Inject
 
-import dal.AlbumRepository
+import dal.{MusicRepository, AlbumRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -11,7 +11,7 @@ import play.api.mvc._
 
 import scala.concurrent.{Future, ExecutionContext}
 
-class AlbumController @Inject()(repo: AlbumRepository, val messagesApi: MessagesApi)
+class AlbumController @Inject()(repo: AlbumRepository, musicRepo: MusicRepository, val messagesApi: MessagesApi)
                                (implicit ec: ExecutionContext) extends Controller with I18nSupport {
 
   //  def index = Action {
@@ -26,9 +26,13 @@ class AlbumController @Inject()(repo: AlbumRepository, val messagesApi: Messages
   }
 
   def show(id: Long) = Action.async {
-    repo.lookup(id).map { album =>
-      Ok(views.html.albums.show(album))
+    musicRepo.fromAlbum(id).map { musics =>
+      Ok(views.html.albums.show(musics))
     }
+
+//    repo.lookup(id).map { album =>
+//      Ok(views.html.albums.show(album, Nil))
+//    }
   }
 
   val albumForm: Form[CreateAlbumForm] = Form {

@@ -1,11 +1,17 @@
 # --- !Ups
 
+insert into "albums"
+("name", "description")
+values
+('Whatever People Say I Am, That''s What I''m Not', ''),
+('AM', 'Album released in 2013');
+
 insert into "musics"
-("title", "lyrics", "year")
+("album_id", "title", "lyrics", "year")
 values
 
 -- A Certain Romance
-('A Certain Romance',
+(1, 'A Certain Romance',
 'Well oh they might wear classic Reeboks
 Or knackered Converse
 Or tracky bottoms tucked in socks
@@ -55,7 +61,7 @@ Oh no, oh no, no!',
 2004),
 
 -- Do I Wanna Know
-('Do I Wanna Know?',
+(2, 'Do I Wanna Know?',
 'Have you got colour in your cheeks?
 Do you ever get that fear that you can''t shift
 The type that sticks around like something in your teeth?
