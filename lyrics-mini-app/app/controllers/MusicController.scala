@@ -21,7 +21,7 @@ class MusicController @Inject()(repo: MusicRepository, val messagesApi: Messages
   }
 
   def show(id: Long) = Action.async { implicit request =>
-    repo.findById(id).map { music =>
+    repo.lookup(id).map { music =>
       Ok(views.html.musics.show(music))
     }
   }
@@ -48,7 +48,7 @@ class MusicController @Inject()(repo: MusicRepository, val messagesApi: Messages
   }
 
   def getMusics = Action.async {
-    repo.list().map { musics =>
+    repo.all.map { musics =>
       Ok(Json.toJson(musics))
     }
   }
