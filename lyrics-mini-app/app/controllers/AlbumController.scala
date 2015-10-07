@@ -25,6 +25,12 @@ class AlbumController @Inject()(repo: AlbumRepository, val messagesApi: Messages
     }
   }
 
+  def show(id: Long) = Action.async {
+    repo.lookup(id).map { album =>
+      Ok(views.html.albums.show(album))
+    }
+  }
+
   val albumForm: Form[CreateAlbumForm] = Form {
     mapping(
       "name" -> nonEmptyText,

@@ -12,6 +12,7 @@ GET         /get-artists         controllers.ArtistController.getArtists
 
 # Albums page
 GET         /albums              controllers.AlbumController.index
+GET         /albums/:id          controllers.AlbumController.show(id: Long)
 POST        /album               controllers.AlbumController.addAlbum
 GET         /get-albums          controllers.AlbumController.getAlbums
 

@@ -13,7 +13,7 @@
         <ul id="albums">
 
         @for(album <- albums) {
-            <li>@album.name</li>
+            <li><a href="albums/@album.id">@album.name</a></li>
         }
 
         </ul>

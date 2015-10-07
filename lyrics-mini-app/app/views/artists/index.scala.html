@@ -5,6 +5,10 @@
 @app("Best Lyrics") {
     <script defer src='@routes.Assets.versioned("javascripts/artists/index.js")'></script>
 
+    <h2>Artists</h2>
+
+    <hr>
+
     <ul id="artists"></ul>
 
     @form(routes.ArtistController.addArtist()) {

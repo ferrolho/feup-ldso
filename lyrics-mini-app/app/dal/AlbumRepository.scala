@@ -19,6 +19,13 @@ class AlbumRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
 
   private val albums = TableQuery[Albums]
 
+  private val queryById = Compiled(
+    (id: Rep[Long]) => albums.filter(_.id === id))
+
+  def lookup(id: Long): Future[Album] = db.run {
+    queryById(id).result.head
+  }
+
   def all: Future[Seq[Album]] = db.run {
     albums.result
   }
