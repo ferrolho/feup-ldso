@@ -14,8 +14,15 @@ import scala.concurrent.{Future, ExecutionContext}
 class AlbumController @Inject()(repo: AlbumRepository, val messagesApi: MessagesApi)
                                (implicit ec: ExecutionContext) extends Controller with I18nSupport {
 
-  def index = Action {
-    Ok(views.html.albums.index(albumForm))
+  //  def index = Action {
+  //    Ok(views.html.albums.index(albumForm, repo.list()))
+  //  }
+
+  // TODO - Does this really need to be async and use a map? Can't we use the above method instead?
+  def index = Action.async {
+    repo.all.map { albums =>
+      Ok(views.html.albums.index(albumForm, albums))
+    }
   }
 
   val albumForm: Form[CreateAlbumForm] = Form {
@@ -39,7 +46,7 @@ class AlbumController @Inject()(repo: AlbumRepository, val messagesApi: Messages
   }
 
   def getAlbums = Action.async {
-    repo.list().map { albums =>
+    repo.all.map { albums =>
       Ok(Json.toJson(albums))
     }
   }

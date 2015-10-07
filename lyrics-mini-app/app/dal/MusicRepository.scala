@@ -41,7 +41,7 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
     (musics.map(m => (m.title, m.lyrics, m.year))
       returning musics.map(_.id)
 
-      into ((stuff, id) => Music(id, stuff._1, stuff._2, stuff._3))
+      into ((params, id) => Music(id, params._1, params._2, params._3))
       ) +=(title, lyrics, year)
   }
 
