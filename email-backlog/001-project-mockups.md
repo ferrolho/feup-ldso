@@ -1,8 +1,6 @@
 # Project mock-ups
 
-##### From: SM
-##### To: PO, PM, SPO
-###### Date: Oct 8 - 2015
+##### [Oct 8 - 2015] From: SM | To: PO, PM, SPO
 
 Hello David!
 
