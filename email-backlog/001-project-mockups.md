@@ -53,19 +53,19 @@ Hello David!
 
 Here are my questions regarding your last response:
 
-**Register**
+**Register**  
 I understood that one could register on the project without having to specify one of the four actions. That one could login and only then choose what to do, because today I might want to help by transporting, but tomorrow I might want to supply resources. If I (as a user of the web app) - have to choose a category upon registry, then I would have to create multiple accounts to do different things. What do you think?
 
-**Request**
+**Request**  
 Can you please elaborate a bit more? Do you mean that the user who creates a request is the one who decides how many points (or money) the transporter should get after the delivery?
 
-**Supply**
+**Supply**  
 *Date and time*: got it! No questions about this one. :)  
 *Mobile app*: we do not think it is necessary to have a native web app for - let's say - android, or iOS. We are going to develop a responsive web app - that means the web pages will adapt according to the screen size where they are being displayed, changing the layout most of the times to get a "mobile feel".  
 So if I am a user of the platform, and I want to access it via my android smartphone, I can use whatever browser I have installed (chrome, for example) to do so. Is this ok for you?  
 This way it is also possible for the user of the smartphone to upload pictures from the phone gallery, or to just take a picture in that exact moment using the smartphone's camera.
 
-**Transport**
+**Transport**  
 Got this one as well! :)
 
 Kind regards,  
@@ -107,13 +107,13 @@ Que tal “roles”? I.e., um utilizador ter múltiplos roles e poder escolher g
 
 Hello again David ! :)
 
-**Register**
+**Register**  
 How about introducing "Roles"? This is how it would work: I register on the platform and I get to choose what I would like to do. Let's say that for now I would like to try the Transport role - I would then become part of the Transporters. Now, imagine that for some reason I don't want to be available as a Transporter - I can just go to the Roles Dashboard and deactivate the Transporter role - or I could just leave it there and activate the Supply Role to have multiple roles activated. What do you think?
 
-**Request**
+**Request**  
 Ok! That's exactly what I was going to suggest: the greater the amount of the cargo, and the greater the distance to travel - the greater the points rewarded should be. :)
 
-**Supply**
+**Supply**  
 Got it!
 
 Regards,  
