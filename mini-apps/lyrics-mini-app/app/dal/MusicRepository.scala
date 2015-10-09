@@ -21,12 +21,15 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
   private val queryById = Compiled(
     (id: Rep[Long]) => musics.filter(_.id === id))
 
+  private val queryByAlbumId = Compiled(
+    (id: Rep[Long]) => musics.filter(_.albumId === id))
+
   def lookup(id: Long): Future[Music] = db.run {
     queryById(id).result.head
   }
 
   def fromAlbum(albumId: Long): Future[Seq[Music]] = db.run {
-    queryById(albumId).result
+    queryByAlbumId(albumId).result
   }
 
   def all: Future[Seq[Music]] = db.run {
