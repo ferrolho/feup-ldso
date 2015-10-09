@@ -94,9 +94,7 @@ David
 
 Henrique, só para ti:
 
-```
-**Register**: I agree with you. Would just be nice to have some sort of way or knowing how many of each type (for analytics)  we have in a area or have some way to message just that group in the future. Your suggestions are welcome.
-```
+> **Register**: I agree with you. Would just be nice to have some sort of way or knowing how many of each type (for analytics)  we have in a area or have some way to message just that group in the future. Your suggestions are welcome.
 
 Que tal “roles”? I.e., um utilizador ter múltiplos roles e poder escolher gual deles está activo ao longo do tempo (do ponto de vista de UX, uma lista de checkboxes resolve o problema).
 
