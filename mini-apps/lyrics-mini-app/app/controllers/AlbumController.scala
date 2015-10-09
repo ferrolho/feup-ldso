@@ -21,11 +21,12 @@ class AlbumController @Inject()(repo: AlbumRepository, musicRepo: MusicRepositor
   }
 
   def show(id: Long) = Action.async {
-    musicRepo.fromAlbum(id) flatMap { musics =>
-      repo.lookup(id) map { album =>
-        Ok(views.html.albums.show(album, musics))
-      }
-    }
+    // Creating the Futures before the for comprehension - this way the two calls can happen in parallel.
+    val fAlbum = repo.lookup(id)
+    val fMusics = musicRepo.fromAlbum(id)
+
+    for {album <- fAlbum; musics <- fMusics}
+      yield Ok(views.html.albums.show(album, musics))
   }
 
   val albumForm: Form[CreateAlbumForm] = Form {
