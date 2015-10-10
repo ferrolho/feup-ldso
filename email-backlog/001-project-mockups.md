@@ -116,3 +116,42 @@ Got it!
 
 Regards,  
 Ferrolho.
+
+
+---
+
+##### [Oct 10 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,
+
+**Register**: Ok. So the user has free access to changing the role in their own profile?  
+Admin can add new roles that are exact duplicate logic flow of existing roles? If that Admin functionality part is too much for the mvp then program with that in mind for a future iteration.
+
+**Request**:  Please document the location of where the Super User can change this points calculation.
+
+On all system operations please put the session save timer /draft copy save timer, to a very low (frequent) value. Since it is a responsive web app and not a native app, we don't want the users losing what they had started doing because of internet access loss that causes session timeouts.  If there is a session timeout for some reason, one must be able to resume their session at the point of disconnection in their workflow, or at least as close to it as possible.
+
+Kind regards,  
+David
+
+
+---
+
+##### [Oct 10 - 2015] From: SM | To: PO, PM, SPO
+
+Good morning David,
+
+**Register**  
+Yes, I think the user should be able to change how he wants to help by activating/deactivating roles. I might want to help as a Transporter during the major part of the year, but I might want to help as a Sorting Center - in addition to being a Transporter - during summer because I have more spare time. This is just a suggestion though, you are the one who has the final word.
+
+"Admin can add new roles that are exact duplicate logic flow of existing roles?" - I am not sure what you mean by this, can you elaborate a bit more please? :)
+
+**Request**  
+Sure, will do!
+
+Regarding the session data save frequency: can we keep this in mind for now, and bring it back a bit further when we start to have a more solid platform? I think we should postpone this for now and bring it back in a future iteration. What do you say?
+
+
+By the way, let me thank you for your availability and promptness replying to my emails. It has been a great help for us, and it helps to keep the development momentum! :)
+
+Have a great day!
