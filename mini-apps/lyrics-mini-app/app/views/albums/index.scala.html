@@ -21,6 +21,7 @@
 
     @form(routes.AlbumController.addAlbum()) {
         @inputText(album("name"))
+        @inputText(album("year"))
         @textarea(album("description"))
 
         <div class="buttons">
