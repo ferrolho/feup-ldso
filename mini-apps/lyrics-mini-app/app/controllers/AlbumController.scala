@@ -32,6 +32,7 @@ class AlbumController @Inject()(repo: AlbumRepository, musicRepo: MusicRepositor
   val albumForm: Form[CreateAlbumForm] = Form {
     mapping(
       "name" -> nonEmptyText,
+      "year" -> number,
       "description" -> text
     )(CreateAlbumForm.apply)(CreateAlbumForm.unapply)
   }
@@ -42,7 +43,7 @@ class AlbumController @Inject()(repo: AlbumRepository, musicRepo: MusicRepositor
         Future.successful(Ok(views.html.albums.index(errorForm)))
       },
       album => {
-        repo.create(album.name, album.description).map { _ =>
+        repo.create(album.name, album.year, album.description).map { _ =>
           Redirect(routes.AlbumController.index)
         }
       }
@@ -57,4 +58,4 @@ class AlbumController @Inject()(repo: AlbumRepository, musicRepo: MusicRepositor
 
 }
 
-case class CreateAlbumForm(name: String, description: String)
+case class CreateAlbumForm(name: String, year: Int, description: String)

@@ -30,12 +30,12 @@ class AlbumRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
     albums.result
   }
 
-  def create(name: String, description: String): Future[Album] = db.run {
-    (albums.map(p => (p.name, p.description))
+  def create(name: String, year: Int, description: String): Future[Album] = db.run {
+    (albums.map(p => (p.name, p.year, p.description))
       returning albums.map(_.id)
 
-      into ((nameDescription, id) => Album(id, nameDescription._1, nameDescription._2))
-      ) +=(name, description)
+      into ((params, id) => Album(id, params._1, params._2, params._3))
+      ) +=(name, year, description)
   }
 
   // Albums table
@@ -44,9 +44,11 @@ class AlbumRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
 
     def name = column[String]("name")
 
+    def year = column[Int]("year")
+
     def description = column[String]("description")
 
-    def * = (id, name, description) <>((Album.apply _).tupled, Album.unapply)
+    def * = (id, name, year, description) <>((Album.apply _).tupled, Album.unapply)
   }
 
 }

@@ -1,13 +1,13 @@
 # --- !Ups
 
 insert into "albums"
-("name", "description")
+("name", "year", "description")
 values
-('Whatever People Say I Am, That''s What I''m Not', ''),
-('AM', 'Album released in 2013');
+('Whatever People Say I Am, That''s What I''m Not', 2004, ''),
+('AM', 2013, 'Album released in 2013');
 
 insert into "musics"
-("album_id", "title", "lyrics", "year")
+("album_id", "title", "lyrics")
 values
 
 -- A Certain Romance
@@ -57,8 +57,7 @@ And yet they might overstep the line
 But you just cannot get angry in the same way
 No, not in the same way
 No not in the same way
-Oh no, oh no, no!',
-2004),
+Oh no, oh no, no!'),
 
 -- Do I Wanna Know
 (2, 'Do I Wanna Know?',
@@ -124,8 +123,7 @@ Too busy being yours to fall
 (Sad to see you go)
 Ever thought of calling darling?
 (Do I wanna know?)
-Do you want me crawling back to you?',
-2013),
+Do you want me crawling back to you?'),
 
 -- Do I Wanna Know
 (2, 'R U Mine?',
@@ -177,9 +175,9 @@ All I wanna hear her say is "Are you mine?"
 
 Well, are you mine? (Are you mine tomorrow?)
 Are you mine? (Or just mine tonight?)
-Are you mine? (Are you mine tomorrow, or just mine tonight?)',
-2013);
+Are you mine? (Are you mine tomorrow, or just mine tonight?)');
 
 # --- !Downs
 
+-- NOTE: This is not very accurate...
 delete from "musics" where "id" between 1 and 2;

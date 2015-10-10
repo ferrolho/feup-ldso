@@ -30,8 +30,7 @@ class MusicController @Inject()(repo: MusicRepository, val messagesApi: Messages
     mapping(
       "albumId" -> longNumber,
       "title" -> nonEmptyText,
-      "lyrics" -> nonEmptyText,
-      "year" -> number.verifying(min(0))
+      "lyrics" -> nonEmptyText
     )(CreateMusicForm.apply)(CreateMusicForm.unapply)
   }
 
@@ -41,7 +40,7 @@ class MusicController @Inject()(repo: MusicRepository, val messagesApi: Messages
         Future.successful(Ok(views.html.musics.index(errorForm)))
       },
       music => {
-        repo.create(music.albumId, music.title, music.lyrics, music.year).map { _ =>
+        repo.create(music.albumId, music.title, music.lyrics).map { _ =>
           Redirect(routes.MusicController.index)
         }
       }
@@ -56,4 +55,4 @@ class MusicController @Inject()(repo: MusicRepository, val messagesApi: Messages
 
 }
 
-case class CreateMusicForm(albumId: Long, title: String, lyrics: String, year: Int)
+case class CreateMusicForm(albumId: Long, title: String, lyrics: String)

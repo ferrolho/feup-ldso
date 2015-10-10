@@ -44,12 +44,12 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
     queryById(id).delete
   }
 
-  def create(albumId: Long, title: String, lyrics: String, year: Int): Future[Music] = db.run {
-    (musics.map(m => (m.albumId, m.title, m.lyrics, m.year))
+  def create(albumId: Long, title: String, lyrics: String): Future[Music] = db.run {
+    (musics.map(m => (m.albumId, m.title, m.lyrics))
       returning musics.map(_.id)
 
-      into ((params, id) => Music(id, params._1, params._2, params._3, params._4))
-      ) +=(albumId, title, lyrics, year)
+      into ((params, id) => Music(id, params._1, params._2, params._3))
+      ) +=(albumId, title, lyrics)
   }
 
   // Musics table
@@ -62,9 +62,7 @@ class MusicRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
 
     def lyrics = column[String]("lyrics")
 
-    def year = column[Int]("year")
-
-    def * = (id, albumId, title, lyrics, year) <>((Music.apply _).tupled, Music.unapply)
+    def * = (id, albumId, title, lyrics) <>((Music.apply _).tupled, Music.unapply)
   }
 
 }
