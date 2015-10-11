@@ -1,0 +1,23 @@
+@(task: Form[CreateTaskForm])(implicit messages: Messages)
+
+@import helper._
+
+@app("task list board")
+{
+    <script defer src='@routes.Assets.Versioned("javascript/tasks/index.js")'></script>
+
+    <h2>Tasks</h2>
+
+    <hr>
+    <ul id="tasks"></ul>
+
+    @form(routes.TaskController.addTask())
+    {
+    @inputText(task("description", "date"))
+
+    <div class="buttons">
+        <input type="submit" value="Add Task"/>
+    </div>
+    }
+
+}
