@@ -1,0 +1,31 @@
+@(album: Form[CreateAlbumForm], albums: Seq[Album] = Seq[Album]())(implicit messages: Messages)
+
+@import helper._
+
+@app("Best Lyrics") {
+    <h2>Albums</h2>
+
+    <hr>
+
+    @if(albums.isEmpty) {
+        <h4>No albums to show yet</h4>
+    } else {
+        <ul id="albums">
+
+        @for(album <- albums) {
+            <li><a href="/albums/@album.id">@album.name</a></li>
+        }
+
+        </ul>
+    }
+
+    @form(routes.AlbumController.addAlbum()) {
+        @inputText(album("name"))
+        @inputText(album("year"))
+        @textarea(album("description"))
+
+        <div class="buttons">
+            <input type="submit" value="Add Album"/>
+        </div>
+    }
+}

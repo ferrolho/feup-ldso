@@ -1,0 +1,11 @@
+@(photos: Seq[Photo])
+
+@app("My Gallery") {
+    <h2>Gallery</h2>
+    <hr>
+    <ul>
+        @for(photo <- photos) {
+            <li><a href="/photos/@photo.id">@photo.image</a></li>
+        }
+    </ul>
+}
