@@ -5,10 +5,10 @@ package models
  */
 import play.api.libs.json.Json
 
-case class Task(id: Long, description: String, date: String ) {
+case class Task(id: Long, description: String, date: String )
 
   object Task{
     implicit val taskFormat = Json.format[Task]
   }
 
-}
+
