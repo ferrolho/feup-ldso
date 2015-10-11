@@ -155,3 +155,43 @@ Regarding the session data save frequency: can we keep this in mind for now, and
 By the way, let me thank you for your availability and promptness replying to my emails. It has been a great help for us, and it helps to keep the development momentum! :)
 
 Have a great day!
+
+
+---
+
+##### [Oct 11 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,
+
+Register  
+I agree with you re roles in the user's profile. Go for it.  
+For the sake of keeping people active it would be nice to have a way to communicate with the different roles in a location regarding news, rewards, incentives etc. Someone who was active in a role but has deactivated that role would probably still benefit from receiving such emails/ newsletters. Not sure how to beat achieve this communication part.  
+.....
+
+"Admin can add new roles that are exact duplicate logic flow of existing roles?" :  
+You can ignore this point. My thought was that if we needed to add a new role to the system it would be good to have a copy function that duplicates one of the existing roles but this is not important for an mvp so don't worry about it.
+
+Session save frequency:  
+No problem. Leave until later but don't forget about it ;-)  
+Is there a better way to achieve the retention of workflow than using the session save frequency? I'm open to suggestions that would reduce the server overhead.
+
+Have a great day.
+
+
+---
+
+##### [Oct 11 - 2015] From: SM | To: PO, PM, SPO
+
+Hello David,
+
+**Register**  
+Regarding the messaging system: I think the Admin can be able to send a message to all the people from a certain city/country with a given role. That message would be sent by email, since people Sign Up with an email. What do you think?  
+About people who are no longer part of a role, they should receive those emails?
+
+**Session save**  
+We will have to do a little research in order to tell if there's a better way.
+
+I already have everything we need to our next call! :) So let me know you're availability!
+
+Regards,  
+Henrique Ferrolho.
