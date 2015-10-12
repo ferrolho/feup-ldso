@@ -31,9 +31,9 @@ class TaskRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
     (id: Rep[Long]) => tasks.filter(_.date === date)
   )
 */
-  def lookup(id: Long): Future[Seq[Task]] = db.run
+  def lookup(id: Long): Future[Task] = db.run
   {
-    queryById(id).result
+    queryById(id).result.head
   }
 
   def all: Future[Seq[Task]] = db.run
@@ -65,7 +65,7 @@ class TaskRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
-    def description = column[String]("decription")
+    def description = column[String]("description")
 
     def date = column[String] ("date")
 

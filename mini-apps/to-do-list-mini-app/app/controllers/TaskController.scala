@@ -28,7 +28,7 @@ class TaskController  @Inject()(repo: TaskRepository, val messagesApi: MessagesA
 
   def show(id: Long) = Action.async { implicit request =>
     repo.lookup(id).map { task =>
-      Ok(views.html.tasks.show(task.head))
+      Ok(views.html.tasks.show(task))
       }
   }
 
