@@ -5,8 +5,9 @@
 # Home page
 GET         /                    controllers.AppController.index
 
-GET         /new-post            controllers.PostController.index
+GET         /add-post            controllers.PostController.index
 POST        /add-post            controllers.PostController.addPost
+GET         /posts               controllers.PostController.getPosts
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)

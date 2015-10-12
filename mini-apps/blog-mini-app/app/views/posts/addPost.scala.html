@@ -1,13 +1,12 @@
-@(post:Form[CreatePostForm])(implicit messages: Messages)
-
+@(postForm:Form[CreatePostForm])(implicit messages: Messages)
 
 @import helper._
 
 @main("Blog Mini App") {
 
     @form(routes.PostController.addPost()) {
-        @inputText(post("subject"))
-        @inputText(post("description"))
+        @inputText(postForm("subject"))
+        @textarea(postForm("description"))
 
         <div class="buttons">
             <input type="submit" value="Add Post"/>
