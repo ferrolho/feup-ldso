@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(content: Html)
 
 <!DOCTYPE html>
 
@@ -25,6 +25,10 @@
     <body>
         @_navbar()
 
-        @content
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-lg-offset-1 col-lg-10">@content</div>
+            </div>
+        </div>
     </body>
 </html>
