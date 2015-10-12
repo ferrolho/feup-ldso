@@ -2,7 +2,7 @@ import play.api._
 
 package object Global extends GlobalSettings {
 
-  lazy val appName = "Food Loop"
+  lazy val appName = "Food Chains"
 
   override def onStart(app: Application) {
     Logger.info("Application has started")

@@ -225,3 +225,14 @@ We can however brainstorm about the mechanics of users who no longer play a role
 
 Will call you soon,  
 Henrique Ferrolho.
+
+
+---
+
+##### [Oct 12 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,  
+I have updated the user stories doc. I tried to put the items that were essential to the mvp as high, so there are quite a few of those. There were not many that I could think of as low priority.
+
+Chat soon,  
+David
