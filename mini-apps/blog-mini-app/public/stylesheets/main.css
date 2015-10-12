@@ -1,0 +1,32 @@
+.post {
+    transition: all .2s ease-out;
+    margin: 0;
+    background: gainsboro;
+}
+
+.post * {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.post:hover {
+    box-shadow: 0px 0px 1em #ccc;
+    transform: scale(1.05);
+}
+
+.post-subject{
+    font-size: 1.5em;
+    margin-bottom: .4em;
+    overflow: hidden;
+}
+
+.post-container {
+    list-style: none;
+}
+
+ul li {
+    margin: 0 0 5% 0;
+}
