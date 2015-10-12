@@ -195,3 +195,33 @@ I already have everything we need to our next call! :) So let me know you're ava
 
 Regards,  
 Henrique Ferrolho.
+
+
+---
+
+##### [Oct 12 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,  
+I can meet today at your 11am or tomorrow at your 10am or 11 am.
+
+Register:  
+Email is fine. Will the personalised email broadcasts /newsletters be sent by the system or need to be downloaded /integrated with a service like Aweber or mailchimp? We can discuss this on the call as well as the topic about those no longer in a role.
+
+Kind regards,  
+David
+
+
+---
+
+##### [Oct 12 - 2015] From: SM | To: PO, PM, SPO
+
+Hello,
+
+I can meet at my 11am. :) I'll call you by that time.  
+The goal for today's call is to go through the User Stories list we've come up with, and make sure each and every single one of them is clear. After that I will clarify some questions the team has.
+
+I will have to talk to the team in order to decide which solution fits best regarding the email service. Since it will not be possible to meet with the entire team before our call, I would ask you to leave this for a future iteration.  
+We can however brainstorm about the mechanics of users who no longer play a role and would benefit from receiving these emails in today's call. :)
+
+Will call you soon,  
+Henrique Ferrolho.
