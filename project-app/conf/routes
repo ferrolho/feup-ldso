@@ -4,6 +4,8 @@
 
 # Home page
 GET        /                    controllers.Application.index
+GET        /sign-in             controllers.Application.index
+GET        /sign-up             controllers.Application.index
 GET        /dashboard           controllers.Application.dashboard
 GET        /play-info           controllers.Application.playInfo
 
