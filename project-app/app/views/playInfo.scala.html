@@ -1,6 +1,6 @@
-@(message: String)
+@(message: String)(implicit messages: Messages)
 
-@app {
+@app("") {
 
     @play20.welcome(message)
 
