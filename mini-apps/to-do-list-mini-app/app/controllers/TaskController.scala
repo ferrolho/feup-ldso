@@ -4,7 +4,6 @@ package controllers
  * Created by Lycantropus on 11-10-2015.
  */
 import javax.inject.Inject
-
 import dal.TaskRepository
 import models.Task
 import play.api.data.Form
@@ -21,8 +20,7 @@ class TaskController  @Inject()(repo: TaskRepository, val messagesApi: MessagesA
                                (implicit ec: ExecutionContext) extends Controller with I18nSupport
 {
 
-  def index = Action
-  {
+  def index = Action {
     Ok(views.html.tasks.index(taskForm))
   }
 
@@ -39,17 +37,14 @@ class TaskController  @Inject()(repo: TaskRepository, val messagesApi: MessagesA
     )(CreateTaskForm.apply)(CreateTaskForm.unapply)
   }
 
-  def addTask = Action.async
-  {
-    implicit request =>
-    taskForm.bindFromRequest.fold (
+  def addTask = Action.async {  implicit request =>
+    taskForm.bindFromRequest.fold(
     errorForm => {
       Future.successful(Ok(views.html.tasks.index(errorForm)))
     },
     task => {
-      repo.create(task.description, task.date).map{ _ =>
+      repo.create(task.description, task.date).map { _ =>
         Redirect(routes.TaskController.index)
-
       }
     }
     )
