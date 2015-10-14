@@ -1,0 +1,23 @@
+@(users: Form[CreateUserForm])(implicit messages: Messages)
+
+@import helper._
+
+@app("task list board") {
+  <script defer src='@routes.Assets.versioned("javascripts/users/index.js")'></script>
+
+  <h2>Users</h2>
+
+  <hr>
+
+  <ul id="users"></ul>
+
+  @form(routes.UserController.addUser()) {
+  @inputText(user("name"))
+
+  <div class="buttons">
+    <input type="submit" value="Add User"/>
+  </div>
+
+  }
+
+}
