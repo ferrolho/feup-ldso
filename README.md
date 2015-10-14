@@ -7,7 +7,7 @@ https://docs.google.com/document/d/13SErd2FBhMll8BoVcyBczqyJi5gbfSb6gMcUERPVN90
 https://docs.google.com/document/d/12Pt-ptbzfypwF76mVlNtiV2sRTehlALwn6Sxi7XKYIU/edit?usp=sharing
 
 ## Scrum Masters Slack - for Scrum Master only
-sereno-team.slack.com
+[sereno-team.slack.com](sereno-team.slack.com)
 
 ## Project mock-ups
 ![User interfaces diagram overview](docs/2015-10-08/hd-overview.png)
