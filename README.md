@@ -1,5 +1,9 @@
 # FEUP - LDSO
 
+## Project View
+
+![Project View](docs/Project View.md)
+
 ## Useful links
 
 [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1440740)
