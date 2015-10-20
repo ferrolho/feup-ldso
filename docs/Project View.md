@@ -1,4 +1,6 @@
 
 In our days food waste is a huge problem. There are thousands and thousands tons of food thrown away because the expired date is close and the retailers, restaurants and others food entities have to get rid of it just because the law doesn’t allow, although the food is still edible.
+
 So, in this context, that is where our platform fits in: the main goal is to get a meaning and real use to the food that is about to expire, avoiding it to be wasted.
-The cycle process of this food goes through five stages: first, a user that provides the almost expired food to the system, called Suply User. Then there is a Transport User that transports this amount of food to a Sort User that verifies the food condition and stores it in his/her Sorting Center. Then, when  Request User, that askes the system to provide the need, there is a Transport User that will transport the request from the Sorting Center to the Request User.
+
+The cycle process of this food goes through five stages: first, a user that provides the almost expired food to the system, called Suply User. Secondly, there is a Transport User that transports this amount of food to a Sort User that, thirdly, verifies the food condition and stores it in his/her Sorting Center. Then, when  Request User, that askes the system to provide the needed food, there is a Transport User that will transport the request from the Sorting Center to the Request User.
