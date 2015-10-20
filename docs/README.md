@@ -10,10 +10,10 @@
 
 ## Project mock-ups
 
-![User interfaces diagram overview](docs/2015-10-08/hd-overview.png)
+![User interfaces diagram overview](2015-10-08/hd-overview.png)
 
 
 ## Logical and Technological Architectures
 
-![Logical architecture](docs/2015-10-15/logical-architecture.jpg)
-![Technological architecture](docs/2015-10-15/technological-architecture.jpg)
+![Logical architecture](2015-10-15/logical-architecture.jpg)
+![Technological architecture](2015-10-15/technological-architecture.jpg)
