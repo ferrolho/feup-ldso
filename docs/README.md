@@ -1,4 +1,6 @@
 
+# Project View
+
 In our days food waste is a huge problem. There are thousands and thousands tons of food thrown away because the expired date is close and the retailers, restaurants and others food entities have to get rid of it just because the law doesn’t allow, although the food is still edible.
 
 So, in this context, that is where our platform fits in: the main goal is to get a meaning and real use to the food that is about to expire, avoiding it to be wasted.

@@ -2,7 +2,7 @@
 
 ## Project View
 
-[Project View](docs/Project View.md)
+[Project View](docs/README.md)
 
 ## Useful links
 
