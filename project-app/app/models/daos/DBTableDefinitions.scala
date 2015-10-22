@@ -16,7 +16,11 @@ trait DBTableDefinitions {
                      lastName: Option[String],
                      fullName: Option[String],
                      email: Option[String],
-                     avatarURL: Option[String]
+                     avatarURL: Option[String],
+                     isSupplier: Boolean = false,
+                     isSortingCenter: Boolean = false,
+                     isConsumer: Boolean = false,
+                     isTransporter: Boolean = false
                      )
 
   class Users(tag: Tag) extends Table[DBUser](tag, "user") {
@@ -32,7 +36,15 @@ trait DBTableDefinitions {
 
     def avatarURL = column[Option[String]]("avatarURL")
 
-    def * = (id, firstName, lastName, fullName, email, avatarURL) <>(DBUser.tupled, DBUser.unapply)
+    def isSupplier = column[Boolean]("isSupplier");
+
+    def isSortingCenter = column[Boolean]("isSortingCenter");
+
+    def isConsumer = column[Boolean]("isConsumer");
+
+    def isTransporter = column[Boolean]("isTransporter");
+
+    def * = (id, firstName, lastName, fullName, email, avatarURL, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
   }
 
   case class DBLoginInfo(
