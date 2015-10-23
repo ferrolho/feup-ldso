@@ -236,3 +236,25 @@ I have updated the user stories doc. I tried to put the items that were essentia
 
 Chat soon,  
 David
+
+
+---
+
+##### [Oct 23 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,  
+It has been almost 11 days since I heard from you guys. Is everything ok?
+
+Kind regards,  
+David
+
+
+---
+
+##### [Oct 23 - 2015] From: SM | To: PO, PM, SPO
+
+Good morning David!
+
+Yes, everything is okay :) I haven't spoken to you again because we are busy with school work, including this project. Everything is going well and according to plan though!
+
+Henrique Ferrolho.
