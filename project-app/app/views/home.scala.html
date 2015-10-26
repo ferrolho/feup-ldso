@@ -4,26 +4,79 @@
     <div class="user col-md-6 col-md-offset-3">
         <div class="row">
             <hr class="col-md-12" />
+
             <h4 class="col-md-8">@Messages("welcome.signed.in")</h4>
             <div class="col-md-4 text-right">
                 <img src="@user.avatarURL.getOrElse(routes.Assets.versioned("images/silhouette.png"))" height="40px" />
             </div>
+
             <hr class="col-md-12" />
         </div>
 
         <div class="row data">
             <div class="col-md-12">
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("first.name"):</strong></p><p class="col-md-6">@user.firstName.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("first.name")
+                        :</strong></p><p class="col-md-6">@user.firstName.getOrElse("None")</p>
                 </div>
+
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("last.name"):</strong></p><p class="col-md-6">@user.lastName.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("last.name")
+                        :</strong></p><p class="col-md-6">@user.lastName.getOrElse("None")</p>
                 </div>
+
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("full.name"):</strong></p><p class="col-md-6">@user.fullName.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("full.name")
+                        :</strong></p><p class="col-md-6">@user.fullName.getOrElse("None")</p>
                 </div>
+
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("email"):</strong></p><p class="col-md-6">@user.email.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("email")
+                        :</strong></p><p class="col-md-6">@user.email.getOrElse("None")</p>
+                </div>
+
+                <div class="row">
+                    <p class="col-md-6"><strong>@Messages("supplier"):</strong></p>
+                    <p class="col-md-6">
+                    @if(user.isSupplier) {
+                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    } else {
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                    }
+                    </p>
+                </div>
+
+                <div class="row">
+                    <p class="col-md-6"><strong>@Messages("sortingCenter"):</strong></p>
+                    <p class="col-md-6">
+                    @if(user.isSortingCenter) {
+                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    } else {
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                    }
+                    </p>
+                </div>
+
+                <div class="row">
+                    <p class="col-md-6"><strong>@Messages("consumer"):</strong></p>
+                    <p class="col-md-6">
+                    @if(user.isConsumer) {
+                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    } else {
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                    }
+                    </p>
+                </div>
+
+                <div class="row">
+                    <p class="col-md-6"><strong>@Messages("transporter"):</strong></p>
+                    <p class="col-md-6">
+                    @if(user.isTransporter) {
+                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    } else {
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                    }
+                    </p>
                 </div>
             </div>
         </div>

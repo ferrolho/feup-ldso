@@ -10,6 +10,7 @@ trait DBTableDefinitions {
 
   import driver.api._
 
+  // User
   case class DBUser(
                      userID: String,
                      firstName: Option[String],
@@ -47,6 +48,7 @@ trait DBTableDefinitions {
     def * = (id, firstName, lastName, fullName, email, avatarURL, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
   }
 
+  // Login info
   case class DBLoginInfo(
                           id: Option[Long],
                           providerID: String,
@@ -63,6 +65,7 @@ trait DBTableDefinitions {
     def * = (id.?, providerID, providerKey) <>(DBLoginInfo.tupled, DBLoginInfo.unapply)
   }
 
+  // User login info
   case class DBUserLoginInfo(
                               userID: String,
                               loginInfoId: Long
@@ -76,6 +79,7 @@ trait DBTableDefinitions {
     def * = (userID, loginInfoId) <>(DBUserLoginInfo.tupled, DBUserLoginInfo.unapply)
   }
 
+  // Password info
   case class DBPasswordInfo(
                              hasher: String,
                              password: String,
@@ -95,6 +99,7 @@ trait DBTableDefinitions {
     def * = (hasher, password, salt, loginInfoId) <>(DBPasswordInfo.tupled, DBPasswordInfo.unapply)
   }
 
+  // OAuth1 info
   case class DBOAuth1Info(
                            id: Option[Long],
                            token: String,
@@ -114,6 +119,7 @@ trait DBTableDefinitions {
     def * = (id.?, token, secret, loginInfoId) <>(DBOAuth1Info.tupled, DBOAuth1Info.unapply)
   }
 
+  // OAuth2 info
   case class DBOAuth2Info(
                            id: Option[Long],
                            accessToken: String,
@@ -139,6 +145,7 @@ trait DBTableDefinitions {
     def * = (id.?, accessToken, tokenType, expiresIn, refreshToken, loginInfoId) <>(DBOAuth2Info.tupled, DBOAuth2Info.unapply)
   }
 
+  // Open ID info
   case class DBOpenIDInfo(
                            id: String,
                            loginInfoId: Long
@@ -152,6 +159,7 @@ trait DBTableDefinitions {
     def * = (id, loginInfoId) <>(DBOpenIDInfo.tupled, DBOpenIDInfo.unapply)
   }
 
+  // Open ID attribute
   case class DBOpenIDAttribute(
                                 id: String,
                                 key: String,
@@ -168,6 +176,26 @@ trait DBTableDefinitions {
     def * = (id, key, value) <>(DBOpenIDAttribute.tupled, DBOpenIDAttribute.unapply)
   }
 
+  // Supplies
+  case class DBSupply(
+                       id: String,
+                       userID: String,
+                       resource: String,
+                       amount: Int
+                       )
+
+  class Supplies(tag: Tag) extends Table[DBSupply](tag, "supply") {
+    def id = column[String]("id", O.PrimaryKey)
+
+    def userID = column[String]("userID")
+
+    def resource = column[String]("resource")
+
+    def amount = column[Int]("amount")
+
+    def * = (id, userID, resource, amount) <>(DBSupply.tupled, DBSupply.unapply)
+  }
+
   // table query definitions
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
@@ -177,6 +205,8 @@ trait DBTableDefinitions {
   val slickOAuth2Infos = TableQuery[OAuth2Infos]
   val slickOpenIDInfos = TableQuery[OpenIDInfos]
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
+
+  val slickSupplies = TableQuery[Supplies]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =

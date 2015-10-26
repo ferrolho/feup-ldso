@@ -16,14 +16,20 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/supply"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Supply</a></li>
+                        <li><a href="/request"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Request</a></li>
+                        <li><a href="/redeem"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span> Redeem</a></li>
+                    </ul>
+
                     <ul class="nav navbar-nav navbar-right">
-                    @user.map { user =>
-                    <li><a href="@routes.Application.index">@user.fullName</a></li>
-                    <li><a href="@routes.Application.signOut">@Messages("sign.out")</a></li>
-                    }.getOrElse {
-                        <li><a href="@routes.Application.signIn">@Messages("sign.in")</a></li>
-                        <li><a href="@routes.Application.signUp">@Messages("sign.up")</a></li>
-                    }
+                        @user.map { user =>
+                            <li><a href="@routes.Application.index">@user.fullName</a></li>
+                            <li><a href="@routes.Application.signOut">@Messages("sign.out")</a></li>
+                        }.getOrElse {
+                            <li><a href="@routes.Application.signIn">@Messages("sign.in")</a></li>
+                            <li><a href="@routes.Application.signUp">@Messages("sign.up")</a></li>
+                        }
                     </ul>
                 </div>
             </div>

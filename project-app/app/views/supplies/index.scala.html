@@ -1,0 +1,10 @@
+@(user: models.User)(implicit messages: Messages)
+
+@app(Messages("home.title"), Some(user)) {
+    <div class="col-xs-12">
+        <h1>Supply</h1>
+        <hr>
+
+        <h3>What do you want to donate?</h3>
+    </div>
+}

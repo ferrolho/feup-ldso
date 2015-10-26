@@ -11,6 +11,10 @@ GET         /authenticate/:provider          controllers.SocialAuthController.au
 POST        /authenticate/credentials        controllers.CredentialsAuthController.authenticate
 POST        /sign-up                         controllers.SignUpController.signUp
 
+GET         /supply                          controllers.SuppliesController.index
+#GET         /request                         controllers.RequestsController.index
+#GET         /redeem                          controllers.RedeemController.index
+
 GET         /play-info                       controllers.Application.playInfo
 
 # Map static resources from the /public folder to the /assets URL path
