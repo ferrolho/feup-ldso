@@ -4,6 +4,9 @@ language:
 scala:
 - 2.11.7
 
+jdk:
+- oraclejdk8
+
 script:
 - cd project-app
 - sbt test
