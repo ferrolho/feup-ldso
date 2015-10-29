@@ -77,4 +77,5 @@ class SignUpController @Inject()(
       }
     )
   }
+
 }
