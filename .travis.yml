@@ -9,4 +9,4 @@ jdk:
 
 script:
 - cd project-app
-- sbt test
+- sbt run
