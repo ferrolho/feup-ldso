@@ -1,8 +1,4 @@
-# FEUP - LDSO
-
-## Project Status
-
-[![Build Status](https://travis-ci.org/ferrolho/feup-ldso.svg?branch=master)](https://travis-ci.org/ferrolho/feup-ldso)
+# FEUP - LDSO [![Build Status](https://travis-ci.org/ferrolho/feup-ldso.svg?branch=master)](https://travis-ci.org/ferrolho/feup-ldso)
 
 ## Useful links
 
