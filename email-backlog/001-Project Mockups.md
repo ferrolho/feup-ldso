@@ -1,4 +1,4 @@
-# Project mock-ups
+# Project mockups
 
 ##### [Oct 8 - 2015] From: SM | To: PO, PM, SPO
 
@@ -23,6 +23,7 @@ Looking forward to hear from you! And please give me some feedback about the moc
 
 In behalf of the development team,  
 Henrique Ferrolho
+
 
 ---
 
