@@ -13,3 +13,5 @@
 [Product Owner details and log reports](https://docs.google.com/document/d/12Pt-ptbzfypwF76mVlNtiV2sRTehlALwn6Sxi7XKYIU/edit?usp=sharing)
 
 [Scrum Masters Slack - for Scrum Master only](https://sereno-team.slack.com)
+
+[Travis CI - Continuous Integration](https://travis-ci.org/ferrolho/feup-ldso)
