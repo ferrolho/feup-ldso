@@ -19,3 +19,12 @@ Henrique Ferrolho.
 
 
 ---
+
+##### [Oct 29 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,  
+I have access to pivotal tracker, thanks. Those two user stories are a great start.  
+Thanks for the update.
+
+Kind regards,  
+David
