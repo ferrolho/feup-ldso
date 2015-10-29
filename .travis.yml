@@ -1,4 +1,9 @@
 language: scala
 scala:
    - 2.11.7
+
+jdk:
+  - openjdk7
+
+
 script: cd project-app && sbt test
