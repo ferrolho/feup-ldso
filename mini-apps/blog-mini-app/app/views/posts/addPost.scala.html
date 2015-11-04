@@ -5,8 +5,8 @@
 @main("Blog Mini App") {
 
     @form(routes.PostController.addPost()) {
-        @inputText(postForm("subject"))
-        @textarea(postForm("description"))
+        @inputText(postForm("subject"), 'placeholder -> "Subject", '_label -> null, '_showConstraints -> false)
+        @textarea(postForm("description"), 'placeholder -> "Description", '_label -> null, '_showConstraints -> false)
 
         <div class="buttons">
             <input type="submit" value="Add Post"/>

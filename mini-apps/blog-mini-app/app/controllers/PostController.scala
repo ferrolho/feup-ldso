@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.i18n._
 import play.api.data.Form
 import play.api.data.Forms._
-import dal._
+import dal.PostRepository
 
 import scala.concurrent.{ ExecutionContext, Future }
 
@@ -17,9 +17,6 @@ class PostController @Inject()(repo: PostRepository, val messagesApi: MessagesAp
     Ok(views.html.posts.addPost(postForm))
   }
 
-  /**
-   * The mapping for the post form.
-   */
   val postForm: Form[CreatePostForm] = Form {
     mapping(
       "subject" -> nonEmptyText,
@@ -47,11 +44,4 @@ class PostController @Inject()(repo: PostRepository, val messagesApi: MessagesAp
   }
 }
 
-/**
- * The create post form.
- *
- * Generally for forms, you should define separate objects to your models, since forms very often need to present data
- * in a different way to your models.  In this case, it doesn't make sense to have an id parameter in the form, since
- * that is generated once it's created.
- */
 case class CreatePostForm(subject: String, description: String)

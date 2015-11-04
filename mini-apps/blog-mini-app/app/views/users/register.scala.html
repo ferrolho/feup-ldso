@@ -1,0 +1,17 @@
+@(registerForm: Form[CreateRegisterForm])(implicit messages: Messages)
+
+@import helper._
+
+@main("Blog Mini App") {
+
+    @form(routes.UserController.addUser()) {
+        @inputText(registerForm("username"), 'placeholder -> "Username", '_label -> null, '_showConstraints -> false)
+        @inputPassword(registerForm("password"), 'placeholder -> "Password", '_label -> null, '_showConstraints -> false)
+        @inputPassword(registerForm("confirmPassword"), 'placeholder -> "Confirm Password", '_label -> null, '_showConstraints -> false)
+
+        <div class="buttons">
+            <input type="submit" value="Create account"/>
+        </div>
+    }
+
+}
