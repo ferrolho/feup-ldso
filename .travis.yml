@@ -1,8 +1,9 @@
-language: scala
+language:
+- scala
+
 scala:
-  - 2.11.7
+- 2.11.7
 
-jdk:
-  - oraclejdk8
-
-script: cd project-app && sbt test
+script:
+- cd project-app
+#- sbt test
