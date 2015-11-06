@@ -1,31 +1,30 @@
-@(album: Form[CreateAlbumForm], albums: Seq[Album] = Seq[Album]())(implicit messages: Messages)
+@(photo: Form[CreatePhotoForm], photos: Seq[Photo] = Seq[Photo]())(implicit messages: Messages)
 
 @import helper._
 
-@app("Best Lyrics") {
-    <h2>Albums</h2>
+@app("My Gallery") {
+    <h2>Gallery</h2>
 
     <hr>
 
-    @if(albums.isEmpty) {
-        <h4>No albums to show yet</h4>
+    @if(photos.isEmpty) {
+        <h4>No photos to show</h4>
     } else {
-        <ul id="albums">
+        <ul id="photos">
 
-        @for(album <- albums) {
-            <li><a href="/albums/@album.id">@album.name</a></li>
+        @for(photo <- photos) {
+            <li><a href="/photos/@photo.name">@photo.url</a></li>
         }
 
         </ul>
     }
 
-    @form(routes.AlbumController.addAlbum()) {
-        @inputText(album("name"))
-        @inputText(album("year"))
-        @textarea(album("description"))
+    @form(routes.PhotoController.addPhoto()) {
+        @inputText(photo("name"))
+        @inputText(photo("url"))
 
         <div class="buttons">
-            <input type="submit" value="Add Album"/>
+            <input type="submit" value="Add Photo"/>
         </div>
     }
 }
