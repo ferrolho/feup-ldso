@@ -1,0 +1,24 @@
+{
+  "name": "food-chains",
+  "description": "Description here.",
+  "keywords": [
+    "Play",
+    "Framework",
+    "Slick",
+    "Silhouette"
+  ],
+  "website": "https://github.com/mohiva/play-silhouette-seed",
+  "repository": "https://github.com/mohiva/play-silhouette-seed",
+  "success_url": "/",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-scala.git",
+    "PLAY_CONF_FILE": "application.prod.conf",
+    "PLAY_APP_SECRET": "changeme",
+    "FACEBOOK_CLIENT_ID": "",
+    "FACEBOOK_CLIENT_SECRET": "",
+    "GOOGLE_CLIENT_ID": "",
+    "GOOGLE_CLIENT_SECRET": "",
+    "TWITTER_CONSUMER_KEY": "",
+    "TWITTER_CONSUMER_SECRET": ""
+  }
+}
