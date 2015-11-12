@@ -6,4 +6,4 @@ scala:
 
 script:
 - cd project-app
-#- sbt test
+- sbt test
