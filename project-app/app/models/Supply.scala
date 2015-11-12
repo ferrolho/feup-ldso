@@ -14,6 +14,6 @@ import com.mohiva.play.silhouette.api.{Identity, LoginInfo}
  */
 case class Supply(
                    id: UUID,
-                   userID: String,
+                   userID: UUID,
                    resource: String,
                    amount: Int) extends Identity
