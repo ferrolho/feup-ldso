@@ -16,4 +16,4 @@ case class Supply(
                    id: UUID,
                    userID: UUID,
                    resource: String,
-                   amount: Int) extends Identity
+                   amount: Int)

@@ -12,6 +12,7 @@ POST        /authenticate/credentials        controllers.CredentialsAuthControll
 POST        /sign-up                         controllers.SignUpController.signUp
 
 GET         /supply                          controllers.SuppliesController.index
+POST        /supply                          controllers.SuppliesController.submitSupplyOffer
 #GET         /request                         controllers.RequestsController.index
 #GET         /redeem                          controllers.RedeemController.index
 

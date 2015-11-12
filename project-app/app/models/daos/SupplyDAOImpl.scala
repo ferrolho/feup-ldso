@@ -21,7 +21,7 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
    * @return The saved supply.
    */
   def save(supply: Supply) = {
-    val dbSupply = DBSupply(supply.id.toString, supply.userID, supply.resource, supply.amount)
+    val dbSupply = DBSupply(supply.id.toString, supply.userID.toString, supply.resource, supply.amount)
 
     // combine database actions to be run sequentially
     val actions = slickSupplies.insertOrUpdate(dbSupply).transactionally
