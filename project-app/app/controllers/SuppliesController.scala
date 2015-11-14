@@ -9,8 +9,8 @@ import forms.SupplyForm
 import models.services.SupplyService
 import models.{Supply, User}
 import play.api.i18n.MessagesApi
-import play.api.libs.concurrent.Execution.Implicits._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /**
