@@ -6,17 +6,24 @@ import javax.inject.Inject
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SupplyForm
-import models.services.SupplyServiceImpl
+import models.services.SupplyService
 import models.{Supply, User}
 import play.api.i18n.MessagesApi
 import play.api.libs.concurrent.Execution.Implicits._
 
 import scala.concurrent.Future
 
+/**
+ * The supplies controller.
+ *
+ * @param messagesApi The Play messages API.
+ * @param env The Silhouette environment.
+ * @param supplyService The supply service implementation.
+ */
 class SuppliesController @Inject()(
                                     val messagesApi: MessagesApi,
                                     val env: Environment[User, CookieAuthenticator],
-                                    supplyService: SupplyServiceImpl)
+                                    supplyService: SupplyService)
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
@@ -40,7 +47,7 @@ class SuppliesController @Inject()(
         )
         for {
           supply <- supplyService.save(supply.copy())
-        } yield Redirect(routes.Application.index())
+        } yield Redirect(routes.SuppliesController.index())
       }
     )
   }
