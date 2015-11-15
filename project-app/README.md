@@ -1,7 +1,7 @@
 # Table of contents
 
-- [Feature branch workflow](Feature branch workflow)
-- [Deploying to DigitalOcean](Deploying to DigitalOcean)
+- [Feature branch workflow](#feature-branch-workflow)
+- [Deploying to DigitalOcean](#deploying-to-digitalocean)
 
 
 # Feature branch workflow
