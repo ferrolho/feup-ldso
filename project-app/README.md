@@ -23,11 +23,11 @@
 
 #### You are helping your colleague implementing a feature
 
-- Checkout the branch your colleague created
-git checkout -b US_2-01
+- Checkout the branch your colleague created  
+`git checkout -b US_2-01`
 
-- Pull the branch
-git pull origin US_2-01
+- Pull the branch  
+`git pull origin US_2-01`
 
 
 # Deploying to DigitalOcean
