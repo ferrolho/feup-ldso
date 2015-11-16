@@ -2,7 +2,7 @@
 
 - [Feature branch workflow](#feature-branch-workflow)
   - [You are creating the branch and starting the feature implementation](#you-are-creating-the-branch-and-starting-the-feature-implementation)
-  - [You are helping your colleague implementing a feature](you-are-helping-your-colleague-implementing-a-feature)
+  - [You are helping your colleague implementing a feature](#you-are-helping-your-colleague-implementing-a-feature)
 - [Deploying to DigitalOcean](#deploying-to-digitalocean)
 
 
