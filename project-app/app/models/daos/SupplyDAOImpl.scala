@@ -1,5 +1,6 @@
 package models.daos
 
+import java.util.UUID
 import javax.inject.Inject
 
 import models.Supply
@@ -13,6 +14,21 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
   extends SupplyDAO with DAOSlick {
 
   import driver.api._
+
+  /**
+   *
+   * @return
+   */
+  def all = {
+    val suppliesQuery = for {
+      dbSupply <- slickSupplies.result
+    } yield dbSupply
+    db.run(suppliesQuery).map { dbSupplyOption =>
+      dbSupplyOption.map { supply =>
+        Supply(UUID.fromString(supply.id), UUID.fromString(supply.id), supply.resource, supply.amount)
+      }
+    }
+  }
 
   /**
    * Saves a supply.

@@ -10,6 +10,12 @@ import scala.concurrent.Future
 trait SupplyDAO {
 
   /**
+   *
+   * @return
+   */
+  def all: Future[Seq[Supply]]
+
+  /**
    * Saves a supply.
    *
    * @param supply The supply to save.

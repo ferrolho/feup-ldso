@@ -12,6 +12,8 @@ import models.daos.SupplyDAO
  */
 class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
 
+  def all = supplyDAO.all
+
   /**
    * Saves a supply.
    *

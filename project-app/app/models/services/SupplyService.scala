@@ -10,6 +10,12 @@ import scala.concurrent.Future
 trait SupplyService {
 
   /**
+   *
+   * @return
+   */
+  def all: Future[Seq[Supply]]
+
+  /**
    * Saves a supply offer.
    *
    * @param user The user to save.
