@@ -1,5 +1,6 @@
 package models.services
 
+import java.util.UUID
 import javax.inject.Inject
 
 import models.Supply
@@ -11,6 +12,8 @@ import models.daos.SupplyDAO
  * @param supplyDAO The supply DAO implementation.
  */
 class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
+
+  def byUser(userID: UUID) = supplyDAO.byUser(userID: UUID)
 
   def all = supplyDAO.all
 

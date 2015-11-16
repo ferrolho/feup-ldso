@@ -15,10 +15,18 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   import driver.api._
 
-  /**
-   *
-   * @return
-   */
+  def byUser(userID: UUID) = {
+    val suppliesQuery = for {
+      dbSupply <- slickSupplies.filter(_.userID === userID.toString)
+    } yield dbSupply
+
+    db.run(suppliesQuery.result).map { dbSupplyOption =>
+      dbSupplyOption.map { supply =>
+        Supply(UUID.fromString(supply.id), UUID.fromString(supply.userID), supply.resource, supply.amount)
+      }
+    }
+  }
+
   def all = {
     val suppliesQuery = for {
       dbSupply <- slickSupplies.result

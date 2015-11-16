@@ -1,5 +1,7 @@
 package models.services
 
+import java.util.UUID
+
 import models.Supply
 
 import scala.concurrent.Future
@@ -9,10 +11,8 @@ import scala.concurrent.Future
  */
 trait SupplyService {
 
-  /**
-   *
-   * @return
-   */
+  def byUser(userID: UUID): Future[Seq[Supply]]
+
   def all: Future[Seq[Supply]]
 
   /**
