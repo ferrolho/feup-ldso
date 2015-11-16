@@ -26,12 +26,7 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
     db.run(suppliesQuery).map { dbSupplyOption =>
       dbSupplyOption.map { supply =>
-        /*
-         * IMPORTANT! by Ferrolho
-         * userID being passed as null... This is OK for me,
-         * but keep in mind that this may be breaking your code!
-         */
-        Supply(UUID.fromString(supply.id), null, supply.resource, supply.amount)
+        Supply(UUID.fromString(supply.id), UUID.fromString(supply.userID), supply.resource, supply.amount)
       }
     }
   }
