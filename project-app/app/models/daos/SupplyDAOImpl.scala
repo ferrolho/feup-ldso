@@ -23,9 +23,15 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     val suppliesQuery = for {
       dbSupply <- slickSupplies.result
     } yield dbSupply
+
     db.run(suppliesQuery).map { dbSupplyOption =>
       dbSupplyOption.map { supply =>
-        Supply(UUID.fromString(supply.id), UUID.fromString(supply.id), supply.resource, supply.amount)
+        /*
+         * IMPORTANT! by Ferrolho
+         * userID being passed as null... This is OK for me,
+         * but keep in mind that this may be breaking your code!
+         */
+        Supply(UUID.fromString(supply.id), null, supply.resource, supply.amount)
       }
     }
   }

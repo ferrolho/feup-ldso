@@ -48,9 +48,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                @for(mySupply <- mySupplies) {
+                @for((mySupply, index) <- mySupplies.zipWithIndex) {
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">@{index + 1}</th>
                         <td>@mySupply.resource</td>
                         <td>@mySupply.amount</td>
                         <td>TODO</td>
