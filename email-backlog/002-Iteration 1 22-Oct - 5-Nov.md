@@ -1,4 +1,4 @@
-# Iteration 1: 22.Oct - 5.Nov
+# Iteration 1: 22-Oct - 5-Nov
 
 ##### [Oct 29 - 2015] From: SM | To: PO, PM, SPO
 
@@ -25,6 +25,31 @@ Henrique Ferrolho.
 Hi Henrique,  
 I have access to pivotal tracker, thanks. Those two user stories are a great start.  
 Thanks for the update.
+
+Kind regards,  
+David
+
+
+---
+
+##### [Nov 14 - 2015] From: SM | To: PO, PM, SPO
+
+Hello David! :)
+
+We have setup an host for you to see how the product is going, you can access it here: http://ferrolho.xyz  
+In Pivotal Tracker, we have delivered User Stories 0-00, 0-01, and 1-00. Can you please go to the link above, test those US and accept them in Pivotal Tracker? If you have any doubt please tell me right away!
+
+Regards,  
+Henrique Ferrolho.
+
+
+---
+
+##### [Nov 15 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,
+
+Thanks for the link. I'll go through it tomorrow morning and see if another member of my group can check it too.
 
 Kind regards,  
 David
