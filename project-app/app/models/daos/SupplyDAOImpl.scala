@@ -15,6 +15,12 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
   import driver.api._
 
+  /**
+   * Retrieves all supplies submitted by a certain user.
+   *
+   * @param userID The id of the user to retrieve the supplies.
+   * @return The sequence of supplies.
+   */
   def byUser(userID: UUID) = {
     val suppliesQuery = for {
       dbSupply <- slickSupplies.filter(_.userID === userID.toString)
@@ -27,6 +33,11 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     }
   }
 
+  /**
+   * Retrieves all supplies from the DB.
+   *
+   * @return The sequence of supplies.
+   */
   def all = {
     val suppliesQuery = for {
       dbSupply <- slickSupplies.result
