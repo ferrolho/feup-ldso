@@ -1,14 +1,12 @@
+#
+# Silhouette messages
+#
 error.email = Valid email required
 error.required = This field is required
 invalid.credentials = Invalid credentials!
 access.denied = Access denied!
 user.exists = There already exists a user with this email!
 could.not.authenticate = Could not authenticate with social provider! Please try again!
-
-app.name = Food Chains
-home.title = Food Chains - Home
-sign.up.title = Food Chains - Sign Up
-sign.in.title = Food Chains - Sign In
 
 toggle.navigation = Toggle navigation
 welcome.signed.in = Welcome, you are now signed in!
@@ -41,7 +39,21 @@ vk = VK
 xing = Xing
 yahoo = Yahoo
 
+#
+# Our app messages
+#
+app.name = Food Chains
+home.title = Food Chains - Home
+sign.up.title = Food Chains - Sign Up
+sign.in.title = Food Chains - Sign In
+
+supply.offer.details = What do you want to donate?
+submit.supply.offer = Post supply offer
+
 supplier = Supplier
 sortingCenter = Sorting Center
 consumer = Consumer
 transporter = Transporter
+
+resource = Resource
+amount = Amount

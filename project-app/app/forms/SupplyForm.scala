@@ -14,7 +14,7 @@ object SupplyForm {
   val form = Form(
     mapping(
       "resource" -> nonEmptyText,
-      "amount" -> number(min = 0)
+      "amount" -> number(min = 1)
     )(Data.apply)(Data.unapply)
   )
 

@@ -27,7 +27,9 @@ class SuppliesController @Inject()(
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
-    Future.successful(Ok(views.html.supplies.index(request.identity, SupplyForm.form)))
+    supplyService.byUser(request.identity.userID).map { supplies =>
+      Ok(views.html.supplies.index(request.identity, SupplyForm.form, supplies))
+    }
   }
 
   /**
