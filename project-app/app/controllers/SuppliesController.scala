@@ -39,7 +39,11 @@ class SuppliesController @Inject()(
    */
   def submitSupplyOffer = SecuredAction.async { implicit request =>
     SupplyForm.form.bindFromRequest.fold(
-      form => Future.successful(BadRequest(views.html.supplies.index(request.identity, form))),
+      form => {
+        supplyService.byUser(request.identity.userID).map { supplies =>
+          BadRequest(views.html.supplies.index(request.identity, form, supplies))
+        }
+      },
       data => {
         val supply = Supply(
           id = UUID.randomUUID(),
@@ -47,6 +51,7 @@ class SuppliesController @Inject()(
           resource = data.resource,
           amount = data.amount
         )
+
         for {
           supply <- supplyService.save(supply.copy())
         } yield Redirect(routes.SuppliesController.index())
