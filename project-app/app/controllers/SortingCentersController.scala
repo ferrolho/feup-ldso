@@ -59,6 +59,7 @@ class SortingCentersController @Inject()(
             amount = supply.amount,
             inSortingCenter = false
           )
+
         supplyService.deleteRowByID(supply.id)
           for {
             offer <- sortingCenterWarehouseService.save(offer.copy())
