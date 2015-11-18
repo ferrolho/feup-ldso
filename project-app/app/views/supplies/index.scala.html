@@ -1,4 +1,7 @@
-@(user: models.User, supplyForm: Form[forms.SupplyForm.Data], mySupplies: Seq[Supply] = Seq[Supply]())(implicit request: RequestHeader, messages: Messages)
+@(
+        user: models.User,
+        supplyForm: Form[forms.SupplyForm.Data],
+        mySupplies: Seq[Supply])(implicit request: RequestHeader, messages: Messages)
 
 @import b3.inline.fieldConstructor
 
@@ -50,7 +53,9 @@
                 <tbody>
                 @for((mySupply, index) <- mySupplies.zipWithIndex) {
                     <tr>
-                        <th scope="row">@{index + 1}</th>
+                        <th scope="row">@{
+                            index + 1
+                        }</th>
                         <td>@mySupply.resource</td>
                         <td>@mySupply.amount</td>
                         <td>TODO</td>
