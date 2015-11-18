@@ -11,6 +11,8 @@ import scala.concurrent.Future
  */
 trait SupplyService {
 
+  def retrieve(id: UUID): Future[Supply]
+
   /**
    * Retrieves all supplies submitted by a certain user.
    *

@@ -11,6 +11,7 @@ import models.{SortingCenterWarehouse, User}
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  *
@@ -40,23 +41,28 @@ class SortingCentersController @Inject()(
   def acceptOffer = SecuredAction.async { implicit request =>
     SortingCenterWarehouseForm.form.bindFromRequest.fold(
       form => {
+        // TODO delete this when error is solved
+        Future.successful(Redirect(routes.Application.index()))
+
         supplyService.allExceptByUser(request.identity.userID).map { supplies =>
           BadRequest(views.html.sortingCenters.index(request.identity, form, supplies))
         }
       },
       data => {
-        val offer = SortingCenterWarehouse(
-          idResource = UUID.randomUUID(),
-          idSortingCenter = UUID.randomUUID(),
-          userID = request.identity.userID,
-          resource = "teste mau",
-          amount = 123,
-          inSortingCenter = false
-        )
+        supplyService.retrieve(UUID.fromString(data.supplyID)).map { supply =>
+          val offer = SortingCenterWarehouse(
+            idResource = supply.id,
+            idSortingCenter = UUID.randomUUID(),
+            userID = request.identity.userID,
+            resource = supply.resource,
+            amount = supply.amount,
+            inSortingCenter = false
+          )
 
-        for {
-          offer <- sortingCenterWarehouseService.save(offer.copy())
-        } yield Redirect(routes.SortingCentersController.index())
+          sortingCenterWarehouseService.save(offer.copy())
+
+          Redirect(routes.SortingCentersController.index())
+        }
       }
     )
   }

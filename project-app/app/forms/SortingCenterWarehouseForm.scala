@@ -13,17 +13,10 @@ object SortingCenterWarehouseForm {
    */
   val form = Form(
     mapping(
-      "resource" -> nonEmptyText,
-      "amount" -> number(min = 1)
+      "supplyID" -> nonEmptyText
     )(Data.apply)(Data.unapply)
   )
 
-  /**
-   * The form data.
-   *
-   * @param resource The name of the resource.
-   * @param amount The amount of resource units being stored.
-   */
-  case class Data(resource: String, amount: Int)
+  case class Data(supplyID: String)
 
 }

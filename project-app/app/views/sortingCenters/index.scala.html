@@ -39,6 +39,7 @@
                         <td>
                         @b3.form(action = routes.SortingCentersController.acceptOffer()) {
                             @helper.CSRF.formField
+                            @b3.hidden("supplyID", mySupply.id)
 
                             <div class="form-group">
                                 <div>

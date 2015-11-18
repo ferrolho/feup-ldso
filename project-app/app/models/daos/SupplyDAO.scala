@@ -12,6 +12,14 @@ import scala.concurrent.Future
 trait SupplyDAO {
 
   /**
+   * Finds a supply by its ID.
+   *
+   * @param id The ID of the supply to find.
+   * @return The found supply or None if no supply for the given ID could be found.
+   */
+  def find(id: UUID): Future[Supply]
+
+  /**
    * Retrieves all supplies submitted by a certain user.
    *
    * @param userID The id of the user to retrieve the supplies.

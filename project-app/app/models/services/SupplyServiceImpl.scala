@@ -13,6 +13,8 @@ import models.daos.SupplyDAO
  */
 class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
 
+  def retrieve(id: UUID) = supplyDAO.find(id)
+
   /**
    * Retrieves all supplies submitted by a certain user.
    *
