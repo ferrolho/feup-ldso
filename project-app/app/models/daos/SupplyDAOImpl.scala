@@ -94,7 +94,14 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     db.run(actions).map(_ => supply)
   }
 
+  /**
+   * deletes the row with the param id
+   *
+   * @param id the id of the supply to remove.
+   *
+   */
   def deleteRowByID(id: UUID) {
     db.run(slickSupplies.filter(_.id === id.toString).delete)
   }
+
 }

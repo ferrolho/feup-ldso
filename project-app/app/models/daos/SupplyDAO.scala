@@ -49,16 +49,8 @@ trait SupplyDAO {
    * deletes the row with the param id
    *
    * @param id the id of the supply to remove.
-   * @return .
+   *
    */
   def deleteRowByID(id: UUID)
-
-  /**
-   * updates the supply with that param id
-   *
-   * @param id the id of the supply to update.
-   * @return The updated supply.
-   */
-  //def updateRowByID(id: UUID, amount: Int)
 
 }

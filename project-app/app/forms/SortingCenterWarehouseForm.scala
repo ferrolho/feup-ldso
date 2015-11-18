@@ -18,6 +18,12 @@ object SortingCenterWarehouseForm {
     )(Data.apply)(Data.unapply)
   )
 
+  /**
+   * form for the sorting center warehouse
+   *
+   * @param supplyID the identification of the supply
+   * @param amount  the amount to save
+   */
   case class Data(supplyID: String, amount: Int)
 
 }

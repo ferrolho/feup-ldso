@@ -42,8 +42,6 @@ class SortingCentersController @Inject()(
   def acceptOffer = SecuredAction.async { implicit request =>
     SortingCenterWarehouseForm.form.bindFromRequest.fold(
       form => {
-        // TODO delete this when error is solved
-        Future.successful(Redirect(routes.Application.index()))
 
         supplyService.allExceptByUser(request.identity.userID).map { supplies =>
           BadRequest(views.html.sortingCenters.index(request.identity, form, supplies))

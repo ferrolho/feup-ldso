@@ -50,7 +50,7 @@ sign.in.title = Food Chains - Sign In
 supply.offer.details = What do you want to donate?
 submit.supply.offer = Post supply offer
 
-submit.sortingCenterWarehouse.offer = Request Offer
+submit.sortingCenterWarehouse.offer = Accept Offer
 
 supplier = Supplier
 sortingCenter = Sorting Center
