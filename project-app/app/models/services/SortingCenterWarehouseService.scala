@@ -11,16 +11,6 @@ import scala.concurrent.Future
  */
 trait SortingCenterWarehouseService {
 
-
-  /**
-   * Retrieves all supplies from the DB except the user's offers.
-   *
-   * @param userID except user
-   * @return The sequence of supplies.
-   */
-  def allExceptMyself(userID: UUID): Future[Seq[Supply]]
-
-
   /**
    * Saves am acceptable offer to store in sorting center warehouse
    *

@@ -33,6 +33,18 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     }
   }
 
+  def allExceptByUser(userID: UUID) = {
+    val suppliesQuery = for {
+      dbSupply <- slickSupplies.filter(_.userID =!= userID.toString)
+    } yield dbSupply
+
+    db.run(suppliesQuery.result).map { dbSupplyOption =>
+      dbSupplyOption.map { supply =>
+        Supply(UUID.fromString(supply.id), UUID.fromString(supply.userID), supply.resource, supply.amount)
+      }
+    }
+  }
+
   /**
    * Retrieves all supplies from the DB.
    *

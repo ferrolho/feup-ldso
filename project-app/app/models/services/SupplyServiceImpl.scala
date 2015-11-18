@@ -21,6 +21,8 @@ class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
    */
   def byUser(userID: UUID) = supplyDAO.byUser(userID: UUID)
 
+  def allExceptByUser(userID: UUID) = supplyDAO.allExceptByUser(userID: UUID)
+
   /**
    * Retrieves all supplies from the DB.
    *

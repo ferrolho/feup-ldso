@@ -16,18 +16,6 @@ import scala.concurrent.Future
  */
 class SortingCenterWarehouseServiceImpl @Inject()(sortingCenterWarehouseDAO: SortingCenterWarehouseDAO) extends SortingCenterWarehouseService {
 
-
-
-  /**
-   * Retrieves all supplies from the DB except the user's offers.
-   *
-   * @param userID except user
-   * @return The sequence of supplies.
-   */
-  def allExceptMyself(userID: UUID): Future[Seq[Supply]] = sortingCenterWarehouseDAO.allExceptMyself(userID)
-
-
-
   /**
    * Saves am acceptable offer to store in sorting center warehouse
    *

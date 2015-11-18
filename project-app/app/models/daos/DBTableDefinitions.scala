@@ -201,7 +201,8 @@ trait DBTableDefinitions {
                                        userID : String,
                                        idSortingCenter: String,
                                        resource: String,
-                                       amount: Int
+                                       amount: Int,
+                                       inSortingCenter: Boolean
                                        )
 
   class SortingCenterWarehouse(tag: Tag) extends Table[DBSortingCenterWarehouse](tag, "sortingCenterWarehouse") {
@@ -216,7 +217,9 @@ trait DBTableDefinitions {
 
     def amount = column[Int]("amount")
 
-    def * = (idResource, userID,idSortingCenter, resource, amount) <>(DBSortingCenterWarehouse.tupled, DBSupply.unapply)
+    def inSortingCenter = column[Boolean]("inSortingCenter")
+
+    def * = (idResource, userID,idSortingCenter, resource, amount,inSortingCenter) <>(DBSortingCenterWarehouse.tupled, DBSortingCenterWarehouse.unapply)
   }
 
   // table query definitions

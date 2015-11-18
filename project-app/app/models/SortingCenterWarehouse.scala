@@ -3,8 +3,6 @@ package models
 
 import java.util.UUID
 
-import com.mohiva.play.silhouette.api.{Identity, LoginInfo}
-
 /**
  * The sorting center warehouse object.
  *
@@ -14,12 +12,13 @@ import com.mohiva.play.silhouette.api.{Identity, LoginInfo}
  * @param resource The name of the resource in the sorting center.
  * @param amount The amount of the resource in the sorting center.
  */
-case class SortingCenterWarehouse (
-                                  idResource: UUID,
-                                  userID : UUID,
-                                  idSortingCenter: UUID,
-                                  resource: String,
-                                  amount: Int
-                                    )
+case class SortingCenterWarehouse(
+                                   idResource: UUID,
+                                   userID: UUID,
+                                   idSortingCenter: UUID,
+                                   resource: String,
+                                   amount: Int,
+                                   inSortingCenter: Boolean = false
+                                   )
 
 
