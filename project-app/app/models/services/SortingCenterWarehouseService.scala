@@ -1,8 +1,6 @@
 package models.services
 
-import java.util.UUID
-
-import models.{Supply, SortingCenterWarehouse}
+import models.SortingCenterWarehouse
 
 import scala.concurrent.Future
 

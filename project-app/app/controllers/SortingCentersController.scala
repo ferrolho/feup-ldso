@@ -12,6 +12,13 @@ import play.api.i18n.MessagesApi
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
+/**
+ *
+ * @param messagesApi
+ * @param env
+ * @param supplyService
+ * @param sortingCenterWarehouseService
+ */
 class SortingCentersController @Inject()(
                                           val messagesApi: MessagesApi,
                                           val env: Environment[User, CookieAuthenticator],
@@ -42,8 +49,8 @@ class SortingCentersController @Inject()(
           idResource = UUID.randomUUID(),
           idSortingCenter = UUID.randomUUID(),
           userID = request.identity.userID,
-          resource = data.resource,
-          amount = data.amount,
+          resource = "teste mau",
+          amount = 123,
           inSortingCenter = false
         )
 

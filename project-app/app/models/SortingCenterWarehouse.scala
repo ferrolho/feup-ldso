@@ -1,6 +1,5 @@
 package models
 
-
 import java.util.UUID
 
 /**
@@ -20,5 +19,3 @@ case class SortingCenterWarehouse(
                                    amount: Int,
                                    inSortingCenter: Boolean = false
                                    )
-
-

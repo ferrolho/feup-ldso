@@ -196,22 +196,22 @@ trait DBTableDefinitions {
     def * = (id, userID, resource, amount) <>(DBSupply.tupled, DBSupply.unapply)
   }
 
+  // Sorting center warehouse
   case class DBSortingCenterWarehouse(
                                        idResource: String,
-                                       userID : String,
+                                       userID: String,
                                        idSortingCenter: String,
                                        resource: String,
                                        amount: Int,
                                        inSortingCenter: Boolean
                                        )
 
-  class SortingCenterWarehouse(tag: Tag) extends Table[DBSortingCenterWarehouse](tag, "sortingCenterWarehouse") {
-
+  class SortingCenterWarehouses(tag: Tag) extends Table[DBSortingCenterWarehouse](tag, "sortingCenterWarehouse") {
     def idResource = column[String]("id", O.PrimaryKey)
 
     def userID = column[String]("userID")
 
-    def  idSortingCenter = column[String]("idSortingCenter")
+    def idSortingCenter = column[String]("idSortingCenter")
 
     def resource = column[String]("resource")
 
@@ -219,7 +219,7 @@ trait DBTableDefinitions {
 
     def inSortingCenter = column[Boolean]("inSortingCenter")
 
-    def * = (idResource, userID,idSortingCenter, resource, amount,inSortingCenter) <>(DBSortingCenterWarehouse.tupled, DBSortingCenterWarehouse.unapply)
+    def * = (idResource, userID, idSortingCenter, resource, amount, inSortingCenter) <>(DBSortingCenterWarehouse.tupled, DBSortingCenterWarehouse.unapply)
   }
 
   // table query definitions
@@ -233,7 +233,7 @@ trait DBTableDefinitions {
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
 
   val slickSupplies = TableQuery[Supplies]
-  val slickSortingCenterWarehouse = TableQuery[SortingCenterWarehouse]
+  val slickSortingCenterWarehouse = TableQuery[SortingCenterWarehouses]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =

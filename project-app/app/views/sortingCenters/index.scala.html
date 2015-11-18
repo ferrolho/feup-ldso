@@ -38,6 +38,8 @@
                         <td>@mySupply.amount</td>
                         <td>
                         @b3.form(action = routes.SortingCentersController.acceptOffer()) {
+                            @helper.CSRF.formField
+
                             <div class="form-group">
                                 <div>
                                     <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">

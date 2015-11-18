@@ -47,6 +47,7 @@ class SuppliesController @Inject()(
           resource = data.resource,
           amount = data.amount
         )
+
         for {
           supply <- supplyService.save(supply.copy())
         } yield Redirect(routes.SuppliesController.index())

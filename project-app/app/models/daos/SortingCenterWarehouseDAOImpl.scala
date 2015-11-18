@@ -1,19 +1,15 @@
 package models.daos
 
-import java.util.UUID
 import javax.inject.Inject
 
-import models.{Supply, SortingCenterWarehouse}
+import models.SortingCenterWarehouse
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-
-import scala.concurrent.Future
-
 
 /**
  * Give access to the sorting center warehouse object using Slick
  */
-class SortingCenterWarehouseDAOImpl@Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
+class SortingCenterWarehouseDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   extends SortingCenterWarehouseDAO with DAOSlick {
 
   import driver.api._
@@ -24,14 +20,14 @@ class SortingCenterWarehouseDAOImpl@Inject()(protected val dbConfigProvider: Dat
    * @param sortingCenterWarehouse The sorting center to save.
    * @return The saved sorting center.
    */
-  def save(sortingCenterWarehouse: models.SortingCenterWarehouse) = {
-    val dbSortingCenterWarehouse =DBSortingCenterWarehouse(
-    sortingCenterWarehouse.idResource.toString,
-    sortingCenterWarehouse.idSortingCenter.toString,
-    sortingCenterWarehouse.userID.toString,
-    sortingCenterWarehouse.resource.toString,
-    sortingCenterWarehouse.amount,
-    sortingCenterWarehouse.inSortingCenter
+  def save(sortingCenterWarehouse: SortingCenterWarehouse) = {
+    val dbSortingCenterWarehouse = DBSortingCenterWarehouse(
+      sortingCenterWarehouse.idResource.toString,
+      sortingCenterWarehouse.idSortingCenter.toString,
+      sortingCenterWarehouse.userID.toString,
+      sortingCenterWarehouse.resource.toString,
+      sortingCenterWarehouse.amount,
+      sortingCenterWarehouse.inSortingCenter
     )
 
     //combine database actions to be run sequentially

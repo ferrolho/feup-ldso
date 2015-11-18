@@ -4,8 +4,8 @@ import play.api.data.Form
 import play.api.data.Forms._
 
 /**
-* The form which handles the submission of a offer to store in he sorting center warehouse.
-*/
+ * The form which handles the submission of a offer to store in he sorting center warehouse.
+ */
 object SortingCenterWarehouseForm {
 
   /**
@@ -25,6 +25,5 @@ object SortingCenterWarehouseForm {
    * @param amount The amount of resource units being stored.
    */
   case class Data(resource: String, amount: Int)
-
 
 }
