@@ -13,6 +13,7 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+
 /**
  *
  * @param messagesApi
@@ -34,7 +35,7 @@ class SortingCentersController @Inject()(
   }
 
   /**
-   * Submits a resource supply.
+   * Submits a resource supply and deletes the same entry in Supply table.
    *
    * @return The result to display.
    */
@@ -58,12 +59,13 @@ class SortingCentersController @Inject()(
             amount = supply.amount,
             inSortingCenter = false
           )
-
+        supplyService.deleteRowByID(supply.id)
           for {
             offer <- sortingCenterWarehouseService.save(offer.copy())
           } yield Redirect(routes.SortingCentersController.index())
         }
       }
+
     )
   }
 }

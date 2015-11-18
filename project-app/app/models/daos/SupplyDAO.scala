@@ -44,4 +44,13 @@ trait SupplyDAO {
    */
   def save(supply: Supply): Future[Supply]
 
+
+  /**
+   * deletes the row with the param id
+   *
+   * @param id the id of the supply to remove.
+   * @return .
+   */
+  def deleteRowByID(id: UUID):Future[Int]
+
 }

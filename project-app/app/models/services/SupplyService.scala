@@ -38,4 +38,13 @@ trait SupplyService {
    */
   def save(user: Supply): Future[Supply]
 
+  /**
+   * deletes the row with the param id ( to remove the offer of a supplier
+   *
+   * @param id the id of the supply to remove.
+   * @return .
+   */
+
+  def deleteRowByID(id:UUID): Future[Int]
+
 }
