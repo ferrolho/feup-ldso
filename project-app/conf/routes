@@ -13,6 +13,10 @@ POST        /sign-up                         controllers.SignUpController.signUp
 
 GET         /supply                          controllers.SuppliesController.index
 POST        /supply                          controllers.SuppliesController.submitSupplyOffer
+
+GET         /sortingCenter                   controllers.SortingCentersController.index
+POST        /sortingCenter                   controllers.SortingCentersController.acceptOffer
+
 #GET         /request                         controllers.RequestsController.index
 #GET         /redeem                          controllers.RedeemController.index
 
