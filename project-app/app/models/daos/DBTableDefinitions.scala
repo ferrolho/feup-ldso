@@ -207,11 +207,11 @@ trait DBTableDefinitions {
                                        )
 
   class SortingCenterWarehouses(tag: Tag) extends Table[DBSortingCenterWarehouse](tag, "sortingCenterWarehouse") {
-    def idResource = column[String]("id", O.PrimaryKey)
-
-    def userID = column[String]("userID")
+    def idResource = column[String]("idResource", O.PrimaryKey)
 
     def idSortingCenter = column[String]("idSortingCenter")
+
+    def userID = column[String]("userID")
 
     def resource = column[String]("resource")
 
@@ -219,7 +219,7 @@ trait DBTableDefinitions {
 
     def inSortingCenter = column[Boolean]("inSortingCenter")
 
-    def * = (idResource, userID, idSortingCenter, resource, amount, inSortingCenter) <>(DBSortingCenterWarehouse.tupled, DBSortingCenterWarehouse.unapply)
+    def * = (idResource, idSortingCenter, userID, resource, amount, inSortingCenter) <>(DBSortingCenterWarehouse.tupled, DBSortingCenterWarehouse.unapply)
   }
 
   // table query definitions

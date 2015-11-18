@@ -49,7 +49,7 @@ class SortingCentersController @Inject()(
         }
       },
       data => {
-        supplyService.retrieve(UUID.fromString(data.supplyID)).map { supply =>
+        supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap { supply =>
           val offer = SortingCenterWarehouse(
             idResource = supply.id,
             idSortingCenter = UUID.randomUUID(),
@@ -59,9 +59,9 @@ class SortingCentersController @Inject()(
             inSortingCenter = false
           )
 
-          sortingCenterWarehouseService.save(offer.copy())
-
-          Redirect(routes.SortingCentersController.index())
+          for {
+            offer <- sortingCenterWarehouseService.save(offer.copy())
+          } yield Redirect(routes.SortingCentersController.index())
         }
       }
     )
