@@ -37,20 +37,20 @@
                         <td>@mySupply.resource</td>
                         <td>@mySupply.amount</td>
                         <td>
-                        @b3.form(action = routes.SortingCentersController.acceptOffer()) {
+                            @*b3.form(action = routes.SortingCentersController.acceptOffer()) {
                             @helper.CSRF.formField
-                            @b3.hidden("supplyID", mySupply.id)
+                            @b3.hidden("supplyID", mySupply.id)*@
 
                             <div class="form-group">
                                 <div>
-                                    <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
+                                    <button id="submit" type="submit" value="submit" class="btn btn-success btn-block modalPopUp">
                                     @Messages("submit.sortingCenterWarehouse.offer")
                                     </button>
                                 </div>
                             </div>
-                        }</td>
+                            @* }*@</td>
                     </tr>
-                }
+                        }
                 </tbody>
             </table>
         }

@@ -6,6 +6,9 @@ import javax.inject.Inject
 import models.Supply
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import slick.driver.MySQLDriver.api._
+
+import scala.concurrent.Future
 
 /**
  * Give access to the user object using Slick
@@ -94,4 +97,8 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     db.run(actions).map(_ => supply)
   }
 
+
+  def deleteRowByID(id: UUID): Future[Int] = {
+    db.run(slickSupplies.filter(_.id === id.toString).delete)
+  }
 }
