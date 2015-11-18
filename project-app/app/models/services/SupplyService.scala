@@ -11,6 +11,8 @@ import scala.concurrent.Future
  */
 trait SupplyService {
 
+  def retrieve(id: UUID): Future[Supply]
+
   /**
    * Retrieves all supplies submitted by a certain user.
    *
@@ -18,6 +20,8 @@ trait SupplyService {
    * @return The sequence of supplies.
    */
   def byUser(userID: UUID): Future[Seq[Supply]]
+
+  def allExceptByUser(userID: UUID): Future[Seq[Supply]]
 
   /**
    * Retrieves all supplies from the DB.

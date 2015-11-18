@@ -1,8 +1,8 @@
 package modules
 
 import com.google.inject.AbstractModule
-import models.daos.{SupplyDAO, SupplyDAOImpl}
-import models.services.{SupplyServiceImpl, SupplyService}
+import models.daos.{SortingCenterWarehouseDAOImpl, SortingCenterWarehouseDAO, SupplyDAO, SupplyDAOImpl}
+import models.services.{SortingCenterWarehouseServiceImpl, SortingCenterWarehouseService, SupplyServiceImpl, SupplyService}
 import net.codingwell.scalaguice.ScalaModule
 
 /**
@@ -14,6 +14,9 @@ class AppModule extends AbstractModule with ScalaModule {
    * Configures the module.
    */
   def configure() {
+    bind[SortingCenterWarehouseService].to[SortingCenterWarehouseServiceImpl]
+    bind[SortingCenterWarehouseDAO].to[SortingCenterWarehouseDAOImpl]
+
     bind[SupplyService].to[SupplyServiceImpl]
     bind[SupplyDAO].to[SupplyDAOImpl]
   }
