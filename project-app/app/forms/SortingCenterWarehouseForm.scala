@@ -13,10 +13,11 @@ object SortingCenterWarehouseForm {
    */
   val form = Form(
     mapping(
-      "supplyID" -> nonEmptyText
+      "supplyID" -> nonEmptyText,
+      "amount" -> number(min = 1)
     )(Data.apply)(Data.unapply)
   )
 
-  case class Data(supplyID: String)
+  case class Data(supplyID: String, amount: Int)
 
 }

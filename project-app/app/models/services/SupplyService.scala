@@ -45,6 +45,5 @@ trait SupplyService {
    * @return .
    */
 
-  def deleteRowByID(id:UUID): Future[Int]
-
+  def deleteRowByID(id: UUID)
 }

@@ -25,6 +25,7 @@
                         <th>#</th>
                         <th>Resource</th>
                         <th>Amount</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -38,29 +39,12 @@
                         <td>@mySupply.amount</td>
 
                         @b3.form(action = routes.SortingCentersController.acceptOffer()) {
-                        @helper.CSRF.formField
-                        @b3.hidden("supplyID", mySupply.id)
-                        <td>
-                            <a href="#" class="btn btn-lg btn-success" data-toggle="modal" data-target="#basicModal">Click to open Modal</a>
-
-                            <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h3>Modal Body</h3>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">@Messages("submit.sortingCenterWarehouse.offer")</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                            @helper.CSRF.formField
+                            @b3.hidden("supplyID", mySupply.id)
+                            <td>@b3.number(sortingCenterWarehouseForm("amount"), 'min -> 1, 'max -> mySupply.amount, 'step -> 1, '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")</td>
+                            <td>
+                                <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">@Messages("submit.sortingCenterWarehouse.offer")</button>
+                            </td>
                         }
                     </tr>
                 }

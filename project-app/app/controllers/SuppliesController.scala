@@ -54,5 +54,4 @@ class SuppliesController @Inject()(
       }
     )
   }
-
 }

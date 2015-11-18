@@ -47,6 +47,5 @@ class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
    * @return .
    */
 
-  def deleteRowByID(id:UUID) = supplyDAO.deleteRowByID(id)
-
+  def deleteRowByID(id: UUID) = supplyDAO.deleteRowByID(id)
 }
