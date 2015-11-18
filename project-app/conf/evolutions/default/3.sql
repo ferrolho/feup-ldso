@@ -1,6 +1,6 @@
 # --- !Ups
 
-create table "sortingCenterWarehouse" (
+create table "sortingCenterStock" (
   "idResource" VARCHAR NOT NULL PRIMARY KEY,
   "idSortingCenter" VARCHAR NOT NULL,
   "userID"  VARCHAR NOT NULL REFERENCES "user",
@@ -12,4 +12,4 @@ create table "sortingCenterWarehouse" (
 
 # --- !Downs
 
-drop table "sortingCenterWarehouse";
+drop table "sortingCenterStock";

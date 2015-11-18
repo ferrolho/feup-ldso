@@ -4,9 +4,9 @@ import play.api.data.Form
 import play.api.data.Forms._
 
 /**
- * The form which handles the submission of a offer to store in he sorting center warehouse.
+ * The form which handles the submission of a offer to store in he sorting center stock.
  */
-object SortingCenterWarehouseForm {
+object SortingCenterStockForm {
 
   /**
    * A play framework form.
@@ -19,7 +19,7 @@ object SortingCenterWarehouseForm {
   )
 
   /**
-   * form for the sorting center warehouse
+   * form for the sorting center stock
    *
    * @param supplyID the identification of the supply
    * @param amount  the amount to save
