@@ -44,7 +44,6 @@ trait SupplyDAO {
    */
   def save(supply: Supply): Future[Supply]
 
-
   /**
    * deletes the row with the param id
    *

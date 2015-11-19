@@ -6,12 +6,11 @@ import javax.inject.Inject
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SupplyForm
-import models.services.SupplyService
+import models.services.{ResourceAmountLabelService, ResourceCategoryService, SupplyService}
 import models.{Supply, User}
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 /**
  * The supplies controller.
@@ -23,13 +22,23 @@ import scala.concurrent.Future
 class SuppliesController @Inject()(
                                     val messagesApi: MessagesApi,
                                     val env: Environment[User, CookieAuthenticator],
-                                    supplyService: SupplyService)
+                                    supplyService: SupplyService,
+                                    resourceCategoryService: ResourceCategoryService,
+                                    resourceAmountLabelService: ResourceAmountLabelService)
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
-    supplyService.byUser(request.identity.userID).map { supplies =>
-      Ok(views.html.supplies.index(request.identity, SupplyForm.form, supplies))
-    }
+    val fSupplies = supplyService.byUser(request.identity.userID)
+    val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
+
+    for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+      yield {
+        val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+        Ok(views.html.supplies.index(request.identity, SupplyForm.form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
+      }
   }
 
   /**
@@ -39,13 +48,27 @@ class SuppliesController @Inject()(
    */
   def submitSupplyOffer = SecuredAction.async { implicit request =>
     SupplyForm.form.bindFromRequest.fold(
-      form => Future.successful(BadRequest(views.html.supplies.index(request.identity, form))),
+      form => {
+        val fSupplies = supplyService.byUser(request.identity.userID)
+        val fResourceCategories = resourceCategoryService.all
+        val fResourceAmountLabels = resourceAmountLabelService.all
+
+        for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+          yield {
+            val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+            val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+            BadRequest(views.html.supplies.index(request.identity, form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
+          }
+      },
       data => {
         val supply = Supply(
           id = UUID.randomUUID(),
           userID = request.identity.userID,
           resource = data.resource,
-          amount = data.amount
+          resourceCategoryID = data.resourceCategoryID,
+          amount = data.amount,
+          amountLabelID = data.amountLabelID
         )
 
         for {
@@ -53,6 +76,54 @@ class SuppliesController @Inject()(
         } yield Redirect(routes.SuppliesController.index())
       }
     )
+  }
+
+  def editSupplyOffer(supplyID: String) = SecuredAction.async { implicit request =>
+    SupplyForm.form.bindFromRequest.fold(
+      form => {
+        val fSupplies = supplyService.byUser(request.identity.userID)
+        val fResourceCategories = resourceCategoryService.all
+        val fResourceAmountLabels = resourceAmountLabelService.all
+
+        for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+          yield {
+            val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+            val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+            BadRequest(views.html.supplies.index(request.identity, form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
+          }
+      },
+      data => {
+        val supply = Supply(
+          id = UUID.fromString(supplyID),
+          userID = request.identity.userID,
+          resource = data.resource,
+          resourceCategoryID = data.resourceCategoryID,
+          amount = data.amount,
+          amountLabelID = data.amountLabelID
+        )
+
+        for {
+          supply <- supplyService.save(supply.copy())
+        } yield Redirect(routes.SuppliesController.index())
+      }
+    )
+  }
+
+  def deleteSupplyOffer(supplyID: String) = SecuredAction.async { implicit request =>
+    supplyService.deleteRowByID(UUID.fromString(supplyID))
+
+    val fSupplies = supplyService.byUser(request.identity.userID)
+    val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
+
+    for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+      yield {
+        val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+        Ok(views.html.supplies.index(request.identity, SupplyForm.form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
+      }
   }
 
 }

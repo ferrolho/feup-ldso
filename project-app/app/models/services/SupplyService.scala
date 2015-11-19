@@ -44,6 +44,6 @@ trait SupplyService {
    * @param id the id of the supply to remove.
    * @return .
    */
-
   def deleteRowByID(id: UUID)
+
 }

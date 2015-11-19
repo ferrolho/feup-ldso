@@ -56,13 +56,7 @@ unzip project-app-1.0-SNAPSHOT.zip
 cd project-app-1.0-SNAPSHOT/bin/
 ls
 
-./project-app -Dhttp.port=80 -Dplay.evolutions.db.default.autoApply=true -Dplay.crypto.secret="Hcey3kRQ@?=_S__2H7pvQ@mkxJ8kF`KAe7X<<K3:56@X^B>m/Owzevh<C@D`be/J"
-
-^Z
-
-jobs
-%1 &
-jobs
+./project-app -Dhttp.port=80 -Dplay.evolutions.db.default.autoApply=true -Dplay.crypto.secret="Hcey3kRQ@?=_S__2H7pvQ@mkxJ8kF`KAe7X<<K3:56@X^B>m/Owzevh<C@D`be/J" &
 
 ^D
 ```

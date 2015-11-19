@@ -55,7 +55,9 @@ class SortingCentersController @Inject()(
               id = supply.id,
               userID = supply.userID,
               resource = supply.resource,
-              amount = supply.amount - data.amount
+              resourceCategoryID = supply.resourceCategoryID,
+              amount = supply.amount - data.amount,
+              amountLabelID = supply.amountLabelID
             )
 
             supplyService.save(updatedSupply)
