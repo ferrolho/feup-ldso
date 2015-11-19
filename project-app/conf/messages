@@ -49,6 +49,8 @@ sign.in.title = Food Chains - Sign In
 
 supply.offer.details = What do you want to donate?
 submit.supply.offer = Post supply offer
+edit.supply.offer = Edit
+delete.supply.offer = Delete
 
 supplier = Supplier
 sortingCenter = Sorting Center
