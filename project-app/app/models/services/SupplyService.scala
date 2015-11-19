@@ -11,6 +11,8 @@ import scala.concurrent.Future
  */
 trait SupplyService {
 
+  def retrieve(id: UUID): Future[Supply]
+
   /**
    * Retrieves all supplies submitted by a certain user.
    *
@@ -33,5 +35,13 @@ trait SupplyService {
    * @return The saved user.
    */
   def save(user: Supply): Future[Supply]
+
+  /**
+   * deletes the row with the param id ( to remove the offer of a supplier
+   *
+   * @param id the id of the supply to remove.
+   * @return .
+   */
+  def deleteRowByID(id: UUID)
 
 }

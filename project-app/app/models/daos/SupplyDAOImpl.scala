@@ -16,6 +16,28 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
   import driver.api._
 
   /**
+   * Finds a supply by its ID.
+   *
+   * @param id The ID of the supply to find.
+   * @return The found supply or None if no supply for the given ID could be found.
+   */
+  def find(id: UUID) = {
+    val query = for {
+      dbSupply <- slickSupplies.filter(_.id === id.toString)
+    } yield dbSupply
+
+    db.run(query.result.head).map { supply =>
+      Supply(
+        UUID.fromString(supply.id),
+        UUID.fromString(supply.userID),
+        supply.resource,
+        supply.resourceCategoryID,
+        supply.amount,
+        supply.amountLabelID)
+    }
+  }
+
+  /**
    * Retrieves all supplies submitted by a certain user.
    *
    * @param userID The id of the user to retrieve the supplies.
@@ -82,6 +104,16 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
     // run actions and return supply afterwards
     db.run(actions).map(_ => supply)
+  }
+
+  /**
+   * deletes the row with the param id
+   *
+   * @param id the id of the supply to remove.
+   *
+   */
+  def deleteRowByID(id: UUID) {
+    db.run(slickSupplies.filter(_.id === id.toString).delete)
   }
 
 }
