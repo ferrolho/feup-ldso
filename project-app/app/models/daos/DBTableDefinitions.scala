@@ -196,6 +196,20 @@ trait DBTableDefinitions {
     def * = (id, userID, resource, amount) <>(DBSupply.tupled, DBSupply.unapply)
   }
 
+  // Resource categories
+  case class DBResourceCategory(
+                                 id: Long,
+                                 name: String
+                                 )
+
+  class ResourceCategories(tag: Tag) extends Table[DBResourceCategory](tag, "resourceCategory") {
+    def id = column[Long]("id", O.PrimaryKey)
+
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBResourceCategory.tupled, DBResourceCategory.unapply)
+  }
+
   // table query definitions
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
@@ -207,6 +221,7 @@ trait DBTableDefinitions {
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
 
   val slickSupplies = TableQuery[Supplies]
+  val slickResourceCategories = TableQuery[ResourceCategories]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =

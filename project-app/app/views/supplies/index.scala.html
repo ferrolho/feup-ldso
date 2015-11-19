@@ -1,68 +1,72 @@
 @(
         user: models.User,
         supplyForm: Form[forms.SupplyForm.Data],
-        mySupplies: Seq[Supply])(implicit request: RequestHeader, messages: Messages)
+        mySupplies: Seq[Supply],
+        resourceCategories: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
 
-@import b3.inline.fieldConstructor
+    @import b3.inline.fieldConstructor
 
-@app(Messages("home.title"), Some(user)) {
-    <div class="col-md-8 col-md-offset-2">
-        @request.flash.get("error").map { msg =>
-            <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
-                <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <strong>@Messages("error")</strong> @msg
-            </div>
-        }
-
-        <h2>Supply</h2>
-
-        <fieldset>
-            <legend>@Messages("supply.offer.details")</legend>
-
-            @b3.form(action = routes.SuppliesController.submitSupplyOffer()) {
-                @helper.CSRF.formField
-                @b3.text(supplyForm("resource"), '_hiddenLabel -> Messages("resource"), 'placeholder -> Messages("resource"), 'class -> "form-control col-xs-12")
-                @b3.number(supplyForm("amount"), '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")
-
-                <div class="form-group">
-                    <div>
-                        <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
-                        @Messages("submit.supply.offer")
-                        </button>
-                    </div>
+    @app(Messages("home.title"), Some(user)) {
+        <div class="col-md-8 col-md-offset-2">
+            @request.flash.get("error").map { msg =>
+                <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>@Messages("error")</strong> @msg
                 </div>
             }
-        </fieldset>
 
-        <hr>
+            <h2>Supply</h2>
 
-        <h2>My supply offers</h2>
+            <fieldset>
+                <legend>@Messages("supply.offer.details")</legend>
 
-        @if(mySupplies.isEmpty) {
-            <h4>No supply offers to show yet</h4>
-        } else {
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Resource</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @for((mySupply, index) <- mySupplies.zipWithIndex) {
-                    <tr>
-                        <th scope="row">@{
-                            index + 1
-                        }</th>
-                        <td>@mySupply.resource</td>
-                        <td>@mySupply.amount</td>
-                        <td>TODO</td>
-                    </tr>
+                @b3.form(action = routes.SuppliesController.submitSupplyOffer()) {
+                    @helper.CSRF.formField
+
+                    @b3.text(supplyForm("resource"), '_hiddenLabel -> Messages("resource"), 'placeholder -> Messages("resource"), 'class -> "form-control col-xs-12")
+                    @b3.select(supplyForm("resource"), options = resourceCategories)
+
+                    @b3.number(supplyForm("amount"), '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")
+
+                    <div class="form-group">
+                        <div>
+                            <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
+                            @Messages("submit.supply.offer")
+                            </button>
+                        </div>
+                    </div>
                 }
-                </tbody>
-            </table>
-        }
-    </div>
-}
+            </fieldset>
+
+            <hr>
+
+            <h2>My supply offers</h2>
+
+            @if(mySupplies.isEmpty) {
+                <h4>No supply offers to show yet</h4>
+            } else {
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Resource</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for((mySupply, index) <- mySupplies.zipWithIndex) {
+                        <tr>
+                            <th scope="row">@{
+                                index + 1
+                            }</th>
+                            <td>@mySupply.resource</td>
+                            <td>@mySupply.amount</td>
+                            <td>TODO</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
