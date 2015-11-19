@@ -13,6 +13,8 @@ import models.daos.SupplyDAO
  */
 class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
 
+  def retrieve(id: UUID) = supplyDAO.find(id)
+
   /**
    * Retrieves all supplies submitted by a certain user.
    *
@@ -35,5 +37,13 @@ class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
    * @return The saved supply.
    */
   def save(supply: Supply) = supplyDAO.save(supply)
+
+  /**
+   * deletes the row with the param id ( to remove the offer of a supplier
+   *
+   * @param id the id of the supply to remove.
+   * @return .
+   */
+  def deleteRowByID(id: UUID) = supplyDAO.deleteRowByID(id)
 
 }

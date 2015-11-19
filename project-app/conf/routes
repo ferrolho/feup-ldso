@@ -13,6 +13,9 @@ POST        /sign-up                         controllers.SignUpController.signUp
 
 GET         /supply                          controllers.SuppliesController.index
 POST        /supply                          controllers.SuppliesController.submitSupplyOffer
+POST        /supply/edit/:supplyID           controllers.SuppliesController.editSupplyOffer(supplyID)
+POST        /supply/delete/:supplyID         controllers.SuppliesController.deleteSupplyOffer(supplyID)
+
 #GET         /request                         controllers.RequestsController.index
 #GET         /redeem                          controllers.RedeemController.index
 
