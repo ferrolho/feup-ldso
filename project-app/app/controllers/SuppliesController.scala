@@ -110,4 +110,20 @@ class SuppliesController @Inject()(
     )
   }
 
+  def deleteSupplyOffer(supplyID: String) = SecuredAction.async { implicit request =>
+    supplyService.deleteRowByID(UUID.fromString(supplyID))
+
+    val fSupplies = supplyService.byUser(request.identity.userID)
+    val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
+
+    for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+      yield {
+        val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+        Ok(views.html.supplies.index(request.identity, SupplyForm.form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
+      }
+  }
+
 }
