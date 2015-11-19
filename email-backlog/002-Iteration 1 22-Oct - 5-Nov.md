@@ -126,7 +126,7 @@ Sign up:  I think at least country and city should be added since geography is t
 
 Supply:  
 Categories: I like the drop down list idea. I assume extra categories will be able to be added by administrators later on?? You can start with the following list  
---------  
+    --------  
 Breads  
 Vegetables  
 Meat  
@@ -137,10 +137,10 @@ Fruits
 Condiments (sauces ,pesto etc)  
 Drinkables  
 Miscellaneous (Chips, biscuits, cooking oils, etc)  
--------------
+    -------------
 
 Labels: Yes to drop-down too! Will admin be able to add more labels/ descriptors too?  
------  
+    -----  
 Quantity  
 Kg  
 Pieces  
@@ -149,7 +149,7 @@ Cans
 Boxes  
 Bottles  
 Crates  
-------
+    ------
 
 Kind regards,  
 David
