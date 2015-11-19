@@ -1,7 +1,9 @@
 @(
         user: models.User,
         sortingCenterStockForm: Form[forms.SortingCenterStockForm.Data],
-        mySupplies: Seq[Supply])(implicit request: RequestHeader, messages: Messages)
+        mySupplies: Seq[Supply],
+        resourceCategories: Seq[(String, String)],
+        resourceAmountLabels: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
 
     @import b3.inline.fieldConstructor
 
@@ -24,7 +26,9 @@
                         <tr>
                             <th>#</th>
                             <th>Resource</th>
+                            <th>Category</th>
                             <th>Amount</th>
+                            <th>Amount Label</th>
                             <th>Quantity</th>
                             <th>Action</th>
                         </tr>
@@ -38,7 +42,15 @@
 
                             <td>@mySupply.resource</td>
 
+                            <td>@{
+                                resourceCategories.find(_._1 == mySupply.resourceCategoryID.toString).get._2
+                            }</td>
+
                             <td>@mySupply.amount</td>
+
+                            <td>@{
+                                resourceAmountLabels.find(_._1 == mySupply.amountLabelID.toString).get._2
+                            }</td>
 
                             @b3.form(action = routes.SortingCentersController.acceptOffer()) {
                                 @helper.CSRF.formField

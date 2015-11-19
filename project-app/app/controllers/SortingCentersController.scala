@@ -6,7 +6,7 @@ import javax.inject.Inject
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SortingCenterStockForm
-import models.services.{SortingCenterStockService, SupplyService}
+import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService}
 import models.{SortingCenterStock, Supply, User}
 import play.api.i18n.MessagesApi
 
@@ -24,13 +24,27 @@ class SortingCentersController @Inject()(
                                           val messagesApi: MessagesApi,
                                           val env: Environment[User, CookieAuthenticator],
                                           supplyService: SupplyService,
-                                          sortingCenterStockService: SortingCenterStockService)
+                                          sortingCenterStockService: SortingCenterStockService,
+                                          resourceCategoryService: ResourceCategoryService,
+                                          resourceAmountLabelService: ResourceAmountLabelService)
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
-    supplyService.allExceptByUser(request.identity.userID).map { supplies =>
-      Ok(views.html.sortingCenters.index(request.identity, SortingCenterStockForm.form, supplies))
+
+    val fAllSupliesExceptUser = supplyService.allExceptByUser(request.identity.userID)
+    val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
+
+    for {
+      allSuppliesExceptUser <- fAllSupliesExceptUser; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels
     }
+      yield {
+        val supplies = allSuppliesExceptUser
+        val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+        Ok(views.html.sortingCenters.index(request.identity, SortingCenterStockForm.form, supplies, resourceCategoryOptions, resourceAmountLabelOptions))
+      }
   }
 
   /**
@@ -41,9 +55,18 @@ class SortingCentersController @Inject()(
   def acceptOffer = SecuredAction.async { implicit request =>
     SortingCenterStockForm.form.bindFromRequest.fold(
       form => {
-        supplyService.allExceptByUser(request.identity.userID).map { supplies =>
-          BadRequest(views.html.sortingCenters.index(request.identity, form, supplies))
-        }
+        val fAllSuppliesExceptUser = supplyService.allExceptByUser(request.identity.userID)
+        val fResourceCategories = resourceCategoryService.all
+        val fResourceAmountLabels = resourceAmountLabelService.all
+
+        for {allSuppliesExceptUser <- fAllSuppliesExceptUser; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+          yield {
+            val supplies = allSuppliesExceptUser
+            val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+            val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+            BadRequest(views.html.sortingCenters.index(request.identity, form, supplies, resourceCategoryOptions, resourceAmountLabelOptions))
+          }
       },
       data => {
         supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap { supply =>
