@@ -8,9 +8,11 @@ import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SortingCenterStockForm
 import models.services.{SortingCenterStockService, SupplyService}
 import models.{SortingCenterStock, Supply, User}
+import play.api.Logger
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  *
@@ -46,18 +48,14 @@ class SortingCentersController @Inject()(
       },
       data => {
         supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap { supply =>
-          val offer = SortingCenterStock(
-            idResource = supply.id,
-            idSortingCenter = UUID.randomUUID(),
-            userID = request.identity.userID,
-            resource = supply.resource,
-            amount = data.amount,
-            inSortingCenter = false
-          )
+          // update supplies table
+          if (supply.amount == data.amount) {
+            Logger.debug("DELETING supply row!")
 
-          if (supply.amount == data.amount)
             supplyService.deleteRowByID(supply.id)
-          else {
+          } else {
+            Logger.debug("UPDATING supply row!")
+
             val updatedSupply = Supply(
               id = supply.id,
               userID = supply.userID,
@@ -68,9 +66,40 @@ class SortingCentersController @Inject()(
             supplyService.save(updatedSupply)
           }
 
-          for {
-            offer <- sortingCenterStockService.save(offer.copy())
-          } yield Redirect(routes.SortingCentersController.index())
+          // update sorting center stocks table
+          sortingCenterStockService.retrieve(supply.id, request.identity.userID).map {
+            case Some(someStock) =>
+              Logger.debug(s"Updating previous request")
+              Logger.debug(s"${someStock.amount} + ${data.amount} = ${someStock.amount + data.amount}")
+
+              val stock = SortingCenterStock(
+                id = someStock.id,
+                idSupply = someStock.idSupply,
+                idSortingCenter = someStock.idSortingCenter,
+                userID = someStock.userID,
+                resource = someStock.resource,
+                amount = someStock.amount + data.amount,
+                inSortingCenter = someStock.inSortingCenter
+              )
+
+              sortingCenterStockService.save(stock.copy())
+
+            case None =>
+              Logger.debug(s"Adding new request")
+              val stock = SortingCenterStock(
+                id = UUID.randomUUID(),
+                idSupply = supply.id,
+                idSortingCenter = UUID.randomUUID(),
+                userID = request.identity.userID,
+                resource = supply.resource,
+                amount = data.amount,
+                inSortingCenter = false
+              )
+
+              sortingCenterStockService.save(stock.copy())
+          }
+
+          Future.successful(Redirect(routes.SortingCentersController.index()))
         }
       }
     )

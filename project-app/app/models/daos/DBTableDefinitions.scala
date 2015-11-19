@@ -198,7 +198,8 @@ trait DBTableDefinitions {
 
   // Sorting center stock
   case class DBSortingCenterStock(
-                                   idResource: String,
+                                   id: String,
+                                   idSupply: String,
                                    userID: String,
                                    idSortingCenter: String,
                                    resource: String,
@@ -207,7 +208,9 @@ trait DBTableDefinitions {
                                    )
 
   class SortingCenterStocks(tag: Tag) extends Table[DBSortingCenterStock](tag, "sortingCenterStock") {
-    def idResource = column[String]("idResource", O.PrimaryKey)
+    def id = column[String]("id", O.PrimaryKey)
+
+    def idSupply = column[String]("idSupply")
 
     def idSortingCenter = column[String]("idSortingCenter")
 
@@ -219,7 +222,7 @@ trait DBTableDefinitions {
 
     def inSortingCenter = column[Boolean]("inSortingCenter")
 
-    def * = (idResource, idSortingCenter, userID, resource, amount, inSortingCenter) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
+    def * = (id, idSupply, idSortingCenter, userID, resource, amount, inSortingCenter) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
   }
 
   // table query definitions
@@ -233,10 +236,9 @@ trait DBTableDefinitions {
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
 
   val slickSupplies = TableQuery[Supplies]
-  val slickSortingCenterStock = TableQuery[SortingCenterStocks]
+  val slickSortingCenterStocks = TableQuery[SortingCenterStocks]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =
     slickLoginInfos.filter(dbLoginInfo => dbLoginInfo.providerID === loginInfo.providerID && dbLoginInfo.providerKey === loginInfo.providerKey)
-
 }

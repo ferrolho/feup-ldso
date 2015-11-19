@@ -1,5 +1,6 @@
 package models.services
 
+import java.util.UUID
 import javax.inject.Inject
 
 import models.SortingCenterStock
@@ -11,6 +12,8 @@ import models.daos.SortingCenterStockDAO
  * @param sortingCenterStockDAO The sortingCenterStock DAO implementation.
  */
 class SortingCenterStockServiceImpl @Inject()(sortingCenterStockDAO: SortingCenterStockDAO) extends SortingCenterStockService {
+
+  def retrieve(idSupply: UUID, userID: UUID) = sortingCenterStockDAO.find(idSupply, userID)
 
   /**
    * Saves am acceptable offer to store in sorting center stock
