@@ -8,7 +8,6 @@ import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SortingCenterStockForm
 import models.services.{SortingCenterStockService, SupplyService}
 import models.{SortingCenterStock, Supply, User}
-import play.api.Logger
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -50,12 +49,8 @@ class SortingCentersController @Inject()(
         supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap { supply =>
           // update supplies table
           if (supply.amount == data.amount) {
-            Logger.debug("DELETING supply row!")
-
             supplyService.deleteRowByID(supply.id)
           } else {
-            Logger.debug("UPDATING supply row!")
-
             val updatedSupply = Supply(
               id = supply.id,
               userID = supply.userID,
@@ -98,4 +93,5 @@ class SortingCentersController @Inject()(
       }
     )
   }
+
 }
