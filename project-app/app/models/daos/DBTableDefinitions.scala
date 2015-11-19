@@ -181,7 +181,9 @@ trait DBTableDefinitions {
                        id: String,
                        userID: String,
                        resource: String,
-                       amount: Int
+                       resourceCategoryID: Long,
+                       amount: Int,
+                       amountLabelID: Long
                        )
 
   class Supplies(tag: Tag) extends Table[DBSupply](tag, "supply") {
@@ -191,9 +193,41 @@ trait DBTableDefinitions {
 
     def resource = column[String]("resource")
 
+    def resourceCategoryID = column[Long]("resourceCategoryID")
+
     def amount = column[Int]("amount")
 
-    def * = (id, userID, resource, amount) <>(DBSupply.tupled, DBSupply.unapply)
+    def amountLabelID = column[Long]("amountLabelID")
+
+    def * = (id, userID, resource, resourceCategoryID, amount, amountLabelID) <>(DBSupply.tupled, DBSupply.unapply)
+  }
+
+  // Resource categories
+  case class DBResourceCategory(
+                                 id: Long,
+                                 name: String
+                                 )
+
+  class ResourceCategories(tag: Tag) extends Table[DBResourceCategory](tag, "resourceCategory") {
+    def id = column[Long]("id", O.PrimaryKey)
+
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBResourceCategory.tupled, DBResourceCategory.unapply)
+  }
+
+  // Resource amount labels
+  case class DBResourceAmountLabel(
+                                    id: Long,
+                                    name: String
+                                    )
+
+  class ResourceAmountLabels(tag: Tag) extends Table[DBResourceAmountLabel](tag, "resourceAmountLabel") {
+    def id = column[Long]("id", O.PrimaryKey)
+
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBResourceAmountLabel.tupled, DBResourceAmountLabel.unapply)
   }
 
   // table query definitions
@@ -207,6 +241,8 @@ trait DBTableDefinitions {
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
 
   val slickSupplies = TableQuery[Supplies]
+  val slickResourceCategories = TableQuery[ResourceCategories]
+  val slickResourceAmountLabels = TableQuery[ResourceAmountLabels]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =

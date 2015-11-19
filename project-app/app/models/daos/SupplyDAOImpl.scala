@@ -28,7 +28,13 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
     db.run(suppliesQuery.result).map { dbSupplyOption =>
       dbSupplyOption.map { supply =>
-        Supply(UUID.fromString(supply.id), UUID.fromString(supply.userID), supply.resource, supply.amount)
+        Supply(
+          UUID.fromString(supply.id),
+          UUID.fromString(supply.userID),
+          supply.resource,
+          supply.resourceCategoryID,
+          supply.amount,
+          supply.amountLabelID)
       }
     }
   }
@@ -45,7 +51,13 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
 
     db.run(suppliesQuery).map { dbSupplyOption =>
       dbSupplyOption.map { supply =>
-        Supply(UUID.fromString(supply.id), UUID.fromString(supply.userID), supply.resource, supply.amount)
+        Supply(
+          UUID.fromString(supply.id),
+          UUID.fromString(supply.userID),
+          supply.resource,
+          supply.resourceCategoryID,
+          supply.amount,
+          supply.amountLabelID)
       }
     }
   }
@@ -57,7 +69,13 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
    * @return The saved supply.
    */
   def save(supply: Supply) = {
-    val dbSupply = DBSupply(supply.id.toString, supply.userID.toString, supply.resource, supply.amount)
+    val dbSupply = DBSupply(
+      supply.id.toString,
+      supply.userID.toString,
+      supply.resource,
+      supply.resourceCategoryID,
+      supply.amount,
+      supply.amountLabelID)
 
     // combine database actions to be run sequentially
     val actions = slickSupplies.insertOrUpdate(dbSupply).transactionally
