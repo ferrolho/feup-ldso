@@ -2,8 +2,6 @@ package models
 
 import java.util.UUID
 
-import com.mohiva.play.silhouette.api.{Identity, LoginInfo}
-
 /**
  * The supply object.
  *

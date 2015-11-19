@@ -33,7 +33,8 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
         supply.resource,
         supply.resourceCategoryID,
         supply.amount,
-        supply.amountLabelID)
+        supply.amountLabelID
+      )
     }
   }
 
@@ -56,7 +57,27 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
           supply.resource,
           supply.resourceCategoryID,
           supply.amount,
-          supply.amountLabelID)
+          supply.amountLabelID
+        )
+      }
+    }
+  }
+
+  def allExceptByUser(userID: UUID) = {
+    val suppliesQuery = for {
+      dbSupply <- slickSupplies.filter(_.userID =!= userID.toString)
+    } yield dbSupply
+
+    db.run(suppliesQuery.result).map { dbSupplyOption =>
+      dbSupplyOption.map { supply =>
+        Supply(
+          UUID.fromString(supply.id),
+          UUID.fromString(supply.userID),
+          supply.resource,
+          supply.resourceCategoryID,
+          supply.amount,
+          supply.amountLabelID
+        )
       }
     }
   }

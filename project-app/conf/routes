@@ -16,6 +16,9 @@ POST        /supply                          controllers.SuppliesController.subm
 POST        /supply/edit/:supplyID           controllers.SuppliesController.editSupplyOffer(supplyID)
 POST        /supply/delete/:supplyID         controllers.SuppliesController.deleteSupplyOffer(supplyID)
 
+GET         /sortingCenter                   controllers.SortingCentersController.index
+POST        /sortingCenter                   controllers.SortingCentersController.acceptOffer
+
 #GET         /request                         controllers.RequestsController.index
 #GET         /redeem                          controllers.RedeemController.index
 

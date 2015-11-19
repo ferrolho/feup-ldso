@@ -230,6 +230,29 @@ trait DBTableDefinitions {
     def * = (id, name) <>(DBResourceAmountLabel.tupled, DBResourceAmountLabel.unapply)
   }
 
+  // Sorting center stock
+  case class DBSortingCenterStock(
+                                   id: String,
+                                   idSupply: String,
+                                   userID: String,
+                                   resource: String,
+                                   amount: Int
+                                   )
+
+  class SortingCenterStocks(tag: Tag) extends Table[DBSortingCenterStock](tag, "sortingCenterStock") {
+    def id = column[String]("id", O.PrimaryKey)
+
+    def idSupply = column[String]("idSupply")
+
+    def userID = column[String]("userID")
+
+    def resource = column[String]("resource")
+
+    def amount = column[Int]("amount")
+
+    def * = (id, idSupply, userID, resource, amount) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
+  }
+
   // table query definitions
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
@@ -243,6 +266,7 @@ trait DBTableDefinitions {
   val slickSupplies = TableQuery[Supplies]
   val slickResourceCategories = TableQuery[ResourceCategories]
   val slickResourceAmountLabels = TableQuery[ResourceAmountLabels]
+  val slickSortingCenterStocks = TableQuery[SortingCenterStocks]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =

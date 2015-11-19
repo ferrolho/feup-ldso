@@ -27,6 +27,8 @@ trait SupplyDAO {
    */
   def byUser(userID: UUID): Future[Seq[Supply]]
 
+  def allExceptByUser(userID: UUID): Future[Seq[Supply]]
+
   /**
    * Retrieves all supplies from the DB.
    *
