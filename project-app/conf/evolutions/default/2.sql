@@ -5,6 +5,7 @@ create table "supply" (
   "id" VARCHAR NOT NULL PRIMARY KEY,
   "userID"  VARCHAR NOT NULL REFERENCES "user",
   "resource" VARCHAR,
+  "resourceCategoryID" LONG,
   "amount" INTEGER
 );
 

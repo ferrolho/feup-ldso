@@ -181,6 +181,7 @@ trait DBTableDefinitions {
                        id: String,
                        userID: String,
                        resource: String,
+                       resourceCategoryID: Long,
                        amount: Int
                        )
 
@@ -191,9 +192,11 @@ trait DBTableDefinitions {
 
     def resource = column[String]("resource")
 
+    def resourceCategoryID = column[Long]("resourceCategoryID")
+
     def amount = column[Int]("amount")
 
-    def * = (id, userID, resource, amount) <>(DBSupply.tupled, DBSupply.unapply)
+    def * = (id, userID, resource, resourceCategoryID, amount) <>(DBSupply.tupled, DBSupply.unapply)
   }
 
   // Resource categories

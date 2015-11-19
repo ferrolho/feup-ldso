@@ -61,6 +61,7 @@ class SuppliesController @Inject()(
           id = UUID.randomUUID(),
           userID = request.identity.userID,
           resource = data.resource,
+          resourceCategoryID = data.resourceCategoryID,
           amount = data.amount
         )
 

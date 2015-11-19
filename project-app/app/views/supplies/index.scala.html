@@ -24,7 +24,7 @@
                     @helper.CSRF.formField
 
                     @b3.text(supplyForm("resource"), '_hiddenLabel -> Messages("resource"), 'placeholder -> Messages("resource"), 'class -> "form-control col-xs-12")
-                    @b3.select(supplyForm("resource"), options = resourceCategories)
+                    @b3.select(supplyForm("resourceCategoryID"), options = resourceCategories)
 
                     @b3.number(supplyForm("amount"), '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")
 
@@ -50,6 +50,7 @@
                         <tr>
                             <th>#</th>
                             <th>Resource</th>
+                            <th>Category</th>
                             <th>Amount</th>
                             <th>Action</th>
                         </tr>
@@ -61,6 +62,9 @@
                                 index + 1
                             }</th>
                             <td>@mySupply.resource</td>
+                            <td>@{
+                                resourceCategories.find(_._1 == mySupply.resourceCategoryID.toString).get._2
+                            }</td>
                             <td>@mySupply.amount</td>
                             <td>TODO</td>
                         </tr>
