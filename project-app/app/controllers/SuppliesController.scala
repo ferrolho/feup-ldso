@@ -6,7 +6,7 @@ import javax.inject.Inject
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SupplyForm
-import models.services.{ResourceCategoryService, SupplyService}
+import models.services.{ResourceAmountLabelService, ResourceCategoryService, SupplyService}
 import models.{Supply, User}
 import play.api.i18n.MessagesApi
 
@@ -23,18 +23,21 @@ class SuppliesController @Inject()(
                                     val messagesApi: MessagesApi,
                                     val env: Environment[User, CookieAuthenticator],
                                     supplyService: SupplyService,
-                                    resourceCategoryService: ResourceCategoryService)
+                                    resourceCategoryService: ResourceCategoryService,
+                                    resourceAmountLabelService: ResourceAmountLabelService)
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
     val fSupplies = supplyService.byUser(request.identity.userID)
     val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
 
-    for {supplies <- fSupplies; resourceCategories <- fResourceCategories}
+    for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
       yield {
         val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
 
-        Ok(views.html.supplies.index(request.identity, SupplyForm.form, supplies, resourceCategorySelectOptions))
+        Ok(views.html.supplies.index(request.identity, SupplyForm.form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
       }
   }
 
@@ -48,12 +51,14 @@ class SuppliesController @Inject()(
       form => {
         val fSupplies = supplyService.byUser(request.identity.userID)
         val fResourceCategories = resourceCategoryService.all
+        val fResourceAmountLabels = resourceAmountLabelService.all
 
-        for {supplies <- fSupplies; resourceCategories <- fResourceCategories}
+        for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
           yield {
             val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+            val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
 
-            BadRequest(views.html.supplies.index(request.identity, form, supplies, resourceCategorySelectOptions))
+            BadRequest(views.html.supplies.index(request.identity, form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
           }
       },
       data => {
@@ -62,7 +67,8 @@ class SuppliesController @Inject()(
           userID = request.identity.userID,
           resource = data.resource,
           resourceCategoryID = data.resourceCategoryID,
-          amount = data.amount
+          amount = data.amount,
+          amountLabelID = data.amountLabelID
         )
 
         for {

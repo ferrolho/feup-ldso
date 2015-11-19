@@ -17,4 +17,5 @@ case class Supply(
                    userID: UUID,
                    resource: String,
                    resourceCategoryID: Long,
-                   amount: Int)
+                   amount: Int,
+                   amountLabelID: Long)

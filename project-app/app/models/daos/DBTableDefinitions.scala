@@ -182,7 +182,8 @@ trait DBTableDefinitions {
                        userID: String,
                        resource: String,
                        resourceCategoryID: Long,
-                       amount: Int
+                       amount: Int,
+                       amountLabelID: Long
                        )
 
   class Supplies(tag: Tag) extends Table[DBSupply](tag, "supply") {
@@ -196,7 +197,9 @@ trait DBTableDefinitions {
 
     def amount = column[Int]("amount")
 
-    def * = (id, userID, resource, resourceCategoryID, amount) <>(DBSupply.tupled, DBSupply.unapply)
+    def amountLabelID = column[Long]("amountLabelID")
+
+    def * = (id, userID, resource, resourceCategoryID, amount, amountLabelID) <>(DBSupply.tupled, DBSupply.unapply)
   }
 
   // Resource categories
@@ -213,6 +216,20 @@ trait DBTableDefinitions {
     def * = (id, name) <>(DBResourceCategory.tupled, DBResourceCategory.unapply)
   }
 
+  // Resource amount labels
+  case class DBResourceAmountLabel(
+                                    id: Long,
+                                    name: String
+                                    )
+
+  class ResourceAmountLabels(tag: Tag) extends Table[DBResourceAmountLabel](tag, "resourceAmountLabel") {
+    def id = column[Long]("id", O.PrimaryKey)
+
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBResourceAmountLabel.tupled, DBResourceAmountLabel.unapply)
+  }
+
   // table query definitions
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
@@ -225,6 +242,7 @@ trait DBTableDefinitions {
 
   val slickSupplies = TableQuery[Supplies]
   val slickResourceCategories = TableQuery[ResourceCategories]
+  val slickResourceAmountLabels = TableQuery[ResourceAmountLabels]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =

@@ -33,7 +33,8 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
           UUID.fromString(supply.userID),
           supply.resource,
           supply.resourceCategoryID,
-          supply.amount)
+          supply.amount,
+          supply.amountLabelID)
       }
     }
   }
@@ -55,7 +56,8 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
           UUID.fromString(supply.userID),
           supply.resource,
           supply.resourceCategoryID,
-          supply.amount)
+          supply.amount,
+          supply.amountLabelID)
       }
     }
   }
@@ -72,7 +74,8 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
       supply.userID.toString,
       supply.resource,
       supply.resourceCategoryID,
-      supply.amount)
+      supply.amount,
+      supply.amountLabelID)
 
     // combine database actions to be run sequentially
     val actions = slickSupplies.insertOrUpdate(dbSupply).transactionally

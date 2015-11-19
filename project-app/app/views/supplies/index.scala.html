@@ -2,7 +2,8 @@
         user: models.User,
         supplyForm: Form[forms.SupplyForm.Data],
         mySupplies: Seq[Supply],
-        resourceCategories: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
+        resourceCategories: Seq[(String, String)],
+        resourceAmountLabels: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
 
     @import b3.inline.fieldConstructor
 
@@ -27,6 +28,7 @@
                     @b3.select(supplyForm("resourceCategoryID"), options = resourceCategories)
 
                     @b3.number(supplyForm("amount"), '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")
+                    @b3.select(supplyForm("amountLabelID"), options = resourceAmountLabels)
 
                     <div class="form-group">
                         <div>
@@ -52,6 +54,7 @@
                             <th>Resource</th>
                             <th>Category</th>
                             <th>Amount</th>
+                            <th>Amount Label</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -66,6 +69,9 @@
                                 resourceCategories.find(_._1 == mySupply.resourceCategoryID.toString).get._2
                             }</td>
                             <td>@mySupply.amount</td>
+                            <td>@{
+                                resourceAmountLabels.find(_._1 == mySupply.amountLabelID.toString).get._2
+                            }</td>
                             <td>TODO</td>
                         </tr>
                     }

@@ -15,7 +15,8 @@ object SupplyForm {
     mapping(
       "resource" -> nonEmptyText,
       "resourceCategoryID" -> longNumber,
-      "amount" -> number(min = 1)
+      "amount" -> number(min = 1),
+      "amountLabelID" -> longNumber
     )(Data.apply)(Data.unapply)
   )
 
@@ -25,7 +26,8 @@ object SupplyForm {
    * @param resource The name of the resource.
    * @param resourceCategoryID The id of the resource category.
    * @param amount The amount of resource units being supplied.
+   * @param amountLabelID The id of the resource amount label.
    */
-  case class Data(resource: String, resourceCategoryID: Long, amount: Int)
+  case class Data(resource: String, resourceCategoryID: Long, amount: Int, amountLabelID: Long)
 
 }
