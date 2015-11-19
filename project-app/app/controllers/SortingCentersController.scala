@@ -68,32 +68,26 @@ class SortingCentersController @Inject()(
 
           // update sorting center stocks table
           sortingCenterStockService.retrieve(supply.id, request.identity.userID).map {
+            // updating if we already accepted part of this supply offer
             case Some(someStock) =>
-              Logger.debug(s"Updating previous request")
-              Logger.debug(s"${someStock.amount} + ${data.amount} = ${someStock.amount + data.amount}")
-
               val stock = SortingCenterStock(
                 id = someStock.id,
                 idSupply = someStock.idSupply,
-                idSortingCenter = someStock.idSortingCenter,
                 userID = someStock.userID,
                 resource = someStock.resource,
-                amount = someStock.amount + data.amount,
-                inSortingCenter = someStock.inSortingCenter
+                amount = someStock.amount + data.amount
               )
 
               sortingCenterStockService.save(stock.copy())
 
+            // adding a new supply offer we are accepting for the first time
             case None =>
-              Logger.debug(s"Adding new request")
               val stock = SortingCenterStock(
                 id = UUID.randomUUID(),
                 idSupply = supply.id,
-                idSortingCenter = UUID.randomUUID(),
                 userID = request.identity.userID,
                 resource = supply.resource,
-                amount = data.amount,
-                inSortingCenter = false
+                amount = data.amount
               )
 
               sortingCenterStockService.save(stock.copy())
@@ -104,5 +98,4 @@ class SortingCentersController @Inject()(
       }
     )
   }
-
 }

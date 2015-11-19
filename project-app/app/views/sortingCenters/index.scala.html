@@ -35,14 +35,18 @@
                             <th scope="row">@{
                                 index + 1
                             }</th>
+
                             <td>@mySupply.resource</td>
+
                             <td>@mySupply.amount</td>
 
                             @b3.form(action = routes.SortingCentersController.acceptOffer()) {
                                 @helper.CSRF.formField
+
                                 @b3.hidden("supplyID", mySupply.id)
 
                                 <td>@b3.number(sortingCenterStockForm("amount"), 'min -> 1, 'max -> mySupply.amount, 'step -> 1, '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")</td>
+
                                 <td>
                                     <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
                                     @Messages("submit.sortingCenterStock.offer")

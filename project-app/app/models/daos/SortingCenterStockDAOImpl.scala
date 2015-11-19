@@ -4,6 +4,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 import models.SortingCenterStock
+import play.api.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
@@ -33,10 +34,9 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
           UUID.fromString(stock.id),
           UUID.fromString(stock.idSupply),
           UUID.fromString(stock.userID),
-          UUID.fromString(stock.idSortingCenter),
           stock.resource,
-          stock.amount,
-          stock.inSortingCenter)
+          stock.amount
+        )
       }
     }
   }
@@ -51,11 +51,9 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
     val dbSortingCenterStock = DBSortingCenterStock(
       sortingCenterStock.id.toString,
       sortingCenterStock.idSupply.toString,
-      sortingCenterStock.idSortingCenter.toString,
       sortingCenterStock.userID.toString,
       sortingCenterStock.resource.toString,
-      sortingCenterStock.amount,
-      sortingCenterStock.inSortingCenter
+      sortingCenterStock.amount
     )
 
     //combine database actions to be run sequentially

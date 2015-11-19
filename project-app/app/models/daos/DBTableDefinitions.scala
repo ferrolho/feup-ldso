@@ -201,10 +201,8 @@ trait DBTableDefinitions {
                                    id: String,
                                    idSupply: String,
                                    userID: String,
-                                   idSortingCenter: String,
                                    resource: String,
-                                   amount: Int,
-                                   inSortingCenter: Boolean
+                                   amount: Int
                                    )
 
   class SortingCenterStocks(tag: Tag) extends Table[DBSortingCenterStock](tag, "sortingCenterStock") {
@@ -212,17 +210,13 @@ trait DBTableDefinitions {
 
     def idSupply = column[String]("idSupply")
 
-    def idSortingCenter = column[String]("idSortingCenter")
-
     def userID = column[String]("userID")
 
     def resource = column[String]("resource")
 
     def amount = column[Int]("amount")
 
-    def inSortingCenter = column[Boolean]("inSortingCenter")
-
-    def * = (id, idSupply, idSortingCenter, userID, resource, amount, inSortingCenter) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
+    def * = (id, idSupply, userID, resource, amount) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
   }
 
   // table query definitions
@@ -241,4 +235,5 @@ trait DBTableDefinitions {
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =
     slickLoginInfos.filter(dbLoginInfo => dbLoginInfo.providerID === loginInfo.providerID && dbLoginInfo.providerKey === loginInfo.providerKey)
+
 }
