@@ -137,7 +137,7 @@ class SortingCentersController @Inject()(
               sortingCenterStockService.save(stock.copy())
           }
 
-          Future.successful(Redirect(routes.SortingCentersController.index()))
+          Future.successful(Redirect(routes.SortingCentersController.incomingResources))
         }
       }
     )
