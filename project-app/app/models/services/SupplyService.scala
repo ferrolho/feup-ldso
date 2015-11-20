@@ -11,6 +11,12 @@ import scala.concurrent.Future
  */
 trait SupplyService {
 
+  /**
+   * Retrieve a supply by its ID
+   *
+   * @param id The id of the retrieved supply
+   * @return The supply
+   */
   def retrieve(id: UUID): Future[Supply]
 
   /**
@@ -21,6 +27,12 @@ trait SupplyService {
    */
   def byUser(userID: UUID): Future[Seq[Supply]]
 
+  /**
+   * Retrieves all supplies excepts the ones of a certain user.
+   *
+   * @param userID The id of the user to to be excluded.
+   * @return The sequence of supplies.
+   */
   def allExceptByUser(userID: UUID): Future[Seq[Supply]]
 
   /**
@@ -42,8 +54,6 @@ trait SupplyService {
    * deletes the row with the param id ( to remove the offer of a supplier
    *
    * @param id the id of the supply to remove.
-   * @return .
    */
   def deleteRowByID(id: UUID)
-
 }

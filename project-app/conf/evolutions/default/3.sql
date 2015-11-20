@@ -5,7 +5,9 @@ create table "sortingCenterStock" (
   "idSupply" VARCHAR NOT NULL,
   "userID" VARCHAR NOT NULL REFERENCES "user",
   "resource" VARCHAR,
-  "amount" INTEGER
+  "resourceCategoryID" LONG REFERENCES "resourceCategory",
+  "amount" INTEGER,
+  "amountLabelID" LONG REFERENCES "resourceAmountLabel"
 );
 
 

@@ -4,7 +4,6 @@ import java.util.UUID
 import javax.inject.Inject
 
 import models.SortingCenterStock
-import play.api.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
@@ -35,7 +34,35 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
           UUID.fromString(stock.idSupply),
           UUID.fromString(stock.userID),
           stock.resource,
-          stock.amount
+          stock.resourceCategoryID,
+          stock.amount,
+          stock.amountLabelID
+        )
+      }
+    }
+  }
+
+  /**
+   * Retrieves all sorting center stock of a certain user from the DB.
+   *
+   * @param userID The id of the user.
+   * @return The sequence of sorting center stock.
+   */
+  def byUser(userID: UUID) = {
+    val sortingCenterStocksQuery = for {
+      dbSortingCenterStock <- slickSortingCenterStocks.filter(_.userID === userID.toString)
+    } yield dbSortingCenterStock
+
+    db.run(sortingCenterStocksQuery.result).map { dbSortingCenterStockOption =>
+      dbSortingCenterStockOption.map { stock =>
+        SortingCenterStock(
+          UUID.fromString(stock.id),
+          UUID.fromString(stock.idSupply),
+          UUID.fromString(stock.userID),
+          stock.resource,
+          stock.resourceCategoryID,
+          stock.amount,
+          stock.amountLabelID
         )
       }
     }
@@ -53,7 +80,9 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
       sortingCenterStock.idSupply.toString,
       sortingCenterStock.userID.toString,
       sortingCenterStock.resource.toString,
-      sortingCenterStock.amount
+      sortingCenterStock.resourceCategoryID,
+      sortingCenterStock.amount,
+      sortingCenterStock.amountLabelID
     )
 
     //combine database actions to be run sequentially

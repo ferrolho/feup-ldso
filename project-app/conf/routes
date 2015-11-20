@@ -18,6 +18,7 @@ POST        /supply/delete/:supplyID         controllers.SuppliesController.dele
 
 GET         /sortingCenter                   controllers.SortingCentersController.index
 POST        /sortingCenter                   controllers.SortingCentersController.acceptOffer
+GET         /sortingCenter/incoming          controllers.SortingCentersController.incomingResources
 
 #GET         /request                         controllers.RequestsController.index
 #GET         /redeem                          controllers.RedeemController.index

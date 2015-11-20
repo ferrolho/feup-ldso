@@ -47,6 +47,26 @@ class SortingCentersController @Inject()(
       }
   }
 
+  def incomingResources = SecuredAction.async { implicit request =>
+
+    val fAllSortingCenterStockUser = sortingCenterStockService.byUser(request.identity.userID)
+    val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
+
+    for {
+      allSortingCenterStocks <- fAllSortingCenterStockUser
+      resourceCategories <- fResourceCategories;
+      resourceAmountLabels <- fResourceAmountLabels
+    }
+      yield {
+        val sortingCenterStocks = allSortingCenterStocks
+        val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+        Ok(views.html.sortingCenters.incomingResources(request.identity, sortingCenterStocks, resourceCategoryOptions, resourceAmountLabelOptions))
+      }
+  }
+
   /**
    * Submits a resource supply and deletes the same entry in Supply table.
    *
@@ -95,7 +115,9 @@ class SortingCentersController @Inject()(
                 idSupply = someStock.idSupply,
                 userID = someStock.userID,
                 resource = someStock.resource,
-                amount = someStock.amount + data.amount
+                resourceCategoryID = someStock.resourceCategoryID,
+                amount = someStock.amount + data.amount,
+                amountLabelID = someStock.amountLabelID
               )
 
               sortingCenterStockService.save(stock.copy())
@@ -107,7 +129,9 @@ class SortingCentersController @Inject()(
                 idSupply = supply.id,
                 userID = request.identity.userID,
                 resource = supply.resource,
-                amount = data.amount
+                resourceCategoryID = supply.resourceCategoryID,
+                amount = data.amount,
+                amountLabelID = supply.amountLabelID
               )
 
               sortingCenterStockService.save(stock.copy())

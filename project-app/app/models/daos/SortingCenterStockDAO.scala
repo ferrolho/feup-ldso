@@ -18,6 +18,14 @@ trait SortingCenterStockDAO {
   def find(idSupply: UUID, userID: UUID): Future[Option[SortingCenterStock]]
 
   /**
+   * Retrieves all sorting center stock of a certain user from the DB.
+   *
+   * @param userID The id of the user.
+   * @return The sequence of sorting center stock.
+   */
+  def byUser(userID: UUID): Future[Seq[SortingCenterStock]]
+
+  /**
    * Saves a SortingCenter.
    *
    * @param sortingCenterStock The sorting center to save.
