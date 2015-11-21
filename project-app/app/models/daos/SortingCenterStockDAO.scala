@@ -9,13 +9,21 @@ import scala.concurrent.Future
 trait SortingCenterStockDAO {
 
   /**
-   * Finds a SortingCenterStock by its ID.
+   * Finds a SortingCenterStock by the ID of the supply it has and by the ID of the stock owner user.
    *
    * @param idSupply The ID of the supply to find.
    * @param userID The ID of the session user to find.
-   * @return The found supply or None if no supply for the given ID could be found.
+   * @return The found stock or None if no stock for the given IDs could be found.
    */
   def find(idSupply: UUID, userID: UUID): Future[Option[SortingCenterStock]]
+
+  /**
+   * Finds a SortingCenterStock by its ID.
+   *
+   * @param id The ID of the stock to find.
+   * @return The found stock or None if no stock for the given ID could be found.
+   */
+  def find(id: UUID): Future[SortingCenterStock]
 
   /**
    * Retrieves all sorting center stock of a certain user from the DB.
@@ -33,4 +41,11 @@ trait SortingCenterStockDAO {
    */
   def save(sortingCenterStock: SortingCenterStock): Future[SortingCenterStock]
 
+  /**
+   * deletes the row with the param id
+   *
+   * @param id the id of the sorting center stock to remove.
+   *
+   */
+  def delete(id: UUID)
 }

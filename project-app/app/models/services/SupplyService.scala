@@ -17,7 +17,7 @@ trait SupplyService {
    * @param id The id of the retrieved supply
    * @return The supply
    */
-  def retrieve(id: UUID): Future[Supply]
+  def retrieve(id: UUID): Future[Option[Supply]]
 
   /**
    * Retrieves all supplies submitted by a certain user.

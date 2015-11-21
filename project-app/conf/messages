@@ -55,6 +55,7 @@ edit.supply.offer = Edit
 delete.supply.offer = Delete
 
 submit.sortingCenterStock.offer = Accept Offer
+submit.sortingCenterStock.cancel = Cancel
 
 supplier = Supplier
 sortingCenter = Sorting Center

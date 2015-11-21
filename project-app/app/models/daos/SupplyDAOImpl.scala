@@ -26,15 +26,17 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
       dbSupply <- slickSupplies.filter(_.id === id.toString)
     } yield dbSupply
 
-    db.run(query.result.head).map { supply =>
-      Supply(
-        UUID.fromString(supply.id),
-        UUID.fromString(supply.userID),
-        supply.resource,
-        supply.resourceCategoryID,
-        supply.amount,
-        supply.amountLabelID
-      )
+    db.run(query.result.headOption).map { supplyOption =>
+      supplyOption.map { supply =>
+        Supply(
+          UUID.fromString(supply.id),
+          UUID.fromString(supply.userID),
+          supply.resource,
+          supply.resourceCategoryID,
+          supply.amount,
+          supply.amountLabelID
+        )
+      }
     }
   }
 

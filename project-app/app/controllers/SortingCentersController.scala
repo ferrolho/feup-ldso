@@ -47,26 +47,6 @@ class SortingCentersController @Inject()(
       }
   }
 
-  def incomingResources = SecuredAction.async { implicit request =>
-
-    val fAllSortingCenterStockUser = sortingCenterStockService.byUser(request.identity.userID)
-    val fResourceCategories = resourceCategoryService.all
-    val fResourceAmountLabels = resourceAmountLabelService.all
-
-    for {
-      allSortingCenterStocks <- fAllSortingCenterStockUser
-      resourceCategories <- fResourceCategories;
-      resourceAmountLabels <- fResourceAmountLabels
-    }
-      yield {
-        val sortingCenterStocks = allSortingCenterStocks
-        val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
-        val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
-
-        Ok(views.html.sortingCenters.incomingResources(request.identity, sortingCenterStocks, resourceCategoryOptions, resourceAmountLabelOptions))
-      }
-  }
-
   /**
    * Submits a resource supply and deletes the same entry in Supply table.
    *
@@ -89,58 +69,122 @@ class SortingCentersController @Inject()(
           }
       },
       data => {
-        supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap { supply =>
-          // update supplies table
-          if (supply.amount == data.amount) {
-            supplyService.deleteRowByID(supply.id)
-          } else {
-            val updatedSupply = Supply(
-              id = supply.id,
-              userID = supply.userID,
-              resource = supply.resource,
-              resourceCategoryID = supply.resourceCategoryID,
-              amount = supply.amount - data.amount,
-              amountLabelID = supply.amountLabelID
-            )
-
-            supplyService.save(updatedSupply)
-          }
-
-          // update sorting center stocks table
-          sortingCenterStockService.retrieve(supply.id, request.identity.userID).map {
-            // updating if we already accepted part of this supply offer
-            case Some(someStock) =>
-              val stock = SortingCenterStock(
-                id = someStock.id,
-                idSupply = someStock.idSupply,
-                userID = someStock.userID,
-                resource = someStock.resource,
-                resourceCategoryID = someStock.resourceCategoryID,
-                amount = someStock.amount + data.amount,
-                amountLabelID = someStock.amountLabelID
-              )
-
-              sortingCenterStockService.save(stock.copy())
-
-            // adding a new supply offer we are accepting for the first time
-            case None =>
-              val stock = SortingCenterStock(
-                id = UUID.randomUUID(),
-                idSupply = supply.id,
-                userID = request.identity.userID,
+        supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap {
+          case Some(supply) =>
+            // update supplies table
+            if (supply.amount == data.amount) {
+              supplyService.deleteRowByID(supply.id)
+            } else {
+              val updatedSupply = Supply(
+                id = supply.id,
+                userID = supply.userID,
                 resource = supply.resource,
                 resourceCategoryID = supply.resourceCategoryID,
-                amount = data.amount,
+                amount = supply.amount - data.amount,
                 amountLabelID = supply.amountLabelID
               )
 
-              sortingCenterStockService.save(stock.copy())
-          }
+              supplyService.save(updatedSupply)
+            }
 
-          Future.successful(Redirect(routes.SortingCentersController.incomingResources))
+            // update sorting center stocks table
+            sortingCenterStockService.retrieve(supply.id, request.identity.userID).map {
+              // updating if we already accepted part of this supply offer
+              case Some(someStock) =>
+                val stock = SortingCenterStock(
+                  id = someStock.id,
+                  idSupply = someStock.idSupply,
+                  userID = someStock.userID,
+                  supplyUserID = someStock.supplyUserID,
+                  resource = someStock.resource,
+                  resourceCategoryID = someStock.resourceCategoryID,
+                  amount = someStock.amount + data.amount,
+                  amountLabelID = someStock.amountLabelID
+                )
+
+                sortingCenterStockService.save(stock.copy())
+
+              // adding a new supply offer we are accepting for the first time
+              case None =>
+                val stock = SortingCenterStock(
+                  id = UUID.randomUUID(),
+                  idSupply = supply.id,
+                  userID = request.identity.userID,
+                  supplyUserID = supply.userID,
+                  resource = supply.resource,
+                  resourceCategoryID = supply.resourceCategoryID,
+                  amount = data.amount,
+                  amountLabelID = supply.amountLabelID
+                )
+
+                sortingCenterStockService.save(stock.copy())
+            }
+
+            Future.successful(Redirect(routes.SortingCentersController.incomingResources))
         }
       }
     )
   }
 
+  /**
+   * Gets all session's user sorting center stocks
+   *
+   * @return The result to display
+   */
+  def incomingResources = SecuredAction.async { implicit request =>
+
+    val fAllSortingCenterStockUser = sortingCenterStockService.byUser(request.identity.userID)
+    val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
+
+    for {
+      allSortingCenterStocks <- fAllSortingCenterStockUser
+      resourceCategories <- fResourceCategories;
+      resourceAmountLabels <- fResourceAmountLabels
+    }
+      yield {
+        val sortingCenterStocks = allSortingCenterStocks
+        val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+        Ok(views.html.sortingCenters.incomingResources(request.identity, sortingCenterStocks, resourceCategoryOptions, resourceAmountLabelOptions))
+      }
+  }
+
+  /**
+   * Cancels a previous sorting center stock request and updates the avaiable supllies
+   *
+   * @return The result to display
+   */
+  def cancelIncomingResource(sortingCenterStockID: String) = SecuredAction.async { implicit request =>
+    sortingCenterStockService.retrieve(UUID.fromString(sortingCenterStockID)).flatMap { stock =>
+      supplyService.retrieve(stock.idSupply).map {
+        case Some(supply) =>
+          supplyService.save(Supply(
+            supply.id,
+            supply.userID,
+            supply.resource,
+            supply.resourceCategoryID,
+            amount = supply.amount + stock.amount,
+            supply.amountLabelID
+          ))
+
+          sortingCenterStockService.delete(stock.id)
+
+        case None =>
+          supplyService.save(Supply(
+            stock.idSupply,
+            stock.supplyUserID,
+            stock.resource,
+            stock.resourceCategoryID,
+            stock.amount,
+            stock.amountLabelID
+          ))
+
+          sortingCenterStockService.delete(stock.id)
+      }
+
+      Future.successful(Redirect(routes.SortingCentersController.incomingResources))
+    }
+  }
 }

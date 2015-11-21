@@ -235,6 +235,7 @@ trait DBTableDefinitions {
                                    id: String,
                                    idSupply: String,
                                    userID: String,
+                                   supplyUserID: String,
                                    resource: String,
                                    resourceCategoryID: Long,
                                    amount: Int,
@@ -248,6 +249,8 @@ trait DBTableDefinitions {
 
     def userID = column[String]("userID")
 
+    def supplyUserID = column[String]("supplyUserID")
+
     def resource = column[String]("resource")
 
     def resourceCategoryID = column[Long]("resourceCategoryID")
@@ -256,7 +259,7 @@ trait DBTableDefinitions {
 
     def amountLabelID = column[Long]("amountLabelID")
 
-    def * = (id, idSupply, userID, resource, resourceCategoryID, amount, amountLabelID) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
+    def * = (id, idSupply, userID, supplyUserID, resource, resourceCategoryID, amount, amountLabelID) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
   }
 
   // table query definitions

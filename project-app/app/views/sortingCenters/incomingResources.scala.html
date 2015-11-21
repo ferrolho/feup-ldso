@@ -28,37 +28,39 @@
                         <th>Category</th>
                         <th>Amount</th>
                         <th>Amount Label</th>
-                        <th class="edit-or-transport">Edit</th>
                         <th class="cancel-or-transport" >Cancel</th>
                         <th>Accept</th>
                     </tr>
                 </thead>
                 <tbody>
-                @for((mySortingCenterStocks, index) <- mySortingCenterStocks.zipWithIndex) {
+                @for((mySortingCenterStock, index) <- mySortingCenterStocks.zipWithIndex) {
                     <tr>
                         <th scope="row">@{
                             index + 1
                         }</th>
 
-                        <td>@mySortingCenterStocks.resource</td>
+                        <td>@mySortingCenterStock.resource</td>
 
                         <td>@{
-                            resourceCategories.find(_._1 == mySortingCenterStocks.resourceCategoryID.toString).get._2
+                            resourceCategories.find(_._1 == mySortingCenterStock.resourceCategoryID.toString).get._2
                         }</td>
 
-                        <td>@mySortingCenterStocks.amount</td>
+                        <td>@mySortingCenterStock.amount</td>
 
                         <td>@{
-                            resourceAmountLabels.find(_._1 == mySortingCenterStocks.amountLabelID.toString).get._2
+                            resourceAmountLabels.find(_._1 == mySortingCenterStock.amountLabelID.toString).get._2
                         }</td>
 
-                        <td>
-                            <a href="#" id="edit" class="btn btn-success btn-block">Edit</a>
-                        </td>
 
-                        <td>
-                            <a href="#" id="cancel" class="btn btn-success btn-block">Cancel</a>
-                        </td>
+                        @b3.form(action = routes.SortingCentersController.cancelIncomingResource(mySortingCenterStock.id.toString)) {
+                            @helper.CSRF.formField
+
+                            <td>
+                                <button id="cancel" type="submit" value="cancel" class="btn btn-success btn-block">
+                                @Messages("submit.sortingCenterStock.cancel")
+                                </button>
+                            </td>
+                        }
 
                         <td>
                             <a href="#" id="accept" class="btn btn-success btn-block">Accept</a>

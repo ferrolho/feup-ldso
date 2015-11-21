@@ -25,6 +25,14 @@ class SortingCenterStockServiceImpl @Inject()(sortingCenterStockDAO: SortingCent
   def retrieve(idSupply: UUID, userID: UUID) = sortingCenterStockDAO.find(idSupply, userID)
 
   /**
+   * Retrieve a sorting center stock by its ID.
+   *
+   * @param id The id of the stock we want.
+   * @return The sorting center stock.
+   */
+  def retrieve(id: UUID) = sortingCenterStockDAO.find(id)
+
+  /**
    * Retrieves all sorting center stock of a certain user.
    *
    * @param userID The id of the user.
@@ -39,5 +47,12 @@ class SortingCenterStockServiceImpl @Inject()(sortingCenterStockDAO: SortingCent
    * @return The saved acceptable offer.
    */
   def save(sortingCenterStock: SortingCenterStock) = sortingCenterStockDAO.save(sortingCenterStock)
+
+  /**
+   * deletes the sorting center stock with the param id.
+   *
+   * @param id the id of the sorting center stock.
+   */
+  def delete(id: UUID) = sortingCenterStockDAO.delete(id)
 
 }

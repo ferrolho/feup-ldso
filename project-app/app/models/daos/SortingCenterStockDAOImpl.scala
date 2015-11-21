@@ -33,12 +33,38 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
           UUID.fromString(stock.id),
           UUID.fromString(stock.idSupply),
           UUID.fromString(stock.userID),
+          UUID.fromString(stock.supplyUserID),
           stock.resource,
           stock.resourceCategoryID,
           stock.amount,
           stock.amountLabelID
         )
       }
+    }
+  }
+
+  /**
+   * Finds a SortingCenterStock by its ID.
+   *
+   * @param id The ID of the stock to find.
+   * @return The found stock or None if no stock for the given ID could be found.
+   */
+  def find(id: UUID) = {
+    val query = for {
+      dbSortingCenterStock <- slickSortingCenterStocks.filter(_.id === id.toString)
+    } yield dbSortingCenterStock
+
+    db.run(query.result.head).map { stock =>
+      SortingCenterStock(
+        UUID.fromString(stock.id),
+        UUID.fromString(stock.idSupply),
+        UUID.fromString(stock.userID),
+        UUID.fromString(stock.supplyUserID),
+        stock.resource,
+        stock.resourceCategoryID,
+        stock.amount,
+        stock.amountLabelID
+      )
     }
   }
 
@@ -59,6 +85,7 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
           UUID.fromString(stock.id),
           UUID.fromString(stock.idSupply),
           UUID.fromString(stock.userID),
+          UUID.fromString(stock.supplyUserID),
           stock.resource,
           stock.resourceCategoryID,
           stock.amount,
@@ -79,6 +106,7 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
       sortingCenterStock.id.toString,
       sortingCenterStock.idSupply.toString,
       sortingCenterStock.userID.toString,
+      sortingCenterStock.supplyUserID.toString,
       sortingCenterStock.resource.toString,
       sortingCenterStock.resourceCategoryID,
       sortingCenterStock.amount,
@@ -92,4 +120,13 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
     db.run(actions).map(_ => sortingCenterStock)
   }
 
+  /**
+  * deletes the row with the param id
+  *
+  * @param id the id of the sorting center stock to remove.
+    *
+  */
+  def delete(id: UUID) {
+    db.run(slickSortingCenterStocks.filter(_.id === id.toString).delete)
+  }
 }
