@@ -1,0 +1,74 @@
+@(
+        user: models.User,
+        mySortingCenterStocks: Seq[SortingCenterStock],
+        resourceCategories: Seq[(String, String)],
+        resourceAmountLabels: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
+
+@import b3.inline.fieldConstructor
+
+@app(Messages("sorting.center.incoming.title"), Some(user)) {
+    <div class="col-md-8 col-md-offset-2">
+        @request.flash.get("error").map { msg =>
+            <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>@Messages("error")</strong> @msg
+            </div>
+        }
+
+        <h2>My incoming resources</h2>
+
+        @if(mySortingCenterStocks.isEmpty) {
+            <h4>There are no orders from you</h4>
+        } else {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Resource</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Amount Label</th>
+                        <th class="cancel-or-transport" >Cancel</th>
+                        <th>Accept</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for((mySortingCenterStock, index) <- mySortingCenterStocks.zipWithIndex) {
+                    <tr>
+                        <th scope="row">@{
+                            index + 1
+                        }</th>
+
+                        <td>@mySortingCenterStock.resource</td>
+
+                        <td>@{
+                            resourceCategories.find(_._1 == mySortingCenterStock.resourceCategoryID.toString).get._2
+                        }</td>
+
+                        <td>@mySortingCenterStock.amount</td>
+
+                        <td>@{
+                            resourceAmountLabels.find(_._1 == mySortingCenterStock.amountLabelID.toString).get._2
+                        }</td>
+
+
+                        @b3.form(action = routes.SortingCentersController.cancelIncomingResource(mySortingCenterStock.id.toString)) {
+                            @helper.CSRF.formField
+
+                            <td>
+                                <button id="cancel" type="submit" value="cancel" class="btn btn-success btn-block">
+                                @Messages("submit.sortingCenterStock.cancel")
+                                </button>
+                            </td>
+                        }
+
+                        <td>
+                            <a href="#" id="accept" class="btn btn-success btn-block">Accept</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+}

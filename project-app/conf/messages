@@ -46,6 +46,8 @@ app.name = Food Chains
 home.title = Food Chains - Home
 sign.up.title = Food Chains - Sign Up
 sign.in.title = Food Chains - Sign In
+sorting.center.title = Food Chains - Sorting Center
+sorting.center.incoming.title = Food Chains - My Incoming Resources
 
 supply.offer.details = What do you want to donate?
 submit.supply.offer = Post supply offer
@@ -53,6 +55,7 @@ edit.supply.offer = Edit
 delete.supply.offer = Delete
 
 submit.sortingCenterStock.offer = Accept Offer
+submit.sortingCenterStock.cancel = Cancel
 
 supplier = Supplier
 sortingCenter = Sorting Center

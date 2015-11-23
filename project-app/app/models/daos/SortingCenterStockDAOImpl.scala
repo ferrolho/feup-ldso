@@ -4,7 +4,6 @@ import java.util.UUID
 import javax.inject.Inject
 
 import models.SortingCenterStock
-import play.api.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
@@ -34,8 +33,63 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
           UUID.fromString(stock.id),
           UUID.fromString(stock.idSupply),
           UUID.fromString(stock.userID),
+          UUID.fromString(stock.supplyUserID),
           stock.resource,
-          stock.amount
+          stock.resourceCategoryID,
+          stock.amount,
+          stock.amountLabelID
+        )
+      }
+    }
+  }
+
+  /**
+   * Finds a SortingCenterStock by its ID.
+   *
+   * @param id The ID of the stock to find.
+   * @return The found stock or None if no stock for the given ID could be found.
+   */
+  def find(id: UUID) = {
+    val query = for {
+      dbSortingCenterStock <- slickSortingCenterStocks.filter(_.id === id.toString)
+    } yield dbSortingCenterStock
+
+    db.run(query.result.head).map { stock =>
+      SortingCenterStock(
+        UUID.fromString(stock.id),
+        UUID.fromString(stock.idSupply),
+        UUID.fromString(stock.userID),
+        UUID.fromString(stock.supplyUserID),
+        stock.resource,
+        stock.resourceCategoryID,
+        stock.amount,
+        stock.amountLabelID
+      )
+    }
+  }
+
+  /**
+   * Retrieves all sorting center stock of a certain user from the DB.
+   *
+   * @param userID The id of the user.
+   * @return The sequence of sorting center stock.
+   */
+  def byUser(userID: UUID) = {
+    val sortingCenterStocksQuery = for {
+      dbSortingCenterStock <- slickSortingCenterStocks.filter(_.userID === userID.toString)
+    } yield dbSortingCenterStock
+
+    db.run(sortingCenterStocksQuery.result).map { dbSortingCenterStockOption =>
+      dbSortingCenterStockOption.map { stock =>
+        SortingCenterStock(
+          UUID.fromString(stock.id),
+          UUID.fromString(stock.idSupply),
+          UUID.fromString(stock.userID),
+          UUID.fromString(stock.supplyUserID),
+          stock.resource,
+          stock.resourceCategoryID,
+          stock.amount,
+          stock.amountLabelID
         )
       }
     }
@@ -52,8 +106,11 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
       sortingCenterStock.id.toString,
       sortingCenterStock.idSupply.toString,
       sortingCenterStock.userID.toString,
+      sortingCenterStock.supplyUserID.toString,
       sortingCenterStock.resource.toString,
-      sortingCenterStock.amount
+      sortingCenterStock.resourceCategoryID,
+      sortingCenterStock.amount,
+      sortingCenterStock.amountLabelID
     )
 
     //combine database actions to be run sequentially
@@ -63,4 +120,13 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
     db.run(actions).map(_ => sortingCenterStock)
   }
 
+  /**
+  * deletes the row with the param id
+  *
+  * @param id the id of the sorting center stock to remove.
+    *
+  */
+  def delete(id: UUID) {
+    db.run(slickSortingCenterStocks.filter(_.id === id.toString).delete)
+  }
 }
