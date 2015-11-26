@@ -14,6 +14,9 @@ class AppModule extends AbstractModule with ScalaModule {
    * Configures the module.
    */
   def configure() {
+    bind[CountryService].to[CountryServiceImpl]
+    bind[CountryDAO].to[CountryDAOImpl]
+
     bind[SortingCenterStockService].to[SortingCenterStockServiceImpl]
     bind[SortingCenterStockDAO].to[SortingCenterStockDAOImpl]
 

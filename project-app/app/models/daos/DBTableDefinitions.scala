@@ -18,6 +18,7 @@ trait DBTableDefinitions {
                      fullName: Option[String],
                      email: Option[String],
                      avatarURL: Option[String],
+                     countryID: Long,
                      isSupplier: Boolean = false,
                      isSortingCenter: Boolean = false,
                      isConsumer: Boolean = false,
@@ -37,6 +38,8 @@ trait DBTableDefinitions {
 
     def avatarURL = column[Option[String]]("avatarURL")
 
+    def countryID = column[Long]("countryID")
+
     def isSupplier = column[Boolean]("isSupplier");
 
     def isSortingCenter = column[Boolean]("isSortingCenter");
@@ -45,7 +48,7 @@ trait DBTableDefinitions {
 
     def isTransporter = column[Boolean]("isTransporter");
 
-    def * = (id, firstName, lastName, fullName, email, avatarURL, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
+    def * = (id, firstName, lastName, fullName, email, avatarURL, countryID, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
   }
 
   // Login info
@@ -176,6 +179,23 @@ trait DBTableDefinitions {
     def * = (id, key, value) <>(DBOpenIDAttribute.tupled, DBOpenIDAttribute.unapply)
   }
 
+  /*
+   * Our tables.
+   */
+
+  // Countries
+  case class DBCountry(
+                        id: Long,
+                        name: String)
+
+  class Countries(tag: Tag) extends Table[DBCountry](tag, "country") {
+    def id = column[Long]("id", O.PrimaryKey)
+
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBCountry.tupled, DBCountry.unapply)
+  }
+
   // Supplies
   case class DBSupply(
                        id: String,
@@ -272,6 +292,7 @@ trait DBTableDefinitions {
   val slickOpenIDInfos = TableQuery[OpenIDInfos]
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
 
+  val slickCountries = TableQuery[Countries]
   val slickSupplies = TableQuery[Supplies]
   val slickResourceCategories = TableQuery[ResourceCategories]
   val slickResourceAmountLabels = TableQuery[ResourceAmountLabels]

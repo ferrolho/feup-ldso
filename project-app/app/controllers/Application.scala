@@ -7,15 +7,18 @@ import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
 import forms._
 import models.User
+import models.services.CountryService
 import play.api.i18n.MessagesApi
 import play.api.mvc._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class Application @Inject()(
                              val messagesApi: MessagesApi,
                              val env: Environment[User, CookieAuthenticator],
-                             socialProviderRegistry: SocialProviderRegistry)
+                             socialProviderRegistry: SocialProviderRegistry,
+                             countryService: CountryService)
   extends Silhouette[User, CookieAuthenticator] {
 
   /**
@@ -24,7 +27,10 @@ class Application @Inject()(
    * @return The result to display.
    */
   def index = SecuredAction.async { implicit request =>
-    Future.successful(Ok(views.html.home(request.identity)))
+    val fCountries = countryService.all
+
+    for {countries <- fCountries}
+      yield Ok(views.html.home(request.identity, countries))
   }
 
   /**
@@ -45,10 +51,17 @@ class Application @Inject()(
    * @return The result to display.
    */
   def signUp = UserAwareAction.async { implicit request =>
-    request.identity match {
-      case Some(user) => Future.successful(Redirect(routes.Application.index()))
-      case None => Future.successful(Ok(views.html.auth.signUp(SignUpForm.form)))
-    }
+    val fCountries = countryService.all
+
+    for {countries <- fCountries}
+      yield {
+        val countrySelectOptions = countries.map { model => (model.id.toString, model.name) }
+
+        request.identity match {
+          case Some(user) => Redirect(routes.Application.index())
+          case None => Ok(views.html.auth.signUp(SignUpForm.form, countrySelectOptions))
+        }
+      }
   }
 
   /**
