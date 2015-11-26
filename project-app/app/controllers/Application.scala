@@ -27,10 +27,9 @@ class Application @Inject()(
    * @return The result to display.
    */
   def index = SecuredAction.async { implicit request =>
-    val fCountries = countryService.all
-
-    for {countries <- fCountries}
-      yield Ok(views.html.home(request.identity, countries))
+    countryService.all.flatMap { countries =>
+      Future.successful(Ok(views.html.home(request.identity, countries)))
+    }
   }
 
   /**
