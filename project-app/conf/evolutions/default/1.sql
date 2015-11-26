@@ -9,6 +9,7 @@ create table "user" (
   "email" VARCHAR,
   "avatarURL" VARCHAR,
 
+  "country" VARCHAR NOT NULL,
   "isSupplier" boolean NOT NULL,
   "isSortingCenter" boolean NOT NULL,
   "isConsumer" boolean NOT NULL,
