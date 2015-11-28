@@ -11,7 +11,7 @@ import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import com.mohiva.play.silhouette.impl.providers._
 import forms.SignUpForm
 import models.User
-import models.services.UserService
+import models.services.{CountryService, UserService}
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.Action
@@ -34,7 +34,8 @@ class SignUpController @Inject()(
                                   userService: UserService,
                                   authInfoRepository: AuthInfoRepository,
                                   avatarService: AvatarService,
-                                  passwordHasher: PasswordHasher)
+                                  passwordHasher: PasswordHasher,
+                                  countryService: CountryService)
   extends Silhouette[User, CookieAuthenticator] {
 
   /**
@@ -44,7 +45,13 @@ class SignUpController @Inject()(
    */
   def signUp = Action.async { implicit request =>
     SignUpForm.form.bindFromRequest.fold(
-      form => Future.successful(BadRequest(views.html.auth.signUp(form))),
+      form => {
+        countryService.all.flatMap { countries =>
+          val countrySelectOptions = countries.map { model => (model.id.toString, model.name) }
+
+          Future.successful(BadRequest(views.html.auth.signUp(form, countrySelectOptions)))
+        }
+      },
       data => {
         val loginInfo = LoginInfo(CredentialsProvider.ID, data.email)
         userService.retrieve(loginInfo).flatMap {
@@ -59,7 +66,8 @@ class SignUpController @Inject()(
               lastName = Some(data.lastName),
               fullName = Some(data.firstName + " " + data.lastName),
               email = Some(data.email),
-              avatarURL = None
+              avatarURL = None,
+              countryID = data.countryID
             )
             for {
               avatar <- avatarService.retrieveURL(data.email)
