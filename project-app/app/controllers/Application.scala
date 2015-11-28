@@ -50,17 +50,14 @@ class Application @Inject()(
    * @return The result to display.
    */
   def signUp = UserAwareAction.async { implicit request =>
-    val fCountries = countryService.all
+    countryService.all.flatMap { countries =>
+      val countrySelectOptions = countries.map { model => (model.id.toString, model.name) }
 
-    for {countries <- fCountries}
-      yield {
-        val countrySelectOptions = countries.map { model => (model.id.toString, model.name) }
-
-        request.identity match {
-          case Some(user) => Redirect(routes.Application.index())
-          case None => Ok(views.html.auth.signUp(SignUpForm.form, countrySelectOptions))
-        }
+      request.identity match {
+        case Some(user) => Future.successful(Redirect(routes.Application.index()))
+        case None => Future.successful(Ok(views.html.auth.signUp(SignUpForm.form, countrySelectOptions)))
       }
+    }
   }
 
   /**

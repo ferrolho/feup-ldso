@@ -46,14 +46,11 @@ class SignUpController @Inject()(
   def signUp = Action.async { implicit request =>
     SignUpForm.form.bindFromRequest.fold(
       form => {
-        val fCountries = countryService.all
+        countryService.all.flatMap { countries =>
+          val countrySelectOptions = countries.map { model => (model.id.toString, model.name) }
 
-        for {countries <- fCountries}
-          yield {
-            val countrySelectOptions = countries.map { model => (model.id.toString, model.name) }
-
-            BadRequest(views.html.auth.signUp(form, countrySelectOptions))
-          }
+          Future.successful(BadRequest(views.html.auth.signUp(form, countrySelectOptions)))
+        }
       },
       data => {
         val loginInfo = LoginInfo(CredentialsProvider.ID, data.email)

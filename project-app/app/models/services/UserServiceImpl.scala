@@ -61,7 +61,7 @@ class UserServiceImpl @Inject()(userDAO: UserDAO) extends UserService {
           fullName = profile.fullName,
           email = profile.email,
           avatarURL = profile.avatarURL,
-          countryID = 0 // TODO - we should not do this if we ever use social providers for signing in
+          countryID = 1 // TODO - we should not do this if we ever use social providers for signing in
         ))
     }
   }
