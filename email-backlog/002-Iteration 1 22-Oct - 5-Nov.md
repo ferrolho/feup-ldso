@@ -153,3 +153,110 @@ Crates
 
 Kind regards,  
 David
+
+
+---
+
+##### [Nov 19 - 2015] From: SM | To: PO, PM, SPO
+
+Hello David! :)
+
+Sorry I did not reply to your email right away. I wanted the team to address these issues and deploy the fixes asap for you to give more feedback. And we managed to do so! :)
+
+We have already deployed to http://ferrolho.xyz/ the new features:  
+- The bug you mentioned of the supplies list turning empty if the user submitted a form with an empty field/invalid amount has been solved  
+- Supplies have a category and an amount label  
+- Supplies can now be edited/deleted
+
+And to answer both your questions regarding the dropdown lists: yes, the admin will be able to edit these through the Back Office in the future.
+
+We still need to add the country field in the sign up form though... I think that for now, specifying the country is enough. Is it ok for you?
+
+And that's it! :) Today marks the end of iteration 2. I think we have made some significant progress.
+
+Please tell me what you think of the new features/fixes, and I'll keep you up to date with our progress.
+
+Kind regards,  
+Henrique Ferrolho.
+
+
+---
+
+##### [Nov 25 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,
+
+Really sorry for the delayed response. I thought I had responded already.
+
+Where are you suggesting that they specify country?
+
+Can the Label in the first field be "Description" instead of Resource?
+
+Is the edit button to save the edit or to make the edit? One can edit without clicking edit first?
+
+I like the beginnings of the sorting centre acceptance page. The items just vanish when accepted but i'm sure you are working on where they appear again ;-)
+
+Thanks so much.
+
+
+---
+
+##### [Nov 25 - 2015] From: SM | To: PO, PM, SPO
+
+Good night David! :)
+
+I suggest that the country should be specified at sign up like you suggested. We just didn't have the time to add it yet.
+
+Sure, totally! I am going to change it to "Description".
+
+The edit button updates the entry with the value in the form fields. If the user does not change anything and clicks edit, nothing happens. If he changes the name field (for example) and clicks edit, then the name of that entry is updated.
+
+Correct! The currently deployed version at ferrolho.xyz is outdated. When the user accepts a supply from a sorting center, it will vanish from that listing just like it is doing right now, but it will appear on another listing called "incoming resources". Actually, this is already working and you will get the chance to try it out when we deploy the new features.
+
+Do you accept US 1-00, 1-02, and 2-01? (Check pivotal tracker for details)
+
+I wanted to mention you one last thing in this email: we are currently in the middle of the penultimate sprint. There is only one sprint left besides the one we are currently on. So that leaves us with 3 weeks remaining. I don't think we will manage to finish the project on time, but we will do our best with the time we've got!  
+Do you have any preference regarding the order of implementation of the USs?
+
+Kind regards,  
+Henrique Ferrolho.
+
+
+---
+
+##### [Nov 28 - 2015] From: SM | To: PO, PM, SPO
+
+Good morning David!
+
+We have just deployed a new version of the platform where users need to specify their country in the sign up form. The first supply label has also been changed to "Description" just like you requested.
+
+The team would also appreciate if you could find the time to check Pivotal Tracker and tell us if we can accept the USs that are yet to be accepted/rejected.
+
+Again, we are close to the end of the goal of our course. We are short in time to implement the entire platform, so if you want us to prioritize something, now is the time to make those decisions. :)
+
+Looking forward to hear from you asap,  
+Henrique Ferrolho.
+
+
+---
+
+##### [Nov 29 - 2015] From: PO | To: SM, PM, SPO
+
+Hi Henrique,
+
+The platform is working nicely with the current functionality, it is a pity you will not be able to see it through to full completion. I have been thinking about the steps to take in order to get this to a usable platform after you complete your work. Please would you (before you get to the end) list the coding skills/ language and platform resources required to take this platform further. That way I can start looking for funding for resources to see this thing through. Currently we have a huge refugee problem here and this mvp, if usable, could really really help out.
+
+With regards to the current platform, the key thing that is missing is the geography element as I mentioned earlier. It needs to be there on a granular level otherwise the linking of supplies to sorting centres or requesters becomes irrelevant. Country is great but that is still too broad to get any use of the mvp.  I will gladly forfeit all the transporter user stories to have that implemented before your finish.
+
+So my priorities are as follows:  
+->Location (province city + suburb)  for suppliers, sorting centres + requesters profiles. Should be added on the profile page along with telephone number.  
+-> US 1-00 : add suburb/city + time stamp under each item supplied. Eg. (Malmö, Central ; added 20min ago) OR ( Malmö, Central ; added 2015-11-29 , 13h45).  If the space is a problem then perhaps have a little icon that one can hover over to see this info as a tooltip /label.  
+-> US 2-03 (Sorting center check in incoming resources)  
+->Requester (US 3-0x)  Ability to search , description, category, country, province , city and suburb. ( the default locations for searches can match users profile settings.)  
+->Admin console (US-5-00)
+
+Please let me know your thoughts on this so we can find the best way to getting a basic usable supply and demand linking system before you end. I'll try and respond faster so you can maintain momentum.
+
+Thanks for all your work so far.  
+Kind regards,  
+David
