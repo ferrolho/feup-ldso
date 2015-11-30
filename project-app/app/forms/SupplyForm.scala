@@ -14,7 +14,9 @@ object SupplyForm {
   val form = Form(
     mapping(
       "resource" -> nonEmptyText,
-      "amount" -> number(min = 1)
+      "resourceCategoryID" -> longNumber,
+      "amount" -> number(min = 1),
+      "amountLabelID" -> longNumber
     )(Data.apply)(Data.unapply)
   )
 
@@ -22,8 +24,10 @@ object SupplyForm {
    * The form data.
    *
    * @param resource The name of the resource.
+   * @param resourceCategoryID The id of the resource category.
    * @param amount The amount of resource units being supplied.
+   * @param amountLabelID The id of the resource amount label.
    */
-  case class Data(resource: String, amount: Int)
+  case class Data(resource: String, resourceCategoryID: Long, amount: Int, amountLabelID: Long)
 
 }

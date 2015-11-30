@@ -17,7 +17,7 @@ trait SupplyDAO {
    * @param id The ID of the supply to find.
    * @return The found supply or None if no supply for the given ID could be found.
    */
-  def find(id: UUID): Future[Supply]
+  def find(id: UUID): Future[Option[Supply]]
 
   /**
    * Retrieves all supplies submitted by a certain user.
@@ -43,7 +43,6 @@ trait SupplyDAO {
    * @return The saved supply.
    */
   def save(supply: Supply): Future[Supply]
-
 
   /**
    * deletes the row with the param id

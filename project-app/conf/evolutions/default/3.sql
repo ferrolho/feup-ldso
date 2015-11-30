@@ -1,15 +1,17 @@
 # --- !Ups
 
-create table "sortingCenterWarehouse" (
-  "idResource" VARCHAR NOT NULL PRIMARY KEY,
-  "idSortingCenter" VARCHAR NOT NULL,
-  "userID"  VARCHAR NOT NULL REFERENCES "user",
+create table "sortingCenterStock" (
+  "id" VARCHAR  NOT NULL PRIMARY KEY,
+  "idSupply" VARCHAR NOT NULL,
+  "userID" VARCHAR NOT NULL REFERENCES "user",
+  "supplyUserID" VARCHAR NOT NULL REFERENCES "user",
   "resource" VARCHAR,
-  "amount" INTEGER ,
-  "inSortingCenter" BOOLEAN NOT NULL
+  "resourceCategoryID" LONG REFERENCES "resourceCategory",
+  "amount" INTEGER,
+  "amountLabelID" LONG REFERENCES "resourceAmountLabel"
 );
 
 
 # --- !Downs
 
-drop table "sortingCenterWarehouse";
+drop table "sortingCenterStock";

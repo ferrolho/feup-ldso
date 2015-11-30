@@ -18,6 +18,7 @@ trait DBTableDefinitions {
                      fullName: Option[String],
                      email: Option[String],
                      avatarURL: Option[String],
+                     countryID: Long,
                      isSupplier: Boolean = false,
                      isSortingCenter: Boolean = false,
                      isConsumer: Boolean = false,
@@ -37,6 +38,8 @@ trait DBTableDefinitions {
 
     def avatarURL = column[Option[String]]("avatarURL")
 
+    def countryID = column[Long]("countryID")
+
     def isSupplier = column[Boolean]("isSupplier");
 
     def isSortingCenter = column[Boolean]("isSortingCenter");
@@ -45,7 +48,7 @@ trait DBTableDefinitions {
 
     def isTransporter = column[Boolean]("isTransporter");
 
-    def * = (id, firstName, lastName, fullName, email, avatarURL, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
+    def * = (id, firstName, lastName, fullName, email, avatarURL, countryID, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
   }
 
   // Login info
@@ -176,12 +179,31 @@ trait DBTableDefinitions {
     def * = (id, key, value) <>(DBOpenIDAttribute.tupled, DBOpenIDAttribute.unapply)
   }
 
+  /*
+   * Our tables.
+   */
+
+  // Countries
+  case class DBCountry(
+                        id: Long,
+                        name: String)
+
+  class Countries(tag: Tag) extends Table[DBCountry](tag, "country") {
+    def id = column[Long]("id", O.PrimaryKey)
+
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBCountry.tupled, DBCountry.unapply)
+  }
+
   // Supplies
   case class DBSupply(
                        id: String,
                        userID: String,
                        resource: String,
-                       amount: Int
+                       resourceCategoryID: Long,
+                       amount: Int,
+                       amountLabelID: Long
                        )
 
   class Supplies(tag: Tag) extends Table[DBSupply](tag, "supply") {
@@ -191,35 +213,73 @@ trait DBTableDefinitions {
 
     def resource = column[String]("resource")
 
+    def resourceCategoryID = column[Long]("resourceCategoryID")
+
     def amount = column[Int]("amount")
 
-    def * = (id, userID, resource, amount) <>(DBSupply.tupled, DBSupply.unapply)
+    def amountLabelID = column[Long]("amountLabelID")
+
+    def * = (id, userID, resource, resourceCategoryID, amount, amountLabelID) <>(DBSupply.tupled, DBSupply.unapply)
   }
 
-  // Sorting center warehouse
-  case class DBSortingCenterWarehouse(
-                                       idResource: String,
-                                       userID: String,
-                                       idSortingCenter: String,
-                                       resource: String,
-                                       amount: Int,
-                                       inSortingCenter: Boolean
-                                       )
+  // Resource categories
+  case class DBResourceCategory(
+                                 id: Long,
+                                 name: String
+                                 )
 
-  class SortingCenterWarehouses(tag: Tag) extends Table[DBSortingCenterWarehouse](tag, "sortingCenterWarehouse") {
-    def idResource = column[String]("idResource", O.PrimaryKey)
+  class ResourceCategories(tag: Tag) extends Table[DBResourceCategory](tag, "resourceCategory") {
+    def id = column[Long]("id", O.PrimaryKey)
 
-    def idSortingCenter = column[String]("idSortingCenter")
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBResourceCategory.tupled, DBResourceCategory.unapply)
+  }
+
+  // Resource amount labels
+  case class DBResourceAmountLabel(
+                                    id: Long,
+                                    name: String
+                                    )
+
+  class ResourceAmountLabels(tag: Tag) extends Table[DBResourceAmountLabel](tag, "resourceAmountLabel") {
+    def id = column[Long]("id", O.PrimaryKey)
+
+    def name = column[String]("name")
+
+    def * = (id, name) <>(DBResourceAmountLabel.tupled, DBResourceAmountLabel.unapply)
+  }
+
+  // Sorting center stock
+  case class DBSortingCenterStock(
+                                   id: String,
+                                   idSupply: String,
+                                   userID: String,
+                                   supplyUserID: String,
+                                   resource: String,
+                                   resourceCategoryID: Long,
+                                   amount: Int,
+                                   amountLabelID: Long
+                                   )
+
+  class SortingCenterStocks(tag: Tag) extends Table[DBSortingCenterStock](tag, "sortingCenterStock") {
+    def id = column[String]("id", O.PrimaryKey)
+
+    def idSupply = column[String]("idSupply")
 
     def userID = column[String]("userID")
 
+    def supplyUserID = column[String]("supplyUserID")
+
     def resource = column[String]("resource")
+
+    def resourceCategoryID = column[Long]("resourceCategoryID")
 
     def amount = column[Int]("amount")
 
-    def inSortingCenter = column[Boolean]("inSortingCenter")
+    def amountLabelID = column[Long]("amountLabelID")
 
-    def * = (idResource, idSortingCenter, userID, resource, amount, inSortingCenter) <>(DBSortingCenterWarehouse.tupled, DBSortingCenterWarehouse.unapply)
+    def * = (id, idSupply, userID, supplyUserID, resource, resourceCategoryID, amount, amountLabelID) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
   }
 
   // table query definitions
@@ -232,8 +292,11 @@ trait DBTableDefinitions {
   val slickOpenIDInfos = TableQuery[OpenIDInfos]
   val slickOpenIDAttributes = TableQuery[OpenIDAttributes]
 
+  val slickCountries = TableQuery[Countries]
   val slickSupplies = TableQuery[Supplies]
-  val slickSortingCenterWarehouse = TableQuery[SortingCenterWarehouses]
+  val slickResourceCategories = TableQuery[ResourceCategories]
+  val slickResourceAmountLabels = TableQuery[ResourceAmountLabels]
+  val slickSortingCenterStocks = TableQuery[SortingCenterStocks]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =
