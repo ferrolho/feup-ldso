@@ -187,4 +187,11 @@ class SortingCentersController @Inject()(
       Future.successful(Redirect(routes.SortingCentersController.incomingResources))
     }
   }
+
+  /**
+   * submits a drop in supply in sorting center from a supplier without needing transportation
+   *
+   * @return The result to display
+   */
+  def submitDropIn= SecuredAction.async{implicit request =>}
 }
