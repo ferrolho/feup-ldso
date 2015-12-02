@@ -3,14 +3,8 @@ package forms
 import play.api.data.Form
 import play.api.data.Forms._
 
-/**
- * The form which handles the submission of a offer to store in he sorting center stock.
- */
 object RequestForm {
 
-  /**
-   * A play framework form.
-   */
   val form = Form(
     mapping(
       "supplyID" -> nonEmptyText,
@@ -18,12 +12,6 @@ object RequestForm {
     )(Data.apply)(Data.unapply)
   )
 
-  /**
-   * form for the sorting center stock
-   *
-   * @param supplyID the identification of the supply
-   * @param amount  the amount to save
-   */
   case class Data(supplyID: String, amount: Int)
 
 }

@@ -16,14 +16,13 @@ POST        /supply                                            controllers.Suppl
 POST        /supply/edit/:supplyID                             controllers.SuppliesController.editSupplyOffer(supplyID)
 POST        /supply/delete/:supplyID                           controllers.SuppliesController.deleteSupplyOffer(supplyID)
 
-GET         /request                                           controllers.RequestsController.index
-
 GET         /sortingCenter                                     controllers.SortingCentersController.index
 POST        /sortingCenter                                     controllers.SortingCentersController.acceptOffer
 GET         /sortingCenter/incoming                            controllers.SortingCentersController.incomingResources
 POST        /sortingCenter/cancel/:sortingCenterStockID        controllers.SortingCentersController.cancelIncomingResource(sortingCenterStockID)
 
-#GET         /request                         controllers.RequestsController.index
+GET         /request                                           controllers.RequestsController.index
+
 #GET         /redeem                          controllers.RedeemController.index
 
 GET         /play-info                                         controllers.Application.playInfo
