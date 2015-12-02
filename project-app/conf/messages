@@ -57,6 +57,8 @@ delete.supply.offer = Delete
 submit.sortingCenterStock.offer = Accept Offer
 submit.sortingCenterStock.cancel = Cancel
 
+transport.title = Food Chains - Transports
+
 supplier = Supplier
 sortingCenter = Sorting Center
 consumer = Consumer
