@@ -120,6 +120,9 @@ class SortingCentersController @Inject()(
                 sortingCenterStockService.save(stock.copy())
             }
 
+            //insert transportation request on db
+
+
             Future.successful(Redirect(routes.SortingCentersController.incomingResources))
         }
       }

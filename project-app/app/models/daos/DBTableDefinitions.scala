@@ -262,6 +262,32 @@ trait DBTableDefinitions {
     def * = (id, idSupply, userID, supplyUserID, resource, resourceCategoryID, amount, amountLabelID) <>(DBSortingCenterStock.tupled, DBSortingCenterStock.unapply)
   }
 
+    // Transport
+    case class DBTransport(
+                                     id: String,
+                                     idSourceUser: String,
+                                     idDestinyUser: String,
+                                     idSCStock: String,
+                                     active: Boolean,
+                                     idTransporter: String
+                                     )
+
+    class Transports(tag: Tag) extends Table[DBTransport](tag, "transport") {
+      def id = column[String]("id", O.PrimaryKey)
+
+      def idSourceUser = column[String]("idSourceUser")
+
+      def idDestinyUser = column[String]("idDestinyUser")
+
+      def idSCStock = column[String]("idSCStock")
+
+      def active = column[Boolean]("active")
+
+      def idTransporter = column[String]("idTransporter")
+
+      def * = (id, idSourceUser, idDestinyUser, idSCStock, active, idTransporter) <>(DBTransport.tupled, DBTransport.unapply)
+  }
+
   // table query definitions
   val slickUsers = TableQuery[Users]
   val slickLoginInfos = TableQuery[LoginInfos]
@@ -276,6 +302,7 @@ trait DBTableDefinitions {
   val slickResourceCategories = TableQuery[ResourceCategories]
   val slickResourceAmountLabels = TableQuery[ResourceAmountLabels]
   val slickSortingCenterStocks = TableQuery[SortingCenterStocks]
+  val slickTransports = TableQuery[Transports]
 
   // queries used in multiple places
   def loginInfoQuery(loginInfo: LoginInfo) =
