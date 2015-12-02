@@ -105,19 +105,6 @@ class SortingCentersController @Inject()(
 
                 sortingCenterStockService.save(stock.copy())
 
-                // TODO get the transport first instead of creating a new one
-                // updating transport job
-                val transportJob = Transport(
-                  id = UUID.randomUUID(),
-                  idSourceUser = supply.userID,
-                  idDestinyUser = request.identity.userID,
-                  idSCStock = stock.id,
-                  active = false,
-                  idTransporter = UUID.randomUUID()
-                )
-
-                transportService.save(transportJob.copy())
-
               // adding a new supply offer we are accepting for the first time
               case None =>
                 val stock = SortingCenterStock(
