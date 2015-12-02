@@ -1,13 +1,12 @@
 @(
         user: models.User,
-        sortingCenterStockForm: Form[forms.SortingCenterStockForm.Data],
-        mySupplies: Seq[Supply],
+        mySortingCenterStocks: Seq[SortingCenterStock],
         resourceCategories: Seq[(String, String)],
         resourceAmountLabels: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
 
 @import b3.inline.fieldConstructor
 
-@app(Messages("sorting.center.title"), Some(user)) {
+@app(Messages("sorting.center.incoming.title"), Some(user)) {
     <div class="col-md-8 col-md-offset-2">
         @request.flash.get("error").map { msg =>
             <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
@@ -16,10 +15,10 @@
             </div>
         }
 
-        <h2>Available offers to request</h2>
+        <h2>Resources to request from Sorting Center</h2>
 
-        @if(mySupplies.isEmpty) {
-            <h4>No supply offers to request yet</h4>
+        @if(mySortingCenterStocks.isEmpty) {
+            <h4>There are no resources available</h4>
         } else {
             <table class="table table-hover">
                 <thead>
@@ -29,42 +28,31 @@
                         <th>Category</th>
                         <th>Amount</th>
                         <th>Amount Label</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
+                        <th>Request</th>
                     </tr>
                 </thead>
                 <tbody>
-                @for((mySupply, index) <- mySupplies.zipWithIndex) {
+                @for((mySortingCenterStock, index) <- mySortingCenterStocks.zipWithIndex) {
                     <tr>
                         <th scope="row">@{
                             index + 1
                         }</th>
 
-                        <td>@mySupply.resource</td>
+                        <td>@mySortingCenterStock.resource</td>
 
                         <td>@{
-                            resourceCategories.find(_._1 == mySupply.resourceCategoryID.toString).get._2
+                            resourceCategories.find(_._1 == mySortingCenterStock.resourceCategoryID.toString).get._2
                         }</td>
 
-                        <td>@mySupply.amount</td>
+                        <td>@mySortingCenterStock.amount</td>
 
                         <td>@{
-                            resourceAmountLabels.find(_._1 == mySupply.amountLabelID.toString).get._2
+                            resourceAmountLabels.find(_._1 == mySortingCenterStock.amountLabelID.toString).get._2
                         }</td>
 
-                        @b3.form(action = routes.SortingCentersController.acceptOffer()) {
-                            @helper.CSRF.formField
-
-                            @b3.hidden("supplyID", mySupply.id)
-
-                            <td>@b3.number(sortingCenterStockForm("amount"), 'min -> 1, 'max -> mySupply.amount, 'step -> 1, '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")</td>
-
-                            <td>
-                                <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
-                                @Messages("submit.sortingCenterStock.offer")
-                                </button>
-                            </td>
-                        }
+                        <td>
+                            <a href="#" id="accept" class="btn btn-success btn-block">Request</a>
+                        </td>
                     </tr>
                 }
                 </tbody>
