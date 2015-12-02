@@ -6,8 +6,8 @@ import javax.inject.Inject
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SortingCenterStockForm
-import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService}
-import models.{SortingCenterStock, Supply, User}
+import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService, TransportService}
+import models.{SortingCenterStock, Supply, User, Transport}
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,7 +26,8 @@ class SortingCentersController @Inject()(
                                           supplyService: SupplyService,
                                           sortingCenterStockService: SortingCenterStockService,
                                           resourceCategoryService: ResourceCategoryService,
-                                          resourceAmountLabelService: ResourceAmountLabelService)
+                                          resourceAmountLabelService: ResourceAmountLabelService,
+                                          transportService: TransportService)
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
@@ -103,6 +104,16 @@ class SortingCentersController @Inject()(
                 )
 
                 sortingCenterStockService.save(stock.copy())
+              //updating transport
+                val transportJob = Transport(
+                  id = UUID.randomUUID(),
+                  idSourceUser = supply.userID,
+                  idDestinyUser = request.identity.userID,
+                  idSCStock = stock.id,
+                  active = true,
+                  idTransporter = null
+                )
+                transportService.save(transportJob.copy())
 
               // adding a new supply offer we are accepting for the first time
               case None =>
@@ -118,9 +129,25 @@ class SortingCentersController @Inject()(
                 )
 
                 sortingCenterStockService.save(stock.copy())
+
+                //creating transport
+                val transportJob = Transport(
+                  id = UUID.randomUUID(),
+                  idSourceUser = supply.userID,
+                  idDestinyUser = request.identity.userID,
+                  idSCStock = stock.id,
+                  active = true,
+                  idTransporter = null
+                )
+                transportService.save(transportJob.copy())
+
             }
 
-            //insert transportation request on db
+
+
+
+
+
 
 
             Future.successful(Redirect(routes.SortingCentersController.incomingResources))

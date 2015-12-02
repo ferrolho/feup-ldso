@@ -10,6 +10,8 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 class TransportDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 extends TransportDAO with DAOSlick {
 
+
+  import driver.api._
   /**
    * Saves a transport.
    *
