@@ -64,5 +64,4 @@ class UserServiceImpl @Inject()(userDAO: UserDAO) extends UserService {
         ))
     }
   }
-
 }
