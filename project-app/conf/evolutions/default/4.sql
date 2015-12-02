@@ -6,7 +6,7 @@ create table "transport" (
   "idDestinyUser" VARCHAR NOT NULL REFERENCES "user",
   "idSCStock" VARCHAR NOT NULL REFERENCES "sortingCenterStock",
   "active" BOOLEAN,
-  "idTransporter" VARCHAR REFERENCES "user"
+  "idTransporter" VARCHAR NOT NULL
 );
 
 # --- !Downs

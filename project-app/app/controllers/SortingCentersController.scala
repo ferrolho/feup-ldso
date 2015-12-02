@@ -104,15 +104,18 @@ class SortingCentersController @Inject()(
                 )
 
                 sortingCenterStockService.save(stock.copy())
-              //updating transport
+
+                // TODO get the transport first instead of creating a new one
+                // updating transport job
                 val transportJob = Transport(
                   id = UUID.randomUUID(),
                   idSourceUser = supply.userID,
                   idDestinyUser = request.identity.userID,
                   idSCStock = stock.id,
-                  active = true,
-                  idTransporter = null
+                  active = false,
+                  idTransporter = UUID.randomUUID()
                 )
+
                 transportService.save(transportJob.copy())
 
               // adding a new supply offer we are accepting for the first time
@@ -130,25 +133,19 @@ class SortingCentersController @Inject()(
 
                 sortingCenterStockService.save(stock.copy())
 
-                //creating transport
+                // creating transport job
                 val transportJob = Transport(
                   id = UUID.randomUUID(),
                   idSourceUser = supply.userID,
                   idDestinyUser = request.identity.userID,
                   idSCStock = stock.id,
-                  active = true,
-                  idTransporter = null
+                  active = false,
+                  idTransporter = UUID.randomUUID()
                 )
+
                 transportService.save(transportJob.copy())
 
             }
-
-
-
-
-
-
-
 
             Future.successful(Redirect(routes.SortingCentersController.incomingResources))
         }

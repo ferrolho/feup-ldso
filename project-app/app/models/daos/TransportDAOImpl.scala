@@ -1,9 +1,9 @@
 package models.daos
 
-import java.util.UUID
 import javax.inject.Inject
 
 import models.Transport
+import play.api.Logger
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
@@ -19,6 +19,15 @@ extends TransportDAO with DAOSlick {
    * @return The saved transport.
    */
   def save(transport: Transport) = {
+    Logger.debug(s"PUTA ENTREI")
+
+    Logger.debug(s"ID=${transport.id}")
+    Logger.debug(s"IDSO=${transport.idSourceUser}")
+    Logger.debug(s"IDDE=${transport.idDestinyUser}")
+    Logger.debug(s"IDSTOC=${transport.idSCStock}")
+    Logger.debug(s"BOO=${transport.active}")
+    Logger.debug(s"IDTRANS=${transport.idTransporter}")
+
     val dbTransport = DBTransport(
       transport.id.toString,
       transport.idSourceUser.toString,

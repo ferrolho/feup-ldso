@@ -25,6 +25,9 @@ class AppModule extends AbstractModule with ScalaModule {
 
     bind[ResourceAmountLabelService].to[ResourceAmountLabelServiceImpl]
     bind[ResourceAmountLabelDAO].to[ResourceAmountLabelDAOImpl]
+
+    bind[TransportService].to[TransportServiceImpl]
+    bind[TransportDAO].to[TransportDAOImpl]
   }
 
 }
