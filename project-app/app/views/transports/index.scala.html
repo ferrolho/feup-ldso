@@ -1,17 +1,127 @@
 @(
-user: models.User)(implicit request: RequestHeader, messages: Messages)
+        user: models.User,
+        sourceEmails: List[String],
+        destinyEmails: List[String],
+        sortingCentreStocks: List[SortingCenterStock],
+        transports: List[Transport]
+    )(implicit request: RequestHeader, messages: Messages)
 
-@import b3.inline.fieldConstructor
+
 
 @app(Messages("transport.title"), Some(user)) {
-<div class="col-md-8 col-md-offset-2">
-    @request.flash.get("error").map { msg =>
-    <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
-        <strong>@Messages("error")</strong> @msg
-    </div>
-    }
+    <div class="col-md-8 col-md-offset-2">
+        @request.flash.get("error").map { msg =>
+            <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>@Messages("error")</strong> @msg
+            </div>
+        }
+
+        <h2>SUP->SC</h2>
+
+        @if(transports.isEmpty) {
+            <h4>No transports to assign</h4>
+        } else {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Resource</th>
+                        <th>Quantity</th>
+                        <th>AmountLabel</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for((transports, index) <- transports.zipWithIndex) {
+                    <tr>
+                        <th scope="row">@{
+                            index + 1
+                        }</th>
 
 
-</div>
+                        @helper.CSRF.formField
+
+                        <td>
+                        @transports.idSourceUser
+                        </td>
+                        <td>
+                        @transports.idDestinyUser
+                        </td>
+
+                        <td>
+                                <!-- resource -->
+                        </td>
+                        <td>
+                                <!-- quantity -->
+                        </td>
+                        <td>
+                                <!-- aumountlabel -->
+                        </td>
+                        <td>
+                                <!-- category -->
+                        </td>
+
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <h2>SC->REQ</h2>
+
+            @if(transports.isEmpty) {
+                <h4>No transports to assign</h4>
+            } else {
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Resource</th>
+                            <th>Quantity</th>
+                            <th>AmountLabel</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for((transports, index) <- transports.zipWithIndex) {
+                        <tr>
+                            <th scope="row">@{
+                                index + 1
+                            }</th>
+
+
+                            @helper.CSRF.formField
+
+                            <td>
+                            @transports.idSourceUser
+                            </td>
+                            <td>
+                            @transports.idDestinyUser
+                            </td>
+
+                            <td>
+                                    <!-- resource -->
+                            </td>
+                            <td>
+                                    <!-- quantity -->
+                            </td>
+                            <td>
+                                    <!-- aumountlabel -->
+                            </td>
+                            <td>
+                                    <!-- category -->
+                            </td>
+
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
+            </div>
+}
+}
 }
