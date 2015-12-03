@@ -34,12 +34,14 @@ trait SortingCenterStockDAO {
   def byUser(userID: UUID): Future[Seq[SortingCenterStock]]
 
   /**
-   * Retrieves all sorting center stock of a certain user from the DB.
+   * Retrieves all sorting center stocks from the DB,
+   * except the ones supplied by the user given,
+   * and except the ones stored in the SC of the user given.
    *
    * @param userID The id of the user.
-   * @return The sequence of sorting center stock.
+   * @return The sequence of sorting center stocks.
    */
-  def allExceptByUser(userID: UUID): Future[Seq[SortingCenterStock]]
+  def allExceptRelatedToUser(userID: UUID): Future[Seq[SortingCenterStock]]
 
   /**
    * Saves a SortingCenter.

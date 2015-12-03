@@ -95,16 +95,22 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
     }
   }
 
-
   /**
-   * Retrieves all sorting center stock from the DB except the user given.
+   * Retrieves all sorting center stocks from the DB,
+   * except the ones supplied by the user given,
+   * and except the ones stored in the SC of the user given.
    *
    * @param userID The id of the user.
-   * @return The sequence of sorting center stock.
+   * @return The sequence of sorting center stocks.
    */
-  def allExceptByUser(userID: UUID) = {
+  def allExceptRelatedToUser(userID: UUID) = {
     val sortingCenterStocksQuery = for {
-      dbSortingCenterStock <- slickSortingCenterStocks.filter { x => x.userID =!= userID.toString && x.supplyUserID =!= userID.toString
+      dbSortingCenterStock <- slickSortingCenterStocks.filter { x =>
+        /*
+         * Filtering resources that were supplied by me - supplyUserID,
+         * and resources that I accepted as a SC - userID.
+         */
+        x.userID =!= userID.toString && x.supplyUserID =!= userID.toString
       }
     } yield dbSortingCenterStock
 

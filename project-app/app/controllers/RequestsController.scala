@@ -11,10 +11,13 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
+ * The requests controller
  *
  * @param messagesApi
  * @param env
  * @param sortingCenterStockService
+ * @param resourceCategoryService
+ * @param resourceAmountLabelService
  */
 class RequestsController @Inject()(
                                     val messagesApi: MessagesApi,
@@ -25,7 +28,7 @@ class RequestsController @Inject()(
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
-    val fAllSortingCenterStockUser = sortingCenterStockService.allExceptByUser(request.identity.userID)
+    val fAllSortingCenterStockUser = sortingCenterStockService.allExceptRelatedToUser(request.identity.userID)
     val fResourceCategories = resourceCategoryService.all
     val fResourceAmountLabels = resourceAmountLabelService.all
 
