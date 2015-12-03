@@ -2,8 +2,8 @@
         user: models.User,
         sourceEmails: List[String],
         destinyEmails: List[String],
-        sortingCentreStocks: List[SortingCenterStock],
-        transports: List[Transport]
+        sortingCentreStocks: List[models.SortingCenterStock],
+        transports: List[models.Transport]
     )(implicit request: RequestHeader, messages: Messages)
 
 

@@ -54,13 +54,15 @@ class TransportController @Inject()(
         userDAO.find(transport.idDestinyUser).map { option =>
           option.map { user =>
             user.email.map { email =>
-              sourceEmailsList += email
+              destinyEmailsList += email
             }
           }
         }
 
         // gets SC of this transport
-        sortingCenterStockService.retrieve(transport.idSCStock)
+        sortingCenterStockService.retrieve(transport.idSCStock).map { sortingCenterStock =>
+          sortingCenterStockList += sortingCenterStock
+        }
       }
     }
 
