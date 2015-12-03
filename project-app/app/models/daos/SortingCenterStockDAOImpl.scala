@@ -96,6 +96,41 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
   }
 
   /**
+   * Retrieves all sorting center stocks from the DB,
+   * except the ones supplied by the user given,
+   * and except the ones stored in the SC of the user given.
+   *
+   * @param userID The id of the user.
+   * @return The sequence of sorting center stocks.
+   */
+  def allExceptRelatedToUser(userID: UUID) = {
+    val sortingCenterStocksQuery = for {
+      dbSortingCenterStock <- slickSortingCenterStocks.filter { x =>
+        /*
+         * Filtering resources that were supplied by me - supplyUserID,
+         * and resources that I accepted as a SC - userID.
+         */
+        x.userID =!= userID.toString && x.supplyUserID =!= userID.toString
+      }
+    } yield dbSortingCenterStock
+
+    db.run(sortingCenterStocksQuery.result).map { dbSortingCenterStockOption =>
+      dbSortingCenterStockOption.map { stock =>
+        SortingCenterStock(
+          UUID.fromString(stock.id),
+          UUID.fromString(stock.idSupply),
+          UUID.fromString(stock.userID),
+          UUID.fromString(stock.supplyUserID),
+          stock.resource,
+          stock.resourceCategoryID,
+          stock.amount,
+          stock.amountLabelID
+        )
+      }
+    }
+  }
+
+  /**
    * Saves a sorting center.
    *
    * @param sortingCenterStock The sorting center to save.
@@ -121,11 +156,11 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
   }
 
   /**
-  * deletes the row with the param id
-  *
-  * @param id the id of the sorting center stock to remove.
-    *
-  */
+   * deletes the row with the param id
+   *
+   * @param id the id of the sorting center stock to remove.
+   *
+   */
   def delete(id: UUID) {
     db.run(slickSortingCenterStocks.filter(_.id === id.toString).delete)
   }

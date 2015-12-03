@@ -34,7 +34,17 @@ trait SortingCenterStockService {
    * @param userID The id of the user.
    * @return The sequence of sorting center stock.
    */
-  def byUser(userID: UUID) :Future[Seq[SortingCenterStock]]
+  def byUser(userID: UUID): Future[Seq[SortingCenterStock]]
+
+  /**
+   * Retrieves all sorting center stocks from the DB,
+   * except the ones supplied by the user given,
+   * and except the ones stored in the SC of the user given.
+   *
+   * @param userID The id of the user.
+   * @return The sequence of sorting center stocks.
+   */
+  def allExceptRelatedToUser(userID: UUID): Future[Seq[SortingCenterStock]]
 
   /**
    * Saves an acceptable offer to store in sorting center stock.

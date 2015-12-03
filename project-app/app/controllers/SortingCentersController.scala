@@ -30,7 +30,6 @@ class SortingCentersController @Inject()(
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
-
     val fAllSupliesExceptUser = supplyService.allExceptByUser(request.identity.userID)
     val fResourceCategories = resourceCategoryService.all
     val fResourceAmountLabels = resourceAmountLabelService.all

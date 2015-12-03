@@ -21,7 +21,8 @@ POST        /sortingCenter                                     controllers.Sorti
 GET         /sortingCenter/incoming                            controllers.SortingCentersController.incomingResources
 POST        /sortingCenter/cancel/:sortingCenterStockID        controllers.SortingCentersController.cancelIncomingResource(sortingCenterStockID)
 
-#GET         /request                         controllers.RequestsController.index
+GET         /request                                           controllers.RequestsController.index
+
 #GET         /redeem                          controllers.RedeemController.index
 
 GET         /play-info                                         controllers.Application.playInfo
