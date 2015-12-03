@@ -95,6 +95,34 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
     }
   }
 
+
+  /**
+   * Retrieves all sorting center stock of a certain user from the DB.
+   *
+   * @param userID The id of the user.
+   * @return The sequence of sorting center stock.
+   */
+  def allExceptByUser(userID: UUID) = {
+    val sortingCenterStocksQuery = for {
+      dbSortingCenterStock <- slickSortingCenterStocks.filter(_.userID =!= userID.toString)
+    } yield dbSortingCenterStock
+
+    db.run(sortingCenterStocksQuery.result).map { dbSortingCenterStockOption =>
+      dbSortingCenterStockOption.map { stock =>
+        SortingCenterStock(
+          UUID.fromString(stock.id),
+          UUID.fromString(stock.idSupply),
+          UUID.fromString(stock.userID),
+          UUID.fromString(stock.supplyUserID),
+          stock.resource,
+          stock.resourceCategoryID,
+          stock.amount,
+          stock.amountLabelID
+        )
+      }
+    }
+  }
+
   /**
    * Saves a sorting center.
    *

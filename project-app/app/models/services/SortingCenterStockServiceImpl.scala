@@ -41,6 +41,14 @@ class SortingCenterStockServiceImpl @Inject()(sortingCenterStockDAO: SortingCent
   def byUser(userID: UUID) = sortingCenterStockDAO.byUser(userID: UUID)
 
   /**
+   * Retrieves all sorting center stock of alll except a certain user.
+   *
+   * @param userID The id of the user.
+   * @return The sequence of sorting center stock.
+   */
+  def allExceptByUser(userID: UUID) = sortingCenterStockDAO.allExceptByUser(userID: UUID)
+
+  /**
    * Saves am acceptable offer to store in sorting center stock
    *
    * @param sortingCenterStock the acceptable offer to save.
