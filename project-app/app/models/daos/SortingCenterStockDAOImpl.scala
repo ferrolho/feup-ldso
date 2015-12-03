@@ -102,9 +102,15 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
    * @param userID The id of the user.
    * @return The sequence of sorting center stock.
    */
-  def allExceptByUser(idSupply: UUID, userID: UUID) = {
+  def allExceptByUser(userID: UUID) = {
     val sortingCenterStocksQuery = for {
-      dbSortingCenterStock <- slickSortingCenterStocks.filter(x => x.idSupply === idSupply.toString && x.userID === userID.toString)
+      dbSortingCenterStock <- slickSortingCenterStocks.filter { x =>
+        /*
+         * Filtering resources that were supplied by me - supplyUserID,
+         * and resources that I accepted as a SC - userID.
+         */
+        x.userID =!= userID.toString && x.supplyUserID =!= userID.toString
+      }
     } yield dbSortingCenterStock
 
     db.run(sortingCenterStocksQuery.result).map { dbSortingCenterStockOption =>
@@ -149,11 +155,11 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
   }
 
   /**
-  * deletes the row with the param id
-  *
-  * @param id the id of the sorting center stock to remove.
-    *
-  */
+   * deletes the row with the param id
+   *
+   * @param id the id of the sorting center stock to remove.
+   *
+   */
   def delete(id: UUID) {
     db.run(slickSortingCenterStocks.filter(_.id === id.toString).delete)
   }

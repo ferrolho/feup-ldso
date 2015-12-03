@@ -25,7 +25,7 @@ class RequestsController @Inject()(
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
-    val fAllSortingCenterStockUser = sortingCenterStockService.allExceptByUser(request.identity.userID, request.identity.userID) //dont know how to get the supply...
+    val fAllSortingCenterStockUser = sortingCenterStockService.allExceptByUser(request.identity.userID)
     val fResourceCategories = resourceCategoryService.all
     val fResourceAmountLabels = resourceAmountLabelService.all
 

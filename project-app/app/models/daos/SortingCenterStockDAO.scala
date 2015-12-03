@@ -39,7 +39,8 @@ trait SortingCenterStockDAO {
    * @param userID The id of the user.
    * @return The sequence of sorting center stock.
    */
-  def allExceptByUser(idSupply: UUID, userID: UUID): Future[Seq[SortingCenterStock]]
+  def allExceptByUser(userID: UUID): Future[Seq[SortingCenterStock]]
+
   /**
    * Saves a SortingCenter.
    *
