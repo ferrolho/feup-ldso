@@ -2,7 +2,7 @@
         user: models.User,
         sourceEmails: List[String],
         destinyEmails: List[String],
-        sortingCentreStocks: List[models.SortingCenterStock],
+        sortingCenterStocks: List[models.SortingCenterStock],
         transports: List[models.Transport])(implicit request: RequestHeader, messages: Messages)
 
 @app(Messages("transport.title"), Some(user)) {
@@ -42,30 +42,30 @@
                         @helper.CSRF.formField
 
                         <td>
-                        @transport.idSourceUser
+                         @sourceEmails(index)
                         </td>
                         <td>
-                        @transport.idDestinyUser
+                        @destinyEmails(index)
                         </td>
 
                         <td>
-                                <!-- resource -->
+                            @sortingCenterStocks(index).resource
                         </td>
                         <td>
-                                <!-- quantity -->
+                            @sortingCenterStocks(index).amount
                         </td>
                         <td>
-                                <!-- aumountlabel -->
+                        @sortingCenterStocks(index).amountLabelID
                         </td>
                         <td>
-                                <!-- category -->
+                        @sortingCenterStocks(index).resourceCategoryID
                         </td>
 
                     </tr>
                 }
                 </tbody>
             </table>
-
+        }
             <h2>SC->REQ</h2>
 
             @if(transports.isEmpty) {
@@ -94,23 +94,23 @@
                             @helper.CSRF.formField
 
                             <td>
-                            @transports.idSourceUser
+                            @sourceEmails(index)
                             </td>
                             <td>
-                            @transports.idDestinyUser
+                            @destinyEmails(index)
                             </td>
 
                             <td>
-                                    <!-- resource -->
+                            @sortingCenterStocks(index).resource
                             </td>
                             <td>
-                                    <!-- quantity -->
+                            @sortingCenterStocks(index).amount
                             </td>
                             <td>
-                                    <!-- aumountlabel -->
+                            @sortingCenterStocks(index).amountLabelID
                             </td>
                             <td>
-                                    <!-- category -->
+                            @sortingCenterStocks(index).resourceCategoryID
                             </td>
 
                         </tr>
@@ -121,4 +121,4 @@
             </div>
 }
 }
-}
+
