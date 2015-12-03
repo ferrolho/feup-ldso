@@ -3,10 +3,7 @@
         sourceEmails: List[String],
         destinyEmails: List[String],
         sortingCentreStocks: List[models.SortingCenterStock],
-        transports: List[models.Transport]
-    )(implicit request: RequestHeader, messages: Messages)
-
-
+        transports: List[models.Transport])(implicit request: RequestHeader, messages: Messages)
 
 @app(Messages("transport.title"), Some(user)) {
     <div class="col-md-8 col-md-offset-2">
@@ -35,7 +32,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @for((transports, index) <- transports.zipWithIndex) {
+                @for((transport, index) <- transports.zipWithIndex) {
                     <tr>
                         <th scope="row">@{
                             index + 1
@@ -45,10 +42,10 @@
                         @helper.CSRF.formField
 
                         <td>
-                        @transports.idSourceUser
+                        @transport.idSourceUser
                         </td>
                         <td>
-                        @transports.idDestinyUser
+                        @transport.idDestinyUser
                         </td>
 
                         <td>

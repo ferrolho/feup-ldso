@@ -5,6 +5,7 @@ import javax.inject.Inject
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import models.{SortingCenterStock, User, Transport}
+import play.api.Logger
 import play.api.i18n.MessagesApi
 import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, TransportService}
 import models.daos.UserDAO
@@ -30,22 +31,24 @@ class TransportController @Inject()(
 
   def index = SecuredAction.async { implicit request =>
 
-    var sourceEmailsList = new ListBuffer[String]()
-    var destinyEmailsList = new ListBuffer[String]()
-    var sortingCenterStockList = new ListBuffer[SortingCenterStock]()
-    val transportsList = new ListBuffer[Transport]()
-
     // TODO ask Sereno for a better way to do this
     transportService.allNonActive().map { transports =>
+
+      var sourceEmailsListBuffer = ListBuffer[String]()
+      var destinyEmailsListBuffer = ListBuffer[String]()
+      var sortingCenterStockListBuffer = ListBuffer[SortingCenterStock]()
+      var transportsListBuffer = ListBuffer[Transport]()
+
       transports.map { transport =>
 
-        transportsList += transport
+        transportsListBuffer.append(transport)
+        Logger.debug(s"TRANSP LIST SIZE: ${transportsListBuffer.size}")
 
         // gets email from source
         userDAO.find(transport.idSourceUser).map { option =>
           option.map { user =>
             user.email.map { email =>
-              sourceEmailsList += email
+              sourceEmailsListBuffer.append(email)
             }
           }
         }
@@ -54,18 +57,18 @@ class TransportController @Inject()(
         userDAO.find(transport.idDestinyUser).map { option =>
           option.map { user =>
             user.email.map { email =>
-              destinyEmailsList += email
+              destinyEmailsListBuffer.append(email)
             }
           }
         }
 
         // gets SC of this transport
         sortingCenterStockService.retrieve(transport.idSCStock).map { sortingCenterStock =>
-          sortingCenterStockList += sortingCenterStock
+          sortingCenterStockListBuffer.append(sortingCenterStock)
         }
       }
-    }
 
-      Future.successful(Ok(views.html.transports.index(request.identity, sourceEmailsList.toList, destinyEmailsList.toList, sortingCenterStockList.toList, transportsList.toList)))
+      Ok(views.html.transports.index(request.identity, sourceEmailsListBuffer.toList, destinyEmailsListBuffer.toList, sortingCenterStockListBuffer.toList, transportsListBuffer.toList))
+    }
   }
 }
