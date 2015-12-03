@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService}
+import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService}
 import models.User
 import play.api.i18n.MessagesApi
 
@@ -25,7 +25,7 @@ class RequestsController @Inject()(
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
-    val fAllSortingCenterStockUser = sortingCenterStockService.allExceptByUser(request.identity.userID)
+    val fAllSortingCenterStockUser = sortingCenterStockService.allExceptByUser(request.identity.userID, request.identity.userID) //dont know how to get the supply...
     val fResourceCategories = resourceCategoryService.all
     val fResourceAmountLabels = resourceAmountLabelService.all
 

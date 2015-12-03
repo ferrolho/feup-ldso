@@ -102,9 +102,9 @@ class SortingCenterStockDAOImpl @Inject()(protected val dbConfigProvider: Databa
    * @param userID The id of the user.
    * @return The sequence of sorting center stock.
    */
-  def allExceptByUser(userID: UUID) = {
+  def allExceptByUser(idSupply: UUID, userID: UUID) = {
     val sortingCenterStocksQuery = for {
-      dbSortingCenterStock <- slickSortingCenterStocks.filter(_.userID =!= userID.toString)
+      dbSortingCenterStock <- slickSortingCenterStocks.filter(x => x.idSupply === idSupply.toString && x.userID === userID.toString)
     } yield dbSortingCenterStock
 
     db.run(sortingCenterStocksQuery.result).map { dbSortingCenterStockOption =>

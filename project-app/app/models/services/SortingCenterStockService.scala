@@ -42,7 +42,7 @@ trait SortingCenterStockService {
    * @param userID The id of the user to to be excluded.
    * @return The sequence of supplies.
    */
-  def allExceptByUser(userID: UUID): Future[Seq[SortingCenterStock]]
+  def allExceptByUser(idSupply: UUID, userID: UUID): Future[Seq[SortingCenterStock]]
 
   /**
    * Saves an acceptable offer to store in sorting center stock.
