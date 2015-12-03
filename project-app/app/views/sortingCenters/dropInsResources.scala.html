@@ -1,8 +1,7 @@
 
 @(
         user: models.User,
-        supplyForm: Form[forms.SupplyForm.Data],
-        mySupplies: Seq[Supply],
+        sortingCenterStockForm: Form[forms.SortingCenterStockForm.Data],
         resourceCategories: Seq[(String, String)],
         resourceAmountLabels: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
 
@@ -15,24 +14,24 @@
         </div>
     }
 
-    <h2>Supply</h2>
+    <h2>Drop-in</h2>
 
     <fieldset>
-        <legend>@Messages("supply.offer.details")</legend>
+        <legend>@Messages("sortingCenterStock.dropins.details")</legend>
 
         @b3.form(action = routes.SortingCentersController.submitDropIns()) {
             @helper.CSRF.formField
-            @b3.text(supplyForm("idUser"),'_hiddenLabel -> Messages("idUser"),'placeholder -> Messages("idUser"), 'class -> "form-control")
-            @b3.text(supplyForm("resource"), '_hiddenLabel -> Messages("description"), 'placeholder -> Messages("description"), 'class -> "form-control")
-            @b3.select(supplyForm("resourceCategoryID"), options = resourceCategories)
+            @b3.text(sortingCenterStockForm("email"),'_hiddenLabel -> Messages("email"),'placeholder -> Messages("email"), 'class -> "form-control")
+            @b3.text(sortingCenterStockForm("resource"), '_hiddenLabel -> Messages("description"), 'placeholder -> Messages("description"), 'class -> "form-control")
+            @b3.select(sortingCenterStockForm("resourceCategoryID"), options = resourceCategories)
 
-            @b3.number(supplyForm("amount"), '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")
-            @b3.select(supplyForm("amountLabelID"), options = resourceAmountLabels)
+            @b3.number(sortingCenterStockForm("amount"), '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")
+            @b3.select(sortingCenterStockForm("amountLabelID"), options = resourceAmountLabels)
 
             <div class="form-group">
                 <div>
                     <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
-                    @Messages("submit.supply.offer")
+                    @Messages("submit.sortingCenter.dropin")
                     </button>
                 </div>
             </div>

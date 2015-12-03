@@ -73,6 +73,35 @@ class UserDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   }
 
   /**
+   * Finds a user by its email.
+   *
+   * @param userEmail The imal of the user to find.
+   * @return The found user or None if no user for the given email could be found.
+   */
+  def find(userEmail: String)= {
+    val query = for {
+      dbUser <- slickUsers.filter(_.email === userEmail)
+      dbUserLoginInfo <- slickUserLoginInfos.filter(_.userID === dbUser.id)
+      dbLoginInfo <- slickLoginInfos.filter(_.id === dbUserLoginInfo.loginInfoId)
+    } yield (dbUser, dbLoginInfo)
+    db.run(query.result.headOption).map { resultOption =>
+      resultOption.map {
+        case (user, loginInfo) =>
+          User(
+            UUID.fromString(user.userID),
+            LoginInfo(loginInfo.providerID, loginInfo.providerKey),
+            user.firstName,
+            user.lastName,
+            user.fullName,
+            user.email,
+            user.avatarURL,
+            user.countryID
+          )
+      }
+    }
+  }
+
+  /**
    * Saves a user.
    *
    * @param user The user to save.

@@ -56,6 +56,8 @@ delete.supply.offer = Delete
 
 submit.sortingCenterStock.offer = Accept Offer
 submit.sortingCenterStock.cancel = Cancel
+submit.sortingCenter.dropin = Accept Drop-In
+sortingCenterStock.dropins.details = What drop-in came?
 
 country = Country
 supplier = Supplier
@@ -66,4 +68,4 @@ transporter = Transporter
 resource = Resource
 description = Description
 amount = Amount
-idUser = Email
+

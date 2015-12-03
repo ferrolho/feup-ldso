@@ -5,8 +5,8 @@ import javax.inject.Inject
 
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import forms.{SupplyForm, SortingCenterStockForm}
-import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService}
+import forms.SortingCenterStockForm
+import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService, UserService}
 import models.{SortingCenterStock, Supply, User}
 import play.api.i18n.MessagesApi
 
@@ -19,6 +19,7 @@ import scala.concurrent.Future
  * @param env
  * @param supplyService
  * @param sortingCenterStockService
+ * @param userService
  */
 class SortingCentersController @Inject()(
                                           val messagesApi: MessagesApi,
@@ -26,7 +27,8 @@ class SortingCentersController @Inject()(
                                           supplyService: SupplyService,
                                           sortingCenterStockService: SortingCenterStockService,
                                           resourceCategoryService: ResourceCategoryService,
-                                          resourceAmountLabelService: ResourceAmountLabelService)
+                                          resourceAmountLabelService: ResourceAmountLabelService,
+                                          userService: UserService)
   extends Silhouette[User, CookieAuthenticator] {
 
   def index = SecuredAction.async { implicit request =>
@@ -188,9 +190,13 @@ class SortingCentersController @Inject()(
     }
   }
 
+  /**
+   * submits a drop in supply in sorting center from a supplier without needing transportation
+   *
+   * @return The result to display
+   */
 
-
-  def dropIns= SecuredAction.async{implicit request =>
+  def dropIns = SecuredAction.async { implicit request =>
     val fSupplies = supplyService.byUser(request.identity.userID)
     val fResourceCategories = resourceCategoryService.all
     val fResourceAmountLabels = resourceAmountLabelService.all
@@ -200,12 +206,10 @@ class SortingCentersController @Inject()(
         val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
         val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
 
-        Ok(views.html.sortingCenters.dropInsResources(request.identity, SupplyForm.form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
+        Ok(views.html.sortingCenters.dropInsResources(request.identity, SortingCenterStockForm.form, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
       }
 
   }
-
-
 
 
   /**
@@ -213,7 +217,7 @@ class SortingCentersController @Inject()(
    *
    * @return The result to display
    */
-  def submitDropIns= SecuredAction.async{implicit request =>
+  def submitDropIns = SecuredAction.async { implicit request =>
     SortingCenterStockForm.form.bindFromRequest.fold(
       form => {
         val fAllSuppliesExceptUser = supplyService.allExceptByUser(request.identity.userID)
@@ -230,31 +234,27 @@ class SortingCentersController @Inject()(
           }
       },
       data => {
-        supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap {
-         case Some(supply) =>
-            // update supplies table
+        //search for user
+        userService.retrieve(data.email).flatMap {
+          //if exists
+          case Some(user) =>
+            //and if different from the sortingCenter owner
+            if (user.userID != request.identity.userID) {
 
+              // storing a drop-in offer
+              val stock = SortingCenterStock(
+                id = UUID.randomUUID(),
+                idSupply = UUID.randomUUID(),
+                userID = request.identity.userID,
+                supplyUserID = user.userID,
+                resource = data.resource,
+                resourceCategoryID = data.resourceCategoryID,
+                amount = data.amount,
+                amountLabelID = data.amountLabelID
+              )
 
-            // update sorting center stocks table
-            sortingCenterStockService.retrieve(supply.id, request.identity.userID).map {
-              // updating if we already accepted part of this supply offer
-              case Some(someStock) =>
+              sortingCenterStockService.save(stock.copy())
 
-
-              // adding a new supply offer we are accepting for the first time
-
-                val stock = SortingCenterStock(
-                  id = UUID.randomUUID(),
-                  idSupply = supply.id,
-                  userID = request.identity.userID,
-                  supplyUserID = supply.userID,
-                  resource = supply.resource,
-                  resourceCategoryID = supply.resourceCategoryID,
-                  amount = data.amount,
-                  amountLabelID = supply.amountLabelID
-                )
-
-                sortingCenterStockService.save(stock.copy())
             }
 
             Future.successful(Redirect(routes.SortingCentersController.incomingResources))

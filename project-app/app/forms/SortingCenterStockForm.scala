@@ -14,7 +14,12 @@ object SortingCenterStockForm {
   val form = Form(
     mapping(
       "supplyID" -> nonEmptyText,
-      "amount" -> number(min = 1)
+      "amount" -> number(min = 1),
+      "email" -> nonEmptyText,
+      "resource" -> nonEmptyText,
+      "resourceCategoryID" -> longNumber,
+      "amountLabelID" -> longNumber
+
     )(Data.apply)(Data.unapply)
   )
 
@@ -23,7 +28,11 @@ object SortingCenterStockForm {
    *
    * @param supplyID the identification of the supply
    * @param amount  the amount to save
+   * @param email the email of the supplier
+   * @param resource The name of the resource.
+   * @param resourceCategoryID The id of the resource category.
+   * @param amountLabelID The id of the resource amount label.
    */
-  case class Data(supplyID: String, amount: Int)
+  case class Data(supplyID: String, amount: Int, email: String, resource: String, resourceCategoryID: Long, amountLabelID: Long)
 
 }
