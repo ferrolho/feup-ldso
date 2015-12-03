@@ -66,3 +66,4 @@ transporter = Transporter
 resource = Resource
 description = Description
 amount = Amount
+idUser = Email

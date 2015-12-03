@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 import com.mohiva.play.silhouette.api.{Environment, Silhouette}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
-import forms.SortingCenterStockForm
+import forms.{SupplyForm, SortingCenterStockForm}
 import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService}
 import models.{SortingCenterStock, Supply, User}
 import play.api.i18n.MessagesApi
@@ -188,10 +188,78 @@ class SortingCentersController @Inject()(
     }
   }
 
+
+
+  def dropIns= SecuredAction.async{implicit request =>
+    val fSupplies = supplyService.byUser(request.identity.userID)
+    val fResourceCategories = resourceCategoryService.all
+    val fResourceAmountLabels = resourceAmountLabelService.all
+
+    for {supplies <- fSupplies; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+      yield {
+        val resourceCategorySelectOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+        val resourceAmountLabelSelectOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+        Ok(views.html.sortingCenters.dropInsResources(request.identity, SupplyForm.form, supplies, resourceCategorySelectOptions, resourceAmountLabelSelectOptions))
+      }
+
+  }
+
+
+
+
   /**
    * submits a drop in supply in sorting center from a supplier without needing transportation
    *
    * @return The result to display
    */
-  def submitDropIn= SecuredAction.async{implicit request =>}
+  def submitDropIns= SecuredAction.async{implicit request =>
+    SortingCenterStockForm.form.bindFromRequest.fold(
+      form => {
+        val fAllSuppliesExceptUser = supplyService.allExceptByUser(request.identity.userID)
+        val fResourceCategories = resourceCategoryService.all
+        val fResourceAmountLabels = resourceAmountLabelService.all
+
+        for {allSuppliesExceptUser <- fAllSuppliesExceptUser; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels}
+          yield {
+            val supplies = allSuppliesExceptUser
+            val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+            val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+            BadRequest(views.html.sortingCenters.index(request.identity, form, supplies, resourceCategoryOptions, resourceAmountLabelOptions))
+          }
+      },
+      data => {
+        supplyService.retrieve(UUID.fromString(data.supplyID)).flatMap {
+         case Some(supply) =>
+            // update supplies table
+
+
+            // update sorting center stocks table
+            sortingCenterStockService.retrieve(supply.id, request.identity.userID).map {
+              // updating if we already accepted part of this supply offer
+              case Some(someStock) =>
+
+
+              // adding a new supply offer we are accepting for the first time
+
+                val stock = SortingCenterStock(
+                  id = UUID.randomUUID(),
+                  idSupply = supply.id,
+                  userID = request.identity.userID,
+                  supplyUserID = supply.userID,
+                  resource = supply.resource,
+                  resourceCategoryID = supply.resourceCategoryID,
+                  amount = data.amount,
+                  amountLabelID = supply.amountLabelID
+                )
+
+                sortingCenterStockService.save(stock.copy())
+            }
+
+            Future.successful(Redirect(routes.SortingCentersController.incomingResources))
+        }
+      }
+    )
+  }
 }

@@ -20,9 +20,9 @@
     <fieldset>
         <legend>@Messages("supply.offer.details")</legend>
 
-        @b3.form(action = routes.SuppliesController.submitDropIns()) {
+        @b3.form(action = routes.SortingCentersController.submitDropIns()) {
             @helper.CSRF.formField
-
+            @b3.text(supplyForm("idUser"),'_hiddenLabel -> Messages("idUser"),'placeholder -> Messages("idUser"), 'class -> "form-control")
             @b3.text(supplyForm("resource"), '_hiddenLabel -> Messages("description"), 'placeholder -> Messages("description"), 'class -> "form-control")
             @b3.select(supplyForm("resourceCategoryID"), options = resourceCategories)
 
@@ -37,4 +37,5 @@
                 </div>
             </div>
         }
-</fieldset>
+    </fieldset>
+}

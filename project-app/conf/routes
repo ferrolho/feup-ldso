@@ -20,7 +20,8 @@ GET         /sortingCenter                                     controllers.Sorti
 POST        /sortingCenter                                     controllers.SortingCentersController.acceptOffer
 GET         /sortingCenter/incoming                            controllers.SortingCentersController.incomingResources
 POST        /sortingCenter/cancel/:sortingCenterStockID        controllers.SortingCentersController.cancelIncomingResource(sortingCenterStockID)
-POST        /sortingCenter/drop-ins                            controllers.SortingCentersController.csubmitDropIns
+GET         /sortingCenter/drop-ins                            controllers.SortingCentersController.dropIns
+POST        /sortingCenter/drop-ins                            controllers.SortingCentersController.submitDropIns
 #GET         /request                         controllers.RequestsController.index
 #GET         /redeem                          controllers.RedeemController.index
 
