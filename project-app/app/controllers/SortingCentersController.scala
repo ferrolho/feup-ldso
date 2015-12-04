@@ -8,6 +8,7 @@ import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import forms.SortingCenterStockForm
 import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, SupplyService, UserService}
 import models.{SortingCenterStock, Supply, User}
+import play.api.Logger
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -218,8 +219,10 @@ class SortingCentersController @Inject()(
    * @return The result to display
    */
   def submitDropIns = SecuredAction.async { implicit request =>
+    Logger.debug("asdasdasdasdasdsad")
     SortingCenterStockForm.form.bindFromRequest.fold(
       form => {
+        Logger.debug("badrequest")
         val fAllSuppliesExceptUser = supplyService.allExceptByUser(request.identity.userID)
         val fResourceCategories = resourceCategoryService.all
         val fResourceAmountLabels = resourceAmountLabelService.all
@@ -235,6 +238,7 @@ class SortingCentersController @Inject()(
       },
       data => {
         //search for user
+        Logger.debug("cenas")
         userService.retrieve(data.email).flatMap {
           //if exists
           case Some(user) =>
@@ -253,6 +257,7 @@ class SortingCentersController @Inject()(
                 amountLabelID = data.amountLabelID
               )
 
+              Logger.debug("teste1")
               sortingCenterStockService.save(stock.copy())
 
             }

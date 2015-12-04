@@ -68,8 +68,12 @@
                                 'class -> "form-control",
                                 'required -> ""
                             )
-                            </td>
 
+                            </td>
+                            @b3.hidden("email",mySupply.resource)
+                            @b3.hidden("resource",mySupply.resource)
+                            @b3.hidden("resourceCategoryID",mySupply.resourceCategoryID)
+                            @b3.hidden("amountLabelID",mySupply.amountLabelID)
                             <td>
                                 <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
                                 @Messages("submit.sortingCenterStock.offer")

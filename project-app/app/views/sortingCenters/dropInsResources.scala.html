@@ -21,11 +21,13 @@
 
         @b3.form(action = routes.SortingCentersController.submitDropIns()) {
             @helper.CSRF.formField
+            @b3.hidden("supplyID",user.email)
+
             @b3.text(sortingCenterStockForm("email"),'_hiddenLabel -> Messages("email"),'placeholder -> Messages("email"), 'class -> "form-control")
             @b3.text(sortingCenterStockForm("resource"), '_hiddenLabel -> Messages("description"), 'placeholder -> Messages("description"), 'class -> "form-control")
             @b3.select(sortingCenterStockForm("resourceCategoryID"), options = resourceCategories)
-
             @b3.number(sortingCenterStockForm("amount"), '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")
+
             @b3.select(sortingCenterStockForm("amountLabelID"), options = resourceAmountLabels)
 
             <div class="form-group">
