@@ -1,124 +1,59 @@
 @(
-        user: models.User,
-        sourceEmails: List[String],
-        destinyEmails: List[String],
-        sortingCenterStocks: List[models.SortingCenterStock],
-        transports: List[models.Transport])(implicit request: RequestHeader, messages: Messages)
+    user: models.User,
+    sourceEmails: List[String],
+    destinyEmails: List[String],
+    transports: List[Transport])(implicit request: RequestHeader, messages: Messages)
 
 @app(Messages("transport.title"), Some(user)) {
     <div class="col-md-8 col-md-offset-2">
-        @request.flash.get("error").map { msg =>
-            <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
-                <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <strong>@Messages("error")</strong> @msg
-            </div>
-        }
 
-        <h2>SUP->SC</h2>
+    @request.flash.get("error").map { msg =>
+        <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>@Messages("error")</strong> @msg
+        </div>
+    }
 
-        @if(transports.isEmpty) {
-            <h4>No transports to assign</h4>
-        } else {
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Resource</th>
-                        <th>Quantity</th>
-                        <th>AmountLabel</th>
-                        <th>Category</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @for((transport, index) <- transports.zipWithIndex) {
-                    <tr>
-                        <th scope="row">@{
-                            index + 1
-                        }</th>
+    <h2>SUP->SC</h2>
 
+    @if(transports.isEmpty) {
+        <h4>No transports to assign</h4>
+    } else {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Resource</th>
+                    <th>Quantity</th>
+                    <th>AmountLabel</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(i <- 0 until sourceEmails.size) {
+                <tr>
+                    <th scope="row">@{
+                        i + 1
+                    }</th>
 
-                        @helper.CSRF.formField
+                    <div> @i </div>
+                    @helper.CSRF.formField
 
-                        <td>
-                         @sourceEmails(index)
-                        </td>
-                        <td>
-                        @destinyEmails(index)
-                        </td>
+                    <td>
+                    @sourceEmails(i)
+                    </td>
 
-                        <td>
-                            @sortingCenterStocks(index).resource
-                        </td>
-                        <td>
-                            @sortingCenterStocks(index).amount
-                        </td>
-                        <td>
-                        @sortingCenterStocks(index).amountLabelID
-                        </td>
-                        <td>
-                        @sortingCenterStocks(index).resourceCategoryID
-                        </td>
+                    <td>
+                    @destinyEmails(i)
+                    </td>
 
-                    </tr>
-                }
-                </tbody>
-            </table>
-        }
-            <h2>SC->REQ</h2>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
 
-            @if(transports.isEmpty) {
-                <h4>No transports to assign</h4>
-            } else {
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Resource</th>
-                            <th>Quantity</th>
-                            <th>AmountLabel</th>
-                            <th>Category</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @for((transports, index) <- transports.zipWithIndex) {
-                        <tr>
-                            <th scope="row">@{
-                                index + 1
-                            }</th>
-
-
-                            @helper.CSRF.formField
-
-                            <td>
-                            @sourceEmails(index)
-                            </td>
-                            <td>
-                            @destinyEmails(index)
-                            </td>
-
-                            <td>
-                            @sortingCenterStocks(index).resource
-                            </td>
-                            <td>
-                            @sortingCenterStocks(index).amount
-                            </td>
-                            <td>
-                            @sortingCenterStocks(index).amountLabelID
-                            </td>
-                            <td>
-                            @sortingCenterStocks(index).resourceCategoryID
-                            </td>
-
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-
-            </div>
+    </div>
 }
-}
-

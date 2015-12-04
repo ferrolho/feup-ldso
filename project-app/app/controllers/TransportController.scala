@@ -8,11 +8,12 @@ import models.{SortingCenterStock, User, Transport}
 import play.api.Logger
 import play.api.i18n.MessagesApi
 import models.services.{ResourceAmountLabelService, ResourceCategoryService, SortingCenterStockService, TransportService}
-import models.daos.UserDAO
+import models.daos.{UserDAO}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 /**
  *
@@ -34,41 +35,57 @@ class TransportController @Inject()(
     // TODO ask Sereno for a better way to do this
     transportService.allNonActive().map { transports =>
 
-      var sourceEmailsListBuffer = ListBuffer[String]()
-      var destinyEmailsListBuffer = ListBuffer[String]()
-      var sortingCenterStockListBuffer = ListBuffer[SortingCenterStock]()
-      var transportsListBuffer = ListBuffer[Transport]()
+      val sourceEmailsListBuffer: ListBuffer[String] = new ListBuffer[String]()
+      val destinyEmailsListBuffer = new ListBuffer[String]()
+      val sortingCenterStockListBuffer = new ListBuffer[SortingCenterStock]()
+      val transportsListBuffer = new ListBuffer[Transport]()
 
-      transports.map { transport =>
-
-        transportsListBuffer.append(transport)
-        Logger.debug(s"TRANSP LIST SIZE: ${transportsListBuffer.size}")
+      for (transport <- transports) {
 
         // gets email from source
         userDAO.find(transport.idSourceUser).map { option =>
-          option.map { user =>
-            user.email.map { email =>
-              sourceEmailsListBuffer.append(email)
-            }
-          }
+          Logger.debug(s"Entry on Source Email")
+          sourceEmailsListBuffer.append(option.get.email.get)
         }
 
         // gets email from destiny
-        userDAO.find(transport.idDestinyUser).map { option =>
-          option.map { user =>
-            user.email.map { email =>
-              destinyEmailsListBuffer.append(email)
-            }
-          }
+        userDAO.find(transport.idDestinyUser).map {
+          case Some(user) =>
+            user.email.map( email => destinyEmailsListBuffer.append(email))
         }
 
         // gets SC of this transport
-        sortingCenterStockService.retrieve(transport.idSCStock).map { sortingCenterStock =>
-          sortingCenterStockListBuffer.append(sortingCenterStock)
-        }
+        /*sortingCenterStockService.retrieve(transport.idSCStock).onComplete {
+          case Success(sortingCenterStock) =>
+            Logger.debug(s"Entry on SCS")
+            sortingCenterStockListBuffer.append(sortingCenterStock)
+            Logger.debug(s"SortingCenterBuffer Last: ${sortingCenterStockListBuffer.last}")
+        }*/
+
+        Logger.debug(s"Entry on Transport")
+        transportsListBuffer.append(transport)
       }
 
-      Ok(views.html.transports.index(request.identity, sourceEmailsListBuffer.toList, destinyEmailsListBuffer.toList, sortingCenterStockListBuffer.toList, transportsListBuffer.toList))
+      val sourceEmailsList = sourceEmailsListBuffer.toList
+      val destinyEmailsList = destinyEmailsListBuffer.toList
+      //val sortingCenterStockList = sortingCenterStockListBuffer.toList
+      val transportsList = transportsListBuffer.toList
+
+      Logger.debug(s"Size of source emails buffer: ${sourceEmailsListBuffer.size}")
+      Logger.debug(s"Size of destiny emails buffer: ${destinyEmailsListBuffer.size}")
+      //Logger.debug(s"Size of scs buffer: ${sortingCenterStockListBuffer.size}")
+      Logger.debug(s"Size of transp buffer: ${transportsListBuffer.size}")
+
+      //Logger.debug(s"SortingCenterTotalListBuffer: ${sortingCenterStockListBuffer}")
+
+      Logger.debug(s"Size of source emails: ${sourceEmailsList.size}")
+      Logger.debug(s"Size of destiny emails: ${destinyEmailsList.size}")
+      //Logger.debug(s"Size of scs: ${sortingCenterStockList.size}")
+      Logger.debug(s"Size of transp: ${transportsList.size}")
+
+      //Logger.debug(s"SortingCenterTotalList: ${sortingCenterStockList}")
+
+      Ok(views.html.transports.index(request.identity, sourceEmailsList, destinyEmailsListBuffer.toList, transportsList))
     }
   }
 }
