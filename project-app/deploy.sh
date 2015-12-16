@@ -1,7 +1,5 @@
-cd git/feup-ldso/
 git pull
 
-cd project-app/
 ./activator dist
 
 cd target/universal/
