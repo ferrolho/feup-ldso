@@ -3,7 +3,8 @@
         sortingCenterStockForm: Form[forms.SortingCenterStockForm.Data],
         mySupplies: Seq[Supply],
         resourceCategories: Seq[(String, String)],
-        resourceAmountLabels: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
+        resourceAmountLabels: Seq[(String, String)],
+        categories: Seq[ResourceCategory])(implicit request: RequestHeader, messages: Messages)
 
     @import b3.inline.fieldConstructor
 
@@ -15,6 +16,24 @@
                     <strong>@Messages("error")</strong> @msg
                 </div>
             }
+
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                    Filter by <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu">
+                    @for((category, index) <- categories.zipWithIndex) {
+                        <li>
+                            <a href="/sortingCenter&filter=@category.name">
+                                <span aria-hidden="true"></span>
+                                @category.name
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
 
             <h2>Available offers to accept</h2>
 

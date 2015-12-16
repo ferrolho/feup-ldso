@@ -29,22 +29,27 @@ class SortingCentersController @Inject()(
                                           resourceAmountLabelService: ResourceAmountLabelService)
   extends Silhouette[User, CookieAuthenticator] {
 
-  def index = SecuredAction.async { implicit request =>
+  def index(typeOfSearch: String, elementToSearch: String) = SecuredAction.async { implicit request =>
 
-    val fAllSupliesExceptUser = supplyService.allExceptByUser(request.identity.userID)
-    val fResourceCategories = resourceCategoryService.all
-    val fResourceAmountLabels = resourceAmountLabelService.all
-
-    for {
-      allSuppliesExceptUser <- fAllSupliesExceptUser; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels
-    }
-      yield {
-        val supplies = allSuppliesExceptUser
-        val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
-        val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
-
-        Ok(views.html.sortingCenters.index(request.identity, SortingCenterStockForm.form, supplies, resourceCategoryOptions, resourceAmountLabelOptions))
+      val fAllSupliesExceptUser = {
+        if(typeOfSearch == "none")
+          supplyService.allExceptByUser(request.identity.userID)
+        else
+          supplyService.allExceptByUser(request.identity.userID)
       }
+      val fResourceCategories = resourceCategoryService.all
+      val fResourceAmountLabels = resourceAmountLabelService.all
+
+      for {
+        allSuppliesExceptUser <- fAllSupliesExceptUser; resourceCategories <- fResourceCategories; resourceAmountLabels <- fResourceAmountLabels
+      }
+        yield {
+          val supplies = allSuppliesExceptUser
+          val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
+          val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
+
+          Ok(views.html.sortingCenters.index(request.identity, SortingCenterStockForm.form, supplies, resourceCategoryOptions, resourceAmountLabelOptions, resourceCategories))
+        }
   }
 
   /**
@@ -65,7 +70,7 @@ class SortingCentersController @Inject()(
             val resourceCategoryOptions = resourceCategories.map { model => (model.id.toString, model.name) }
             val resourceAmountLabelOptions = resourceAmountLabels.map { model => (model.id.toString, model.name) }
 
-            BadRequest(views.html.sortingCenters.index(request.identity, form, supplies, resourceCategoryOptions, resourceAmountLabelOptions))
+            BadRequest(views.html.sortingCenters.index(request.identity, form, supplies, resourceCategoryOptions, resourceAmountLabelOptions, resourceCategories))
           }
       },
       data => {
