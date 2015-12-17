@@ -1,3 +1,5 @@
+cd /root/git/feup-ldso/project-app
+
 # kill previous running app (if any)
 kill $(cat target/universal/project-app-1.0-SNAPSHOT/RUNNING_PID)
 
