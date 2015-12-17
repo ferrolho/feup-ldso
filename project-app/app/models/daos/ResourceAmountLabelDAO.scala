@@ -1,5 +1,7 @@
 package models.daos
 
+import java.util.UUID
+
 import models.ResourceAmountLabel
 
 import scala.concurrent.Future
