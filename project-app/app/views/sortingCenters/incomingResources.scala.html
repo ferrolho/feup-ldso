@@ -63,7 +63,15 @@
                         }
 
                         <td>
-                            <a href="#" id="accept" class="btn btn-success btn-block">Accept</a>
+                        @b3.form(action = routes.SortingCentersController.checkinIncomingResource(mySortingCenterStock.id.toString)) {
+                            @helper.CSRF.formField
+
+                        <td>
+                            <button id="accept" type="submit" value="accept" class="btn btn-success btn-block">
+                            @Messages("submit.sortingCenterStock.accept")
+                            </button>
+                        </td>
+                        }
                         </td>
                     </tr>
                 }

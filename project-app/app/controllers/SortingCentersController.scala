@@ -46,6 +46,38 @@ class SortingCentersController @Inject()(
       }
   }
 
+
+  /*def checkinIncomingResource(supplyId: String) = SecuredAction.async { implicit request =>
+    supplyService.retrieve(UUID.fromString(supplyId)).flatMap { supply =>
+      sortingCenterStockService.retrieve().map {
+        case Some(stock) =>
+          sortingCenterStockService.save(SortingCenterStock(
+           supply.id,
+          supply.id,
+          supply.userID,
+
+          ))
+
+          supplyService.deleteRowByID(stock.id)
+
+        case None =>
+          supplyService.save(Supply(
+            stock.idSupply,
+            stock.supplyUserID,
+            stock.resource,
+            stock.resourceCategoryID,
+            stock.amount,
+            stock.amountLabelID
+          ))
+
+          sortingCenterStockService.delete(stock.id)
+      }
+
+      Future.successful(Redirect(routes.SortingCentersController.incomingResources))
+    }
+  }*/
+
+
   /**
    * Submits a resource supply and deletes the same entry in Supply table.
    *

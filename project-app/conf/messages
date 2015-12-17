@@ -56,6 +56,7 @@ delete.supply.offer = Delete
 
 submit.sortingCenterStock.offer = Accept Offer
 submit.sortingCenterStock.cancel = Cancel
+submit.sortingCenterStock.accept = Check In
 
 country = Country
 supplier = Supplier
