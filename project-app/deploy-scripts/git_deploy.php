@@ -13,7 +13,7 @@ if ($payload->ref === 'refs/heads/master') {
 	echo 'deploying from github', PHP_EOL;
 
 	// path to your site deployment script
-	exec('~/git/feup-ldso/project-app/deploy.sh');
+	exec('deploy_wrapper');
 }
 
 echo 'git_deploy.php done!', PHP_EOL;
