@@ -30,7 +30,6 @@ class SortingCentersController @Inject()(
   extends Silhouette[User, CookieAuthenticator] {
 
   def index(typeOfSearch: String, elementToSearch: String) = SecuredAction.async { implicit request =>
-
       val fAllSuppliesExceptUser = {
         if (typeOfSearch == "none")
           supplyService.allExceptByUser(request.identity.userID)

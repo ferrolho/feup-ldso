@@ -57,12 +57,14 @@ delete.supply.offer = Delete
 submit.sortingCenterStock.offer = Accept Offer
 submit.sortingCenterStock.cancel = Cancel
 
+country = Country
 supplier = Supplier
 sortingCenter = Sorting Center
 consumer = Consumer
 transporter = Transporter
 
 resource = Resource
+description = Description
 amount = Amount
 
 noneSearch = none

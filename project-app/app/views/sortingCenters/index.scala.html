@@ -8,122 +8,133 @@
         typeOfSearch: String,
         elementToSearch: String)(implicit request: RequestHeader, messages: Messages)
 
-    @import b3.inline.fieldConstructor
+@import b3.inline.fieldConstructor
 
-    @app(Messages("sorting.center.title"), Some(user)) {
-        <div class="col-md-8 col-md-offset-2">
-            @request.flash.get("error").map { msg =>
-                <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
-                    <a href="#" class="close" data-dismiss="alert">&times;</a>
-                    <strong>@Messages("error")</strong> @msg
-                </div>
-            }
+@app(Messages("sorting.center.title"), Some(user)) {
+    <div class="col-md-8 col-md-offset-2">
+        @request.flash.get("error").map { msg =>
+            <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>@Messages("error")</strong> @msg
+            </div>
+        }
 
-            <div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                    Filter by <span class="caret"></span>
-                </a>
+        <h2>Available offers to accept</h2>
 
-                    <ul class="dropdown-menu">
-                        @if(typeOfSearch == "none") {
+        <div class="dropdown text-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                Filter by <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu">
+                @if(typeOfSearch == "none") {
+                    <li class="disabled">
+                        <a href="/sortingCenter">
+                            <span aria-hidden="true"></span>
+                            All
+                        </a>
+                    </li>
+                } else {
+                    <li>
+                        <a href="/sortingCenter">
+                            <span aria-hidden="true"></span>
+                            All
+                        </a>
+                    </li>
+                }
+
+                @for((category, index) <- categories.zipWithIndex) {
+                    @if(typeOfSearch == Messages("filterSearch")) {
+                        @if(category.name == elementToSearch) {
                             <li class="disabled">
-                                <a href="/sortingCenter">
+                                <a href="/sortingCenter&filter=@category.name">
                                     <span aria-hidden="true"></span>
-                                    All
+                                    @category.name
                                 </a>
                             </li>
                         } else {
                             <li>
-                                <a href="/sortingCenter">
+                                <a href="/sortingCenter&filter=@category.name">
                                     <span aria-hidden="true"></span>
-                                    All
+                                    @category.name
                                 </a>
                             </li>
                         }
-
-                        @for((category, index) <- categories.zipWithIndex) {
-                            @if(typeOfSearch == Messages("filterSearch")) {
-                                @if(category.name == elementToSearch) {
-                                <li class="disabled">
-                                    <a href="/sortingCenter&filter=@category.name">
-                                        <span aria-hidden="true"></span>
-                                        @category.name
-                                    </a>
-                                </li>
-                                } else {
-                                    <li>
-                                        <a href="/sortingCenter&filter=@category.name">
-                                            <span aria-hidden="true"></span>
-                                            @category.name
-                                        </a>
-                                    </li>
-                                }
-                        } else {
-                                <li>
-                                    <a href="/sortingCenter&filter=@category.name">
-                                        <span aria-hidden="true"></span>
-                                        @category.name
-                                    </a>
-                                </li>
-                            }
+                    } else {
+                        <li>
+                            <a href="/sortingCenter&filter=@category.name">
+                                <span aria-hidden="true"></span>
+                                @category.name
+                            </a>
+                        </li>
                     }
-                </ul>
-            </div>
-
-            <h2>Available offers to accept</h2>
-
-            @if(mySupplies.isEmpty) {
-                <h4>No supply offers to accept yet</h4>
-            } else {
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Resource</th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Amount Label</th>
-                            <th>Quantity</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @for((mySupply, index) <- mySupplies.zipWithIndex) {
-                        <tr>
-                            <th scope="row">@{
-                                index + 1
-                            }</th>
-
-                            <td>@mySupply.resource</td>
-
-                            <td>@{
-                                resourceCategories.find(_._1 == mySupply.resourceCategoryID.toString).get._2
-                            }</td>
-
-                            <td>@mySupply.amount</td>
-
-                            <td>@{
-                                resourceAmountLabels.find(_._1 == mySupply.amountLabelID.toString).get._2
-                            }</td>
-
-                            @b3.form(action = routes.SortingCentersController.acceptOffer()) {
-                                @helper.CSRF.formField
-
-                                @b3.hidden("supplyID", mySupply.id)
-
-                                <td>@b3.number(sortingCenterStockForm("amount"), 'min -> 1, 'max -> mySupply.amount, 'step -> 1, '_hiddenLabel -> Messages("amount"), 'placeholder -> Messages("amount"), 'class -> "form-control")</td>
-
-                                <td>
-                                    <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
-                                    @Messages("submit.sortingCenterStock.offer")
-                                    </button>
-                                </td>
-                            }
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            }
+                }
+            </ul>
         </div>
-    }
+
+        @if(mySupplies.isEmpty) {
+            <h4>No supply offers to accept yet</h4>
+        } else {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Resource</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Amount Label</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for((mySupply, index) <- mySupplies.zipWithIndex) {
+                    <tr>
+                        <th scope="row">@{
+                            index + 1
+                        }</th>
+
+                        <td>@mySupply.resource</td>
+
+                        <td>@{
+                            resourceCategories.find(_._1 == mySupply.resourceCategoryID.toString).get._2
+                        }</td>
+
+                        <td>@mySupply.amount</td>
+
+                        <td>@{
+                            resourceAmountLabels.find(_._1 == mySupply.amountLabelID.toString).get._2
+                        }</td>
+
+                        @b3.form(action = routes.SortingCentersController.acceptOffer()) {
+                            @helper.CSRF.formField
+
+                            @b3.hidden("supplyID", mySupply.id)
+
+                            <td>
+                            @b3.number(
+                                sortingCenterStockForm("amount"),
+                                'min -> 1,
+                                'max -> mySupply.amount,
+                                'step -> 1,
+                                '_hiddenLabel -> Messages("amount"),
+                                'placeholder -> Messages("amount"),
+                                'class -> "form-control",
+                                'required -> ""
+                            )
+                            </td>
+
+                            <td>
+                                <button id="submit" type="submit" value="submit" class="btn btn-success btn-block">
+                                @Messages("submit.sortingCenterStock.offer")
+                                </button>
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+}

@@ -26,7 +26,7 @@
 #### You are helping your colleague implementing a feature
 
 - Checkout the branch your colleague created  
-`git checkout -b US_2-01`
+`git checkout US_2-01`
 
 - Pull the branch  
 `git pull origin US_2-01`
@@ -43,20 +43,19 @@ reboot
 ssh root@46.101.187.147
 *enter password*
 
-cd git/feup-ldso/
+# kill previous running app (if any)
+kill $(cat target/universal/project-app-1.0-SNAPSHOT/RUNNING_PID)
+
 git pull
 
-cd project-app/
 ./activator dist
 
 cd target/universal/
-ls
 rm -r project-app-1.0-SNAPSHOT
 unzip project-app-1.0-SNAPSHOT.zip
 cd project-app-1.0-SNAPSHOT/bin/
-ls
 
-./project-app -Dhttp.port=80 -Dplay.evolutions.db.default.autoApply=true -Dplay.crypto.secret="Hcey3kRQ@?=_S__2H7pvQ@mkxJ8kF`KAe7X<<K3:56@X^B>m/Owzevh<C@D`be/J" &
+./project-app -Dplay.evolutions.db.default.autoApply=true -Dplay.crypto.secret="Hcey3kRQ@?=_S__2H7pvQ@mkxJ8kF`KAe7X<<K3:56@X^B>m/Owzevh<C@D`be/J" &
 
 ^D
 ```

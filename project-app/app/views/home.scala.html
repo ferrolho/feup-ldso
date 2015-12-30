@@ -1,4 +1,4 @@
-@(user: models.User)(implicit messages: Messages)
+@(user: models.User, countries: Seq[Country])(implicit messages: Messages)
 
 @app(Messages("home.title"), Some(user)) {
     <div class="user col-md-6 col-md-offset-3">
@@ -16,23 +16,28 @@
         <div class="row data">
             <div class="col-md-12">
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("first.name")
-                        :</strong></p><p class="col-md-6">@user.firstName.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("first.name"):</strong></p>
+                    <p class="col-md-6">@user.firstName.getOrElse("None")</p>
                 </div>
 
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("last.name")
-                        :</strong></p><p class="col-md-6">@user.lastName.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("last.name"):</strong></p>
+                    <p class="col-md-6">@user.lastName.getOrElse("None")</p>
                 </div>
 
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("full.name")
-                        :</strong></p><p class="col-md-6">@user.fullName.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("full.name"):</strong></p>
+                    <p class="col-md-6">@user.fullName.getOrElse("None")</p>
                 </div>
 
                 <div class="row">
-                    <p class="col-md-6"><strong>@Messages("email")
-                        :</strong></p><p class="col-md-6">@user.email.getOrElse("None")</p>
+                    <p class="col-md-6"><strong>@Messages("email"):</strong></p>
+                    <p class="col-md-6">@user.email.getOrElse("None")</p>
+                </div>
+
+                <div class="row">
+                    <p class="col-md-6"><strong>@Messages("country"):</strong></p>
+                    <p class="col-md-6">@{countries.find(_.id == user.countryID).get.name}</p>
                 </div>
 
                 <div class="row">

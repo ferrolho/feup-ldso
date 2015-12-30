@@ -15,6 +15,7 @@ object SignUpForm {
     mapping(
       "firstName" -> nonEmptyText,
       "lastName" -> nonEmptyText,
+      "countryID" -> longNumber,
       "email" -> email,
       "password" -> nonEmptyText
     )(Data.apply)(Data.unapply)
@@ -25,12 +26,14 @@ object SignUpForm {
    *
    * @param firstName The first name of a user.
    * @param lastName The last name of a user.
+   * @param countryID The id of the user's country.
    * @param email The email of the user.
    * @param password The password of the user.
    */
   case class Data(
                    firstName: String,
                    lastName: String,
+                   countryID: Long,
                    email: String,
                    password: String)
 
