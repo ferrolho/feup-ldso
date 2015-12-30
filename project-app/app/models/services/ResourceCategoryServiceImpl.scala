@@ -9,4 +9,6 @@ class ResourceCategoryServiceImpl @Inject()(resourceCategoryDAO: ResourceCategor
 
   def all = resourceCategoryDAO.all
 
+  def getCategoryIDByName(name: String) = resourceCategoryDAO.getCategoryIDByName(name)
+
 }

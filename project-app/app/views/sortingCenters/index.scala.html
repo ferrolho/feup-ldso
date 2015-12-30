@@ -3,7 +3,10 @@
         sortingCenterStockForm: Form[forms.SortingCenterStockForm.Data],
         mySupplies: Seq[Supply],
         resourceCategories: Seq[(String, String)],
-        resourceAmountLabels: Seq[(String, String)])(implicit request: RequestHeader, messages: Messages)
+        resourceAmountLabels: Seq[(String, String)],
+        categories: Seq[ResourceCategory],
+        typeOfSearch: String,
+        elementToSearch: String)(implicit request: RequestHeader, messages: Messages)
 
 @import b3.inline.fieldConstructor
 
@@ -17,6 +20,58 @@
         }
 
         <h2>Available offers to accept</h2>
+
+        <div class="dropdown text-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                Filter by <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu">
+                @if(typeOfSearch == "none") {
+                    <li class="disabled">
+                        <a href="/sortingCenter">
+                            <span aria-hidden="true"></span>
+                            All
+                        </a>
+                    </li>
+                } else {
+                    <li>
+                        <a href="/sortingCenter">
+                            <span aria-hidden="true"></span>
+                            All
+                        </a>
+                    </li>
+                }
+
+                @for((category, index) <- categories.zipWithIndex) {
+                    @if(typeOfSearch == Messages("filterSearch")) {
+                        @if(category.name == elementToSearch) {
+                            <li class="disabled">
+                                <a href="/sortingCenter&filter=@category.name">
+                                    <span aria-hidden="true"></span>
+                                    @category.name
+                                </a>
+                            </li>
+                        } else {
+                            <li>
+                                <a href="/sortingCenter&filter=@category.name">
+                                    <span aria-hidden="true"></span>
+                                    @category.name
+                                </a>
+                            </li>
+                        }
+                    } else {
+                        <li>
+                            <a href="/sortingCenter&filter=@category.name">
+                                <span aria-hidden="true"></span>
+                                @category.name
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
 
         @if(mySupplies.isEmpty) {
             <h4>No supply offers to accept yet</h4>

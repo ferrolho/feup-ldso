@@ -16,7 +16,8 @@ POST        /supply                                            controllers.Suppl
 POST        /supply/edit/:supplyID                             controllers.SuppliesController.editSupplyOffer(supplyID)
 POST        /supply/delete/:supplyID                           controllers.SuppliesController.deleteSupplyOffer(supplyID)
 
-GET         /sortingCenter                                     controllers.SortingCentersController.index
+GET         /sortingCenter                                     controllers.SortingCentersController.index(typeOfSearch = "none", elementToSearch = "none")
+GET         /sortingCenter&filter=:element                     controllers.SortingCentersController.index(typeOfSearch = "filter", element)
 POST        /sortingCenter                                     controllers.SortingCentersController.acceptOffer
 GET         /sortingCenter/incoming                            controllers.SortingCentersController.incomingResources
 POST        /sortingCenter/cancel/:sortingCenterStockID        controllers.SortingCentersController.cancelIncomingResource(sortingCenterStockID)

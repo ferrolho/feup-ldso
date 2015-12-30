@@ -65,9 +65,41 @@ class SupplyDAOImpl @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     }
   }
 
+  /**
+   * Retrieves all supplies excepts the ones of a certain user from the DB.
+   *
+   * @param userID The id of the user to to be excluded.
+   * @return The sequence of supplies.
+   */
   def allExceptByUser(userID: UUID) = {
     val suppliesQuery = for {
       dbSupply <- slickSupplies.filter(_.userID =!= userID.toString)
+    } yield dbSupply
+
+    db.run(suppliesQuery.result).map { dbSupplyOption =>
+      dbSupplyOption.map { supply =>
+        Supply(
+          UUID.fromString(supply.id),
+          UUID.fromString(supply.userID),
+          supply.resource,
+          supply.resourceCategoryID,
+          supply.amount,
+          supply.amountLabelID
+        )
+      }
+    }
+  }
+
+  /**
+   * Retrieves all supplies by category excepts the ones of a certain user from the DB.
+   *
+   * @param userID The id of the user to to be excluded.
+   * @param categoryID The category ID to search
+   * @return The sequence of supplies.
+   */
+  def allByCategoryExceptByUser(userID: UUID, categoryID: Long) = {
+    val suppliesQuery = for {
+      dbSupply <- slickSupplies.filter(x => x.userID =!= userID.toString && x.resourceCategoryID === categoryID)
     } yield dbSupply
 
     db.run(suppliesQuery.result).map { dbSupplyOption =>

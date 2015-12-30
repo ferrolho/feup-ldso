@@ -22,5 +22,4 @@ class ResourceAmountLabelDAOImpl @Inject()(protected val dbConfigProvider: Datab
       }
     }
   }
-
 }

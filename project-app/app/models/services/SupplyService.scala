@@ -36,6 +36,15 @@ trait SupplyService {
   def allExceptByUser(userID: UUID): Future[Seq[Supply]]
 
   /**
+   * Retrieves all supplies by category excepts the ones of a certain user.
+   *
+   * @param userID The id of the user to to be excluded.
+   * @param categoryID The category ID to search
+   * @return The sequence of supplies.
+   */
+  def allByCategoryExceptByUser(userID: UUID, categoryID: Long): Future[Seq[Supply]]
+
+  /**
    * Retrieves all supplies from the DB.
    *
    * @return The sequence of supplies.

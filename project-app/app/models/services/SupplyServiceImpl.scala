@@ -23,7 +23,22 @@ class SupplyServiceImpl @Inject()(supplyDAO: SupplyDAO) extends SupplyService {
    */
   def byUser(userID: UUID) = supplyDAO.byUser(userID: UUID)
 
+  /**
+   * Retrieves all supplies excepts the ones of a certain user.
+   *
+   * @param userID The id of the user to to be excluded.
+   * @return The sequence of supplies.
+   */
   def allExceptByUser(userID: UUID) = supplyDAO.allExceptByUser(userID: UUID)
+
+  /**
+   * Retrieves all supplies by category excepts the ones of a certain user.
+   *
+   * @param userID The id of the user to to be excluded.
+   * @param categoryID The category ID to search
+   * @return The sequence of supplies.
+   */
+  def allByCategoryExceptByUser(userID: UUID, categoryID: Long) = supplyDAO.allByCategoryExceptByUser(userID, categoryID)
 
   /**
    * Retrieves all supplies from the DB.
