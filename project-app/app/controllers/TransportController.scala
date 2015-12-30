@@ -32,7 +32,27 @@ class TransportController @Inject()(
 
   def index = SecuredAction.async { implicit request =>
 
-    // TODO ask Sereno for a better way to do this
+    val sourceEmailsListBuffer: ListBuffer[String] = new ListBuffer[String]()
+    val destinyEmailsListBuffer = new ListBuffer[String]()
+    val sortingCenterStockListBuffer = new ListBuffer[SortingCenterStock]()
+    val transportsListBuffer = new ListBuffer[Transport]()
+
+    for {
+      transports <-transportService.allNonActive;
+      i <- 0 until transports.size;
+      userSource <- userDAO.find(transports(i).idSourceUser);
+      userDestiny <- userDAO.find(transports(i).idDestinyUser);
+      scs <- sortingCenterStockService.retrieve(transports(i).idSCStock);
+
+      sourceEmailsListBuffer.append(userSource.get.email.get);
+      destinyEmailsListBuffer.append(userDestiny.get.email.get);
+      sortingCenterStockListBuffer.append(scs);
+      transportsListBuffer.append(transports(i))
+    } yield {
+      Ok(views.html.transports.index(request.identity, sourceEmailsListBuffer.toList, destinyEmailsListBuffer.toList, sortingCenterStockListBuffer.toList, transportsListBuffer.toList))
+    }
+
+    /*// TODO ask Sereno for a better way to do this
     transportService.allNonActive().map { transports =>
 
       val sourceEmailsListBuffer: ListBuffer[String] = new ListBuffer[String]()
@@ -86,6 +106,6 @@ class TransportController @Inject()(
       //Logger.debug(s"SortingCenterTotalList: ${sortingCenterStockList}")
 
       Ok(views.html.transports.index(request.identity, sourceEmailsList, destinyEmailsListBuffer.toList, transportsList))
-    }
+    }*/
   }
 }

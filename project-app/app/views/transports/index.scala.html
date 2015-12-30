@@ -2,6 +2,7 @@
     user: models.User,
     sourceEmails: List[String],
     destinyEmails: List[String],
+    sortingCenterStocks: List[SortingCenterStock],
     transports: List[Transport])(implicit request: RequestHeader, messages: Messages)
 
 @app(Messages("transport.title"), Some(user)) {
