@@ -52,7 +52,7 @@ class Application @Inject()(
    * A REST endpoint that gets all the countries and their respective cities as JSON.
    */
   def getCountryToCitiesJSON = UserAwareAction.async {
-    val source: String = Source.fromURL(Play.resource("countriesToCities.json").get).getLines.mkString
+    val source: String = Source.fromURL(Play.resource("countriesToCities.json").get, "iso-8859-1").getLines.mkString
     val json: JsValue = Json.parse(source)
 
     Future.successful(Ok(json))
