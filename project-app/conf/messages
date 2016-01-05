@@ -58,6 +58,7 @@ submit.sortingCenterStock.offer = Accept Offer
 submit.sortingCenterStock.cancel = Cancel
 
 country = Country
+city = City
 supplier = Supplier
 sortingCenter = Sorting Center
 consumer = Consumer

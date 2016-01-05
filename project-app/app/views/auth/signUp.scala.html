@@ -5,22 +5,27 @@
 @import b3.inline.fieldConstructor
 
 @app(Messages("sign.up.title")) {
+    <script defer src='@routes.Assets.versioned("javascripts/signup.js")'></script>
+
     @request.flash.get("error").map { msg =>
         <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
             <strong>@Messages("error")</strong> @msg
         </div>
     }
+
     <fieldset class="col-md-6 col-md-offset-3">
         <legend>@Messages("sign.up.account")</legend>
         @helper.form(action = routes.SignUpController.signUp()) {
             @helper.CSRF.formField
-            
+
             @b3.text(signUpForm("firstName"), '_hiddenLabel -> Messages("first.name"), 'placeholder -> Messages("first.name"), 'class -> "form-control input-lg")
-            
+
             @b3.text(signUpForm("lastName"), '_hiddenLabel -> Messages("last.name"), 'placeholder -> Messages("last.name"), 'class -> "form-control input-lg")
 
-            @b3.select(signUpForm("countryID"), options = countries, '_default -> "Select a country", 'class -> "form-control input-lg")
+            @b3.select(signUpForm("countryID"), options = countries, '_default -> "Select a country", 'id -> "countryDropdown", 'class -> "form-control input-lg")
+
+            @b3.select(signUpForm("city"), options = Seq[(String, String)](), '_default -> "Select a city", 'id -> "cityDropdown", 'class -> "form-control input-lg", 'disabled -> true)
 
             @b3.text(signUpForm("email"), '_hiddenLabel -> Messages("email"), 'placeholder -> Messages("email"), 'class -> "form-control input-lg")
 

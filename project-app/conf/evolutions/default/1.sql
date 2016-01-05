@@ -226,6 +226,7 @@ create table "user" (
   "avatarURL" VARCHAR,
 
   "countryID" LONG REFERENCES "country",
+  "city" VARCHAR,
   "isSupplier" boolean NOT NULL,
   "isSortingCenter" boolean NOT NULL,
   "isConsumer" boolean NOT NULL,

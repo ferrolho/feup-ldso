@@ -41,6 +41,11 @@
                 </div>
 
                 <div class="row">
+                    <p class="col-md-6"><strong>@Messages("city"):</strong></p>
+                    <p class="col-md-6">@user.city.getOrElse("None")</p>
+                </div>
+
+                <div class="row">
                     <p class="col-md-6"><strong>@Messages("supplier"):</strong></p>
                     <p class="col-md-6">
                     @if(user.isSupplier) {

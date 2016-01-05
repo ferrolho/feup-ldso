@@ -8,11 +8,13 @@ import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
 import forms._
 import models.User
 import models.services.CountryService
+import play.api.libs.json._
 import play.api.i18n.MessagesApi
 import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.io.Source
 
 class Application @Inject()(
                              val messagesApi: MessagesApi,
@@ -42,6 +44,16 @@ class Application @Inject()(
       case Some(user) => Future.successful(Redirect(routes.Application.index()))
       case None => Future.successful(Ok(views.html.auth.signIn(SignInForm.form, socialProviderRegistry)))
     }
+  }
+
+  /**
+   * A REST endpoint that gets all the countries and their respective cities as JSON.
+   */
+  def getCountryToCitiesJSON = UserAwareAction.async {
+    val source: String = Source.fromFile("app/assets/jsons/countriesToCities.json").getLines.mkString
+    val json: JsValue = Json.parse(source)
+
+    Future.successful(Ok(json))
   }
 
   /**

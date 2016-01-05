@@ -11,6 +11,8 @@ GET         /authenticate/:provider                            controllers.Socia
 POST        /authenticate/credentials                          controllers.CredentialsAuthController.authenticate
 POST        /sign-up                                           controllers.SignUpController.signUp
 
+GET         /get-country-to-cities                             controllers.Application.getCountryToCitiesJSON
+
 GET         /supply                                            controllers.SuppliesController.index
 POST        /supply                                            controllers.SuppliesController.submitSupplyOffer
 POST        /supply/edit/:supplyID                             controllers.SuppliesController.editSupplyOffer(supplyID)
