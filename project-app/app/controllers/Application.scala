@@ -8,6 +8,8 @@ import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
 import forms._
 import models.User
 import models.services.CountryService
+import play.api.Play
+import play.api.Play.current
 import play.api.libs.json._
 import play.api.i18n.MessagesApi
 import play.api.mvc._
@@ -50,7 +52,7 @@ class Application @Inject()(
    * A REST endpoint that gets all the countries and their respective cities as JSON.
    */
   def getCountryToCitiesJSON = UserAwareAction.async {
-    val source: String = Source.fromFile("app/assets/jsons/countriesToCities.json").getLines.mkString
+    val source: String = Source.fromURL(Play.resource("countriesToCities.json").get).getLines.mkString
     val json: JsValue = Json.parse(source)
 
     Future.successful(Ok(json))
