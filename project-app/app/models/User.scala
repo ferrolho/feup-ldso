@@ -24,6 +24,7 @@ case class User(
                  email: Option[String],
                  avatarURL: Option[String],
                  countryID: Long,
+                 city: Option[String],
                  isSupplier: Boolean = false,
                  isSortingCenter: Boolean = false,
                  isConsumer: Boolean = false,

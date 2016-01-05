@@ -19,6 +19,7 @@ trait DBTableDefinitions {
                      email: Option[String],
                      avatarURL: Option[String],
                      countryID: Long,
+                     city: Option[String],
                      isSupplier: Boolean = false,
                      isSortingCenter: Boolean = false,
                      isConsumer: Boolean = false,
@@ -40,6 +41,8 @@ trait DBTableDefinitions {
 
     def countryID = column[Long]("countryID")
 
+    def city = column[Option[String]]("city")
+
     def isSupplier = column[Boolean]("isSupplier");
 
     def isSortingCenter = column[Boolean]("isSortingCenter");
@@ -48,7 +51,7 @@ trait DBTableDefinitions {
 
     def isTransporter = column[Boolean]("isTransporter");
 
-    def * = (id, firstName, lastName, fullName, email, avatarURL, countryID, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
+    def * = (id, firstName, lastName, fullName, email, avatarURL, countryID, city, isSupplier, isSortingCenter, isConsumer, isTransporter) <>(DBUser.tupled, DBUser.unapply)
   }
 
   // Login info

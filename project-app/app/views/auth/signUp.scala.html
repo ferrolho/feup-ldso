@@ -25,7 +25,7 @@
 
             @b3.select(signUpForm("countryID"), options = countries, '_default -> "Select a country", 'id -> "countryDropdown", 'class -> "form-control input-lg")
 
-            @b3.select(signUpForm("countryID"), options = Seq[(String, String)](), '_default -> "Select a city", 'id -> "cityDropdown", 'class -> "form-control input-lg", 'disabled -> true)
+            @b3.select(signUpForm("city"), options = Seq[(String, String)](), '_default -> "Select a city", 'id -> "cityDropdown", 'class -> "form-control input-lg", 'disabled -> true)
 
             @b3.text(signUpForm("email"), '_hiddenLabel -> Messages("email"), 'placeholder -> Messages("email"), 'class -> "form-control input-lg")
 
