@@ -1,4 +1,7 @@
-# FEUP - LDSO [![Build Status](https://travis-ci.org/ferrolho/feup-ldso.svg?branch=master)](https://travis-ci.org/ferrolho/feup-ldso)
+# Food Chains [![Build Status](https://travis-ci.org/ferrolho/feup-ldso.svg?branch=master)](https://travis-ci.org/ferrolho/feup-ldso)
+
+<img src="docs/media/logo/logo.png" width="25%">
+
 
 ## Useful links
 
